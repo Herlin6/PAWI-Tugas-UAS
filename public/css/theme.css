@@ -57,8 +57,43 @@
     --gdebook-sidebar-color: #f5f5dc;
     --gdebook-sidebar-hover-bg: #0f1d2a;
 
+    /* custom color */
+    --gdebook-primary-accent-color: #d4af37;
+    --gdebook-secondary-accent-color: #e2ba76;
+    --gdebook-main-color: #f5f5dc;
+
     /* footer */
     --bs-body-bg: #05111d;
+}
+
+.title-color {
+    color: var(--gdebook-primary-accent-color);
+}
+.sub-title-color {
+    color: var(--gdebook-secondary-accent-color);
+}
+.main-color {
+    color: var(--gdebook-main-color);
+}
+
+.border-gold {
+    border: 1px solid var(--gdebook-primary-accent-color) !important;
+}
+
+.form-theme {
+    background-color: var(--gdebook-background-color);
+    color: var(--gdebook-main-color) !important;
+    font-family: var(--font-playfair);
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+.form-theme::placeholder {
+    color: var(--gdebook-main-color);
+}
+.form-theme:focus {
+    border-color: var(--gdebook-main-color);
+    box-shadow: 0 0 3px 1px var(--gdebook-primary-accent-color);
+    outline: none;
 }
 
 body {
@@ -84,6 +119,16 @@ body {
     color: var(--gdebook-sidebar-color);
 }
 
+.card-theme {
+    background-color: var(--gdebook-background-color);
+    color: var(--gdebook-main-color);
+    font-family: var(--font-playfair);
+}
+
+h1,
+h3 {
+    font-family: var(--font-playfair);
+}
 /* remove all borders, note: need to remove this code if want to make books/members/loans table */
 /* * {
     border: none !important;

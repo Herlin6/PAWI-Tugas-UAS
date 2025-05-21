@@ -319,7 +319,7 @@
           <div class="container-fluid">
             <!--begin::Row-->
             <div class="row">
-              <div class="col-sm-6 font-playfair"><h3 class="mb-0">@yield("title")</h3></div>
+              <div class="col-sm-6 font-playfair main-color"><h3 class="mb-3">@yield("title")</h3></div>
               <div class="col-sm-6">
               </div>
             </div>
