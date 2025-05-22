@@ -10,11 +10,42 @@ class LoanController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $loans = Loan::all();
-        // dd($loans); 
-        return view('loans.index')->with('loans', $loans); 
+        $search = $request->input('search');
+        $notFound = false;
+        $query = Loan::with(['book', 'member']);
+
+        if ($search) {
+            $query->whereHas('member', function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%");
+            })->orWhereHas('book', function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%");
+            });
+        }
+
+        $results = $query->get();
+
+        if ($search && $results->isEmpty()) {
+            $notFound = true;
+            $results = Loan::with(['book', 'member'])->get();
+        }
+
+        $loans = $results->map(function ($loan) {
+            return [
+                'book_title' => $loan->book->title ?? '-',
+                'member_name' => $loan->member->name ?? '-',
+                'borrow_date' => $loan->borrow_date,
+                'due_date' => $loan->due_date,
+                'loan_status' => $loan->loan_status,
+            ];
+        });
+
+        return view('loans.index')->with([
+            'loans' => $loans,
+            'notFound' => $notFound,
+            'search' => $search,
+        ]);
     }
 
     /**

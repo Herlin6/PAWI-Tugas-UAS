@@ -15,7 +15,7 @@
                             $item[$key] == 'returned' ? 'g-text-success' :
                             ($item[$key] == 'borrowed' ? 'g-text-warning' : 'g-text-danger')
                         }}"
-                    @elseif($key == 'action' || $key == 'gender')
+                    @elseif($key == 'action' || $key == 'gender' || $key == 'borrow_date' || $key == 'due_date')
                         class="text-center"
                     @endif
                 >
