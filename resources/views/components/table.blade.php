@@ -1,7 +1,7 @@
 <table class="table table-theme mt-3">
     <tr class="text-center">
         @foreach($columns as $key => $label)
-            <th>{{ $label }}</th>
+            <th class="pe-lg-5 ps-lg-5">{{ $label }}</th>
         @endforeach
     </tr>
     @forelse($data as $item)
@@ -15,7 +15,7 @@
                             $item[$key] == 'returned' ? 'g-text-success' :
                             ($item[$key] == 'borrowed' ? 'g-text-warning' : 'g-text-danger')
                         }}"
-                    @elseif($key == 'action')
+                    @elseif($key == 'action' || $key == 'gender')
                         class="text-center"
                     @endif
                 >
@@ -28,6 +28,8 @@
                         </button>
                     @elseif($key == 'availability')
                         {{ $item[$key] == 1 ? 'Available' : 'Not Available' }}
+                    @elseif($key == 'gender')
+                        {{ $item[$key] == "M" ? 'Male' : 'Female' }}
                     @else
                         {{ $item[$key] ?? '-' }}
                     @endif

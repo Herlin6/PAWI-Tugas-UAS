@@ -10,11 +10,31 @@ class MemberController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $members = Member::all();
-        // dd($members); 
-        return view('members.index')->with('members', $members); 
+        $search = $request->input('search');
+
+        $members = collect();
+        $notFound = false;
+
+        if ($search) {
+            $members = Member::where('name', 'like', "%{$search}%")
+            ->orWhere('email', 'like', "%{$search}%")
+            ->get();
+
+            if ($members->isEmpty()) {
+                $notFound = true;
+                $members = Member::all();
+            }
+        } else {
+            $members = Member::all();
+        }
+
+        return view('members.index')->with([
+            'members' => $members,
+            'notFound' => $notFound,
+            'search' => $search,
+        ]);
     }
 
     /**
