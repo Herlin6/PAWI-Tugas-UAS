@@ -14,7 +14,7 @@ class MemberController extends Controller
     {
         $members = Member::all();
         // dd($members); 
-        return view('members.index')->with('member', $members); 
+        return view('members.index')->with('members', $members); 
     }
 
     /**

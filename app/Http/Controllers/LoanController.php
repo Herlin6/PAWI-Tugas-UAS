@@ -14,7 +14,7 @@ class LoanController extends Controller
     {
         $loans = Loan::all();
         // dd($loans); 
-        return view('loans.index')->with('loan', $loans); 
+        return view('loans.index')->with('loans', $loans); 
     }
 
     /**

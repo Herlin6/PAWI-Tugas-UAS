@@ -10,12 +10,33 @@ class BookController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $books = Book::all();
-        // dd($books); 
-        return view('books.index')->with('book', $books); 
+        $search = $request->input('search');
+
+        $books = collect();
+        $notFound = false;
+
+        if ($search) {
+            $books = Book::where('title', 'like', "%{$search}%")
+                ->orWhere('author', 'like', "%{$search}%")
+                ->get();
+
+            if ($books->isEmpty()) {
+                $notFound = true;
+                $books = Book::all();
+            }
+        } else {
+            $books = Book::all();
+        }
+
+        return view('books.index')->with([
+            'books' => $books,
+            'notFound' => $notFound,
+            'search' => $search,
+        ]);
     }
+
 
     /**
      * Show the form for creating a new resource.
