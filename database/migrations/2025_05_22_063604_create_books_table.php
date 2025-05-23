@@ -22,6 +22,7 @@ return new class extends Migration
             $table->date('publish_date');
             $table->text('synopsis');
             $table->boolean('availability')->default(true);
+            $table->string('photo', 50)->nullable();
             $table->timestamps();
         });
     }
