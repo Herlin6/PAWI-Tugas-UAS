@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('handphone', 15);
             $table->string('employment', 100)->nullable;
             $table->boolean('borrowing')->default(false);
+            $table->string('photo', 50)->nullable();
             $table->timestamps();
         });
     }
