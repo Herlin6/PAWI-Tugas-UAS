@@ -9,7 +9,7 @@
 
         <x-input-text name="fullname" label="Full Name" placeholder="Enter your full name" />
         <x-input-text name="email" label="Email" placeholder="Enter your email" type="email" />
-        <x-input-text name="birth" label="Date of Birth" placeholder="Enter your date of birth" type="date"/>
+        <x-input-text name="dateofbirth" label="Date of Birth" placeholder="Enter your date of birth" type="date"/>
         <x-input-text name="password" label="Password" placeholder="Enter your password" type="password" />
         <x-input-text name="address" label="Address" placeholder="Enter your address" />
         <x-input-text name="employment" label="Employment" placeholder="Enter your employment" />

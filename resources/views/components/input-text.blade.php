@@ -5,10 +5,10 @@
         {{ $label }}
     </label>
     <input 
+        class = "form-control form-theme border-0"
         type="{{ $type }}" 
         name="{{ $name }}" 
         id="{{ $name }}" 
         placeholder="{{ $placeholder }}" 
-        {{ $attributes->merge(['class' => 'form-control form-theme border-0']) }} 
     >
 </div>
