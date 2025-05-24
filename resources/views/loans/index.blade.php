@@ -28,7 +28,7 @@
         @php
             $columns = include resource_path('contents/loan-table.php');
         @endphp
-        <x-table :columns="$columns" :data="$loans" />
+        <x-table :columns="$columns" :data="$loans" page="loans" />
     </div>
     <script src="{{ asset('js/search.js') }}"></script>
 </div>

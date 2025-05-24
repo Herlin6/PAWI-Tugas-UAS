@@ -33,6 +33,7 @@ class LoanController extends Controller
 
         $loans = $results->map(function ($loan) {
             return [
+                'id' => $loan->id,
                 'book_title' => $loan->book->title ?? '-',
                 'member_name' => $loan->member->name ?? '-',
                 'borrow_date' => $loan->borrow_date,

@@ -28,7 +28,7 @@
         @php
             $columns = include resource_path('contents/member-table.php');
         @endphp
-        <x-table :columns="$columns" :data="$members" />
+        <x-table :columns="$columns" :data="$members" page="members" />
     </div>
     <script src="{{ asset('js/search.js') }}"></script>
 </div>

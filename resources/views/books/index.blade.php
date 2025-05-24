@@ -28,7 +28,7 @@
         @php
             $columns = include resource_path('contents/book-table.php');
         @endphp
-        <x-table :columns="$columns" :data="$books" />
+        <x-table :columns="$columns" :data="$books" page="books" />
     </div>
     <script src="{{ asset('js/search.js') }}"></script>
 </div>
