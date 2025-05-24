@@ -30,9 +30,24 @@
                         {{ $item[$key] == 1 ? 'Available' : 'Not Available' }}
                     @elseif($key == 'gender')
                         {{ $item[$key] == "M" ? 'Male' : 'Female' }}
+                    @elseif ($key == 'name' || $key == 'title' || $key == 'book_title' || $key == 'member_name')
+                        <a class="text-decoration-none text-reset" href="{{ route($page . '.show', $item['id']) }}">
+                            {{ $item[$key] }}
+                        </a>
+                    @elseif ($key == 'returning')
+                        @if ($item['loan_status'] == 'borrowed' || $item['loan_status'] == 'overdue')
+                            <div class="text-center">
+                                <button class="btn btn-theme">Done</button>
+                            </div>
+                        @else
+                            <div class="text-center">
+                                Done
+                            </div>
+                        @endif
                     @else
-                        {{ $item[$key] ?? '-' }}
+                        {{ $item[$key] ?? '-' }}                        
                     @endif
+
                 </td>
             @endforeach
         </tr>

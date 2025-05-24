@@ -5,5 +5,6 @@ return [
     'borrow_date' => 'Loan Date',
     'due_date' => 'Due Date',
     'loan_status' => 'Status',
+    'returning' => 'Returning',
     'action' => 'Action',
 ];

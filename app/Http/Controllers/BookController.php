@@ -24,7 +24,7 @@ class BookController extends Controller
 
             if ($books->isEmpty()) {
                 $notFound = true;
-                $books = Book::all();
+                $books = [];
             }
         } else {
             $books = Book::all();
@@ -59,7 +59,7 @@ class BookController extends Controller
      */
     public function show(Book $book)
     {
-        //
+        return view('books.show', compact('book'));
     }
 
     /**
