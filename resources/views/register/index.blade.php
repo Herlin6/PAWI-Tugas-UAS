@@ -1,5 +1,3 @@
-{{-- <x-input-text name="username" label="Username" /> --}}
-
 @extends('layout.auth') @section('title', 'Register') @section('content')
 
 <div class="text-center mb-3 container">
@@ -9,40 +7,23 @@
     <form action="" method="POST" enctype="multipart/form-data" class="mx-auto" style="max-width: 1000px;">
         @csrf
 
-        <div class="mb-3 text-start">
-            <label for="nama" class="form-label font-playfair main-color">Full Name</label>
-            <input type="text" name="nama" id="nama" class="form-control form-theme border-0" placeholder="Enter your full name">
-        </div>
+        <x-input-text name="fullname" label="Full Name" placeholder="Enter your full name" />
+        <x-input-text name="email" label="Email" placeholder="Enter your email" type="email" />
+        <x-input-text name="birth" label="Date of Birth" placeholder="Enter your date of birth" type="date"/>
+        <x-input-text name="password" label="Password" placeholder="Enter your password" type="password" />
+        <x-input-text name="address" label="Address" placeholder="Enter your address" />
+        <x-input-text name="employment" label="Employment" placeholder="Enter your employment" />
 
         <div class="mb-3 text-start">
-            <label for="email" class="form-label font-playfair main-color">Email</label>
-            <input type="email" name="email" id="email" class="form-control form-theme border-0" required placeholder="Enter your email">
+            <label for="photo" class="form-label font-playfair main-color">Profil Photo</label><br/>
+            <label for="photo" class="btn border p-4 font-playfair">
+                <div class="main-color">Click to upload photo</div>
+                <div>jpeg,png,jpg,gif<br/>max:2048kb</div>
+            </label>
+            <input type="file" name="photo" id="photo" class="d-none">
         </div>
 
-        <div class="mb-3 text-start">
-            <label for="tanggal_lahir" class="form-label font-playfair main-color">Date Of Birth</label>
-            <input type="date" name="tanggal_lahir" id="tanggal_lahir" class="form-control form-theme border-0" required>
-        </div>
 
-        <div class="mb-3 text-start">
-            <label for="password" class="form-label font-playfair main-color">Password</label>
-            <input type="password" name="password" id="password" class="form-control form-theme border-0" required placeholder="Create a password">
-        </div>
-
-        <div class="mb-3 text-start">
-            <label for="alamat" class="form-label font-playfair main-color">Address</label>
-            <input type="text" name="alamat" id="alamat" class="form-control form-theme border-0" required placeholder="Enter your full address">
-        </div>
-
-        <div class="mb-3 text-start">
-            <label for="pekerjaan" class="form-label font-playfair main-color">Employment</label>
-            <input type="text" name="pekerjaan" id="pekerjaan" class="form-control form-theme border-0" required placeholder="Enter your employment">
-        </div>
-
-        <div class="mb-3 text-start">
-            <label for="foto" class="form-label font-playfair main-color">Profil Photo</label>
-            <input type="file" name="foto" id="foto" class="form-control form-theme border-0">
-        </div>
 
         <div class="d-flex justify-content-between">
             <button type="button" class="btn main-bg-body text-white">Cancel</button>
