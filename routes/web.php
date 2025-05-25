@@ -9,9 +9,14 @@ Route::get('/', function () {
     return view('home.index');
 });
 
+Route::get('/login', function () {
+    return view('login.index');
+});
+
 Route::get('/register', function () {
     return view('register.index');
 });
+
 
 // Route::get('/', [HomeController::class, 'index']);
 Route::resource('/books', BookController::class);
