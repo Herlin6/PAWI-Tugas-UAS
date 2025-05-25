@@ -1,30 +1,30 @@
 @extends('layout.main')
-@section('title', 'Book Details')
+@section('title', 'Member Details')
 @section('content')
 
     <div class="container">
-        <div class="d-flex align-items-center flex-lg-row flex-column align-items-lg-start">
-            <div class=" text-center p-4 pt-0">
-                @if ($book->photo && file_exists(public_path('images/' . $book->photo)))
-                    <img src="{{ asset('images/' . $book->photo) }}" style="width: 250px">
+        <div class="d-flex justify-content-between align-items-center flex-lg-row flex-column align-items-lg-start">
+            <div class="text-center p-4 pt-0">
+                @if ($member->photo && file_exists(public_path('images/' . $member->photo)))
+                    <img src="{{ asset('images/' . $member->photo) }}" style="width: 250px">
                 @else
                     <img src="{{ asset('images/default.png') }}" style="width: 250px">
                 @endif
                 <div>
-                    @if ($book->availability == 1)
+                    @if ($member->borrowing == 1)
                         <div class="badge main-bg-body g-text-success w-100 p-3 rounded-3 text-center mt-3 fs-6">
-                            Available
+                            Borrowing
                         </div>
                     @else
                         <div class="badge main-bg-body g-text-danger w-100 p-3 rounded-3 text-center mt-3 fs-6">
-                            Not Available
+                            Not Borrowing
                         </div>
                     @endif
                 </div>
             </div>
             <div class="w-100">
                 <div class="d-flex justify-content-between align-items-center me-3 mb-1">
-                    <h2 class="mb-3 title-color">{{ $book->title }}</h2>
+                    <h2 class="mb-3 title-color">{{ $member->name }}</h2>
                     <div>
                         <button class="btn me-1" style="background-color: #05111D; color: #e2ba76">
                             <i class="bi bi-pen"></i>
@@ -34,14 +34,18 @@
                         </button>
                     </div>
                 </div>
-                <x-desc label="Book Number" content="{{ $book->book_number }}" />
-                <x-desc label="Author" content="{{ $book->author }}" />
-                <x-desc label="Publisher" content="{{ $book->publisher }}" />
-                <x-desc label="ISBN" content="{{ $book->isbn }}" />
-                <x-desc label="Genre" content="{{ $book->genre }}" />
-                <x-desc label="Publish Date" content="{{ $book->publish_date }}" />
-                <x-desc label="Synopsis" content="{{ $book->synopsis }}" />
-                <div class="d-flex justify-content-end">
+                <x-desc label="Number" content="{{ $member->member_number }}" />
+                <x-desc label="Email" content="{{ $member->email }}" />
+                <x-desc label="Date of Birth" content="{{ $member->date_of_birth }}" />
+                    @if ($member->gender == "M")
+                        <x-desc label="Gender" content="Male" />
+                    @else
+                        <x-desc label="Gender" content="Female" />
+                    @endif
+                    <x-desc label="Address" content="{{ $member->address }}" />
+                    <x-desc label="Handphone" content="{{ $member->handphone }}" />
+                    <x-desc label="Employment" content="{{ $member->employment }}" />
+                    <div class="d-flex justify-content-end">
                     <a class='nav-link' href='{{ url('books') }}'>
                         <button class="btn main-bg-body main-color">Back</button>
                     </a>

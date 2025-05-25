@@ -58,7 +58,7 @@ class MemberController extends Controller
      */
     public function show(Member $member)
     {
-        //
+        return view('members.show', compact('member'));
     }
 
     /**
