@@ -3,9 +3,10 @@
         {{ $label }}
     </label>
     <input 
-    class="form-control form-theme border-0"
+    class="form-control form-theme border-0 p-2"
     type="{{ $type ?? 'text' }}"
     name="{{ $name }}"
     id="{{ $name }}"
     placeholder="{{ $placeholder ?? '' }}"
-    ></div>
+    >
+</div>

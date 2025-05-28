@@ -48,28 +48,21 @@
     <!--begin::GDeBook Theme Override-->
     <link rel="stylesheet" href="{{ asset('css/theme.css') }}">
     <!--end::GDeBook Theme Override-->
+    <style>
+      .app-main .app-content-header {
+  padding: 0 !important;
+}
+    </style>
   </head>
   <!--end::Head-->
   <!--begin::Body-->
   <body class="sidebar-expand-lg bg-body-tertiary">
     <!--begin::App Wrapper-->
     <div class="app-wrapper">
-
-      <!--end::Sidebar-->
       <!--begin::App Main-->
       <main class="app-main">
         <!--begin::App Content Header-->
         <div class="app-content-header">
-          <!--begin::Container-->
-          <div class="container-fluid">
-            <!--begin::Row-->
-            <div class="row">
-              <div class="col-sm-6">
-              </div>
-            </div>
-            <!--end::Row-->
-          </div>
-          <!--end::Container-->
         </div>
         <!--end::App Content Header-->
         <!--begin::App Content-->
@@ -84,18 +77,6 @@
         <!--end::App Content-->
       </main>
       <!--end::App Main-->
-      <!--begin::Footer-->
-      <footer class="app-footer">
-        {{-- <!--begin::To the end-->
-        <div class="float-end d-none d-sm-inline">Anything you want</div>
-        <!--end::To the end--> --}}
-        <!--begin::Copyright-->
-        <strong>
-          Copyright &copy; 2025&nbsp;
-        </strong>
-        <!--end::Copyright-->
-      </footer>
-      <!--end::Footer-->
     </div>
     <!--end::App Wrapper-->
     <!--begin::Script-->

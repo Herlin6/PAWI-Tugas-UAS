@@ -6,7 +6,7 @@
     <form method="GET" action="{{ route('books.index') }}" class="d-flex align-items-center gap-2">
         <input
             type="text"
-            class="form-control form-theme"
+            class="form-control form-theme p-3"
             id="search"
             name="search"
             placeholder="Search by title or author"

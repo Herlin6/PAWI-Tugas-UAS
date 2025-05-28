@@ -76,7 +76,6 @@
     background-color: var(--gdebook-background-color);
     color: var(--gdebook-main-color) !important;
     font-family: var(--font-playfair);
-    padding: 1rem;
     border-radius: 0.5rem;
     border: 1px solid rgba(226, 186, 118, 0.2);
 }
