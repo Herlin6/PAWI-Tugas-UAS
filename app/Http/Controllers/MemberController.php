@@ -24,7 +24,7 @@ class MemberController extends Controller
 
             if ($members->isEmpty()) {
                 $notFound = true;
-                $members = Member::all();
+                $members = [];
             }
         } else {
             $members = Member::all();

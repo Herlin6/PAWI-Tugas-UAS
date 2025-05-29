@@ -71,15 +71,10 @@
 .border-gold {
     border: 1px solid var(--gdebook-primary-accent-color) !important;
 }
-
-.form-theme {
-    background-color: var(--gdebook-background-color);
-    color: var(--gdebook-main-color) !important;
-    font-family: var(--font-playfair);
-    padding: 1rem;
-    border-radius: 0.5rem;
-    border: 1px solid rgba(226, 186, 118, 0.2);
+.border-dark-gold {
+    border: 1px solid rgba(226, 186, 118, 0.2) !important;
 }
+
 .form-theme::placeholder {
     color: var(--gdebook-main-color);
     opacity: 0.5;
@@ -88,11 +83,8 @@
     border-color: var(--gdebook-main-color);
     box-shadow: 0 0 2px 0.5px var(--gdebook-primary-accent-color);
 }
-.btn-theme {
-    background-color: #997740;
-    color: var(--gdebook-main-color) !important;
-    font-family: var(--font-open-sans);
-    border-radius: 0.5rem;
+.btn-theme:hover {
+    background-color: var(--gdebook-sidebar-hover-bg) !important;
 }
 
 .table-theme th {
@@ -143,12 +135,6 @@ body {
 }
 .sidebar-wrapper a {
     color: var(--gdebook-sidebar-color);
-}
-
-.card-theme {
-    background-color: var(--gdebook-background-color);
-    color: var(--gdebook-main-color);
-    font-family: var(--font-playfair);
 }
 
 h1,

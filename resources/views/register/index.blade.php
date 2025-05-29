@@ -7,27 +7,27 @@
     <form action="" method="POST" enctype="multipart/form-data" class="mx-auto" style="max-width: 1000px;">
         @csrf
 
-        <x-input-text name="fullname" label="Full Name" placeholder="Enter your full name" />
-        <x-input-text name="email" label="Email" placeholder="Enter your email" type="email" />
-        <x-input-text name="dateofbirth" label="Date of Birth" placeholder="Enter your date of birth" type="date"/>
-        <x-input-text name="password" label="Password" placeholder="Enter your password" type="password" />
-        <x-input-text name="address" label="Address" placeholder="Enter your address" />
-        <x-input-text name="employment" label="Employment" placeholder="Enter your employment" />
+        <x-input-text class="mb-3" name="fullname" label="Full Name" placeholder="Enter your full name" />
+        <x-input-text class="mb-3" name="email" label="Email" placeholder="Enter your email" type="email" />
+        <x-input-text class="mb-3" name="dateofbirth" label="Date of Birth" placeholder="Enter your date of birth" type="date"/>
+        <x-input-text class="mb-3" name="password" label="Password" placeholder="Enter your password" type="password" />
+        <x-input-text class="mb-3" name="address" label="Address" placeholder="Enter your address" />
+        <x-input-text class="mb-3" name="employment" label="Employment" placeholder="Enter your employment" />
 
         <div class="mb-3 text-start">
             <label for="photo" class="form-label font-playfair main-color">Profil Photo</label><br/>
-            <label for="photo" class="btn border p-4 font-playfair">
+            <label for="photo" class="text-center border-dark-gold p-4 font-playfair rounded-2 bg-body-secondary">
                 <div class="main-color">Click to upload photo</div>
-                <div>jpeg,png,jpg,gif<br/>max:2048kb</div>
+                <div class="text-muted">jpeg,png,jpg,gif<br/>max:2048kb</div>
             </label>
             <input type="file" name="photo" id="photo" class="d-none">
         </div>
 
-
-
         <div class="d-flex justify-content-between">
             <button type="button" class="btn main-bg-body text-white">Cancel</button>
-            <button type="submit" class="btn btn-theme">Register Now</button>
+            <x-button type="submit">
+                Register Now
+            </x-button>
         </div>
     </form>
 </div>
