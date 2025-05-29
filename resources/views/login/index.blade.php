@@ -1,8 +1,11 @@
 @extends('layout.auth') @section('title', 'Login') @section('content')
 
-<div class="font-playfair sub-title-color">
-    <div class="row g-0 vh-100 w-100">
-        <div class="col-md-6 d-flex align-items-center justify-content-center">
+<div class="font-playfair">
+    <div class="row g-0">
+        <div
+            class="col-md-6 d-flex align-items-center justify-content-center"
+            style="height: 100vh"
+        >
             <div class="w-100" style="max-width: 400px">
                 <div class="text-center mb-4">
                     <img
@@ -10,7 +13,7 @@
                         alt="Logo GDeBook"
                         style="max-width: 140px"
                     />
-                    <h4>LOGIN</h4>
+                    <h4 class="sub-title-color">LOGIN</h4>
                 </div>
 
                 <form method="POST" action="login">
@@ -21,27 +24,29 @@
                         label="Email"
                         type="email"
                         placeholder="Enter your email"
-                        class="mb-3"
+                        class=""
                     />
                     <x-input-text
                         name="password"
                         label="Password"
                         type="password"
                         placeholder="Enter your password"
-                        class="mb-4"
                     />
 
-                    <div class="mt-3">
-                        <x-button
+                    <div class="mt-4">
+                        <button
                             type="submit"
-                            class="font-playfair btn btn-theme w-100"
+                            class="btn btn-theme w-100"
+                            style="height: 40px"
                         >
                             Login
-                        </x-button>
+                        </button>
                     </div>
 
                     <div class="text-center mt-3">
-                        <span>Don't have an account?</span>
+                        <span class="sub-title-color"
+                            >Don't have an account?
+                        </span>
                         <a href="{{ url('/register') }}" class="sub-title-color"
                             >Register</a
                         >
@@ -50,15 +55,30 @@
             </div>
         </div>
 
-        <div class="col-md-6 d-none d-lg-block">
-            <div class="h-100 w-100">
+        <div class="col-md-6 d-none d-lg-block p-0">
+            <div
+                style="
+                    position: relative;
+                    width: 100%;
+                    height: 100vh;
+                    overflow: hidden;
+                "
+            >
                 <img
                     src="assets/img/foto-login.jpg"
                     alt="Library"
-                    class="img-cover"
+                    style="
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                    "
                 />
             </div>
         </div>
     </div>
 </div>
+
 @endsection
