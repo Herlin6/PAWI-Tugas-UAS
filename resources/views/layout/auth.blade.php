@@ -50,32 +50,21 @@
         <style>
             .app-main .app-content-header {
                 padding: 0 !important;
+                margin: 0 !important;
             }
-            html,
-            body {
-                height: 100%;
-                margin: 0;
-                padding: 0;
-            }
-            .app-wrapper,
-            .app-main,
             .app-content {
-                height: 100%;
+                margin: 0 !important;
+                padding: 0 !important;
             }
-            .vh-100 {
-                height: 100vh !important;
-            }
-            .img-cover {
-                object-fit: cover;
-                height: 100%;
-                width: 100%;
-                display: block;
+            .app-main {
+                padding: 0 !important;
+                margin: 0 !important;
             }
         </style>
     </head>
     <!--end::Head-->
     <!--begin::Body-->
-    <body class="sidebar-expand-lg bg-body-tertiary">
+    <body class="sidebar-expand-lg bg-body-tertiary @yield("class-body")">
         <!--begin::App Wrapper-->
         <div class="app-wrapper">
             <!--begin::App Main-->

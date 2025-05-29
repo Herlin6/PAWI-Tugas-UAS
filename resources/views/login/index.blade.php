@@ -1,14 +1,6 @@
-@extends('layout.auth') @section('title', 'Login') @section('content')
+@extends('layout.auth') @section('title', 'Login') @section('content') @section('class-body', "overflow-hidden")
 
-<style>
-    html,
-    body {
-        overflow: hidden;
-        height: 100%;
-    }
-</style>
-
-<div class="font-playfair sub-title-color">
+<div class="font-playfair sub-title-color p-lg-0 p-3" >
     <div class="row g-0 vh-100 w-100">
         <div class="col-md-6 d-flex align-items-center justify-content-center">
             <div class="w-100" style="max-width: 400px">
@@ -38,16 +30,16 @@
                         class="mb-4"
                     />
 
-                    <div class="mt-3">
+                    <div class="mt-5">
                         <x-button type="submit" class="btn btn-theme w-100">
                             Login
                         </x-button>
                     </div>
                     <div class="text-center mt-3">
                         <span>Don't have an account? </span>
-                        <a href="{{ url('/register') }}" class="sub-title-color"
-                            >Register</a
-                        >
+                        <a href="{{ url('/register') }}" class="sub-title-color">
+                            Register
+                        </a>
                     </div>
                 </form>
             </div>
@@ -58,7 +50,7 @@
                 <img
                     src="assets/img/foto-login.jpg"
                     alt="Library"
-                    class="img-cover"
+                    class="img-fluid w-100 h-100 d-block object-fit-cover"
                 />
             </div>
         </div>
