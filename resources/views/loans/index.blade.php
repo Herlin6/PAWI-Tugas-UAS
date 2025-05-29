@@ -4,23 +4,22 @@
 
 <div class="container">
     <form method="GET" action="{{ route('loans.index') }}" class="d-flex align-items-center gap-2">
-        <input
-            type="text"
-            class="form-control form-theme p-3"
-            id="search"
+        <x-input-text
             name="search"
             placeholder="Search by member or book"
             value="{{ request('search') }}"
-            autocomplete="off"
-        >
-        <button type="button" id="clearBtn" class="btn btn-theme" style="padding: 1rem">
+            class="p-3"
+        />
+        <x-button id="clearBtn" class="p-3">
             Clear
-        </button>
+        </x-button>
     </form>
     
     <div class="mt-4">
-        <a href="/" class="btn btn-theme">
-            Add Loan
+        <a href="/">
+            <x-button>
+                Add Loan
+            </x-button>
         </a>
     </div>
 

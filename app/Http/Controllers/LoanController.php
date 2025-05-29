@@ -28,7 +28,7 @@ class LoanController extends Controller
 
         if ($search && $results->isEmpty()) {
             $notFound = true;
-            $results = Loan::with(['book', 'member'])->get();
+            $results = collect([]);
         }
 
         $loans = $results->map(function ($loan) {
