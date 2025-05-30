@@ -16,7 +16,7 @@
     </form>
     
     <div class="mt-4">
-        <a href="/">
+        <a href="{{ route('books.create') }}">
             <x-button>
                 Add Book
             </x-button>
