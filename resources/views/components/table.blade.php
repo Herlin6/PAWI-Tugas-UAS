@@ -2,7 +2,7 @@
     <table class="table table-theme mt-3">
         <tr class="text-center">
             @foreach($columns as $key => $label)
-                <th class="px-2 px-lg-5 text-nowrap">{{ $label }}</th>
+                <th class="px-2 px-lg-5 text-nowrap title-color">{{ $label }}</th>
             @endforeach
         </tr>
 
@@ -39,7 +39,15 @@
                             {{ $item[$key] == 1 ? 'Available' : 'Not Available' }}
 
                         @elseif ($key === 'gender')
-                            {{ $item[$key] === 'M' ? 'Male' : 'Female' }}
+                            @if ($item[$key] === 'M')
+                                <span style="color: #5C8DBC">
+                                    <i class="bi bi-gender-male me-1"></i>Male
+                                </span>
+                            @else
+                                <span style="color: #D889A6">
+                                    <i class="bi bi-gender-female me-1"></i>Female
+                                </span>
+                            @endif
 
                         @elseif (in_array($key, ['name', 'title', 'book_title', 'member_name']))
                             <a href="{{ route($page . '.show', $item['id']) }}"
