@@ -7,7 +7,7 @@
         </tr>
 
         @forelse($data as $item)
-            <tr class="align-middle">
+            <tr class="align-middle clickable-row" data-href="{{ route($page . '.show', $item['id']) }}">
                 @foreach($columns as $key => $label)
                     @php
                         $tdClass = '';
@@ -50,10 +50,7 @@
                             @endif
 
                         @elseif (in_array($key, ['name', 'title', 'book_title', 'member_name']))
-                            <a href="{{ route($page . '.show', $item['id']) }}"
-                               class="text-decoration-none text-reset">
                                 {{ $item[$key] }}
-                            </a>
 
                         @elseif ($key === 'returning')
                             <div class="text-center">
@@ -81,3 +78,16 @@
         @endforelse
     </table>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const rows = document.querySelectorAll('.clickable-row');
+        rows.forEach(row => {
+            row.style.cursor = 'pointer';
+            row.addEventListener('click', function (e) {
+                if (!e.target.closest('button') && !e.target.closest('a')) {
+                    window.location.href = this.dataset.href;
+                }
+            });
+        });
+    });
+</script>
