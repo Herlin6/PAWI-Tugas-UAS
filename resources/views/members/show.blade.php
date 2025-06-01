@@ -45,9 +45,11 @@
                     <x-desc label="Address" content="{{ $member->address }}" />
                     <x-desc label="Handphone" content="{{ $member->handphone }}" />
                     <x-desc label="Employment" content="{{ $member->employment }}" />
-                    <div class="d-flex justify-content-end">
+                    <div class="d-flex justify-content-end pe-2">
                     <a class='nav-link' href='{{ url('members') }}'>
-                        <button class="btn main-bg-body main-color">Back</button>
+                        <x-dark-button class="btn btn-sm">
+                            <i class="bi bi-arrow-left"></i> Back
+                        </x-dark-button>
                     </a>
                 </div>
             </div>

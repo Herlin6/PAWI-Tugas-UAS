@@ -58,7 +58,9 @@
                         @elseif ($key === 'returning')
                             <div class="text-center">
                                 @if (in_array($item['loan_status'], ['borrowed', 'overdue']))
-                                    <button class="btn btn-sm btn-theme">Done</button>
+                                    <x-dark-button type="button" class="btn btn-sm">
+                                        <i class="bi bi-check2"></i>
+                                    </x-dark-button>
                                 @else
                                     Done
                                 @endif

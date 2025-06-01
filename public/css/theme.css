@@ -84,7 +84,10 @@
     box-shadow: 0 0 2px 0.5px var(--gdebook-primary-accent-color);
 }
 .btn-theme:hover {
-    background-color: var(--gdebook-sidebar-hover-bg) !important;
+    background-color: #705116 !important;
+}
+.dark-btn-theme:hover {
+    background-color: var(--gdebook-background-color) !important;
 }
 
 .table-theme th {

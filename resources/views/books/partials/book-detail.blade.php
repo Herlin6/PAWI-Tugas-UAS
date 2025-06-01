@@ -50,9 +50,11 @@
         <x-desc label="Genre" content="{{ $book->genre }}" />
         <x-desc label="Publish Date" content="{{ $book->publish_date }}" />
         <x-desc label="Synopsis" content="{{ $book->synopsis }}" />
-        <div class="d-flex justify-content-end">
+        <div class="d-flex justify-content-end pe-2">
             <a class='nav-link' href='{{ url('books') }}'>
-                <button class="btn main-bg-body main-color">Back</button>
+                <x-dark-button class="btn btn-sm">
+                    <i class="bi bi-arrow-left"></i> Back
+                </x-dark-button>
             </a>
         </div>
     </div>
