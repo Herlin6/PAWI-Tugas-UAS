@@ -3,17 +3,7 @@
 @section('content')
 
 <div class="container">
-    <form method="GET" action="{{ route('books.index') }}" class="d-flex align-items-center gap-2">
-        <x-input-text
-            name="search"
-            placeholder="Search by title or author"
-            value="{{ request('search') }}"
-            class="p-3"
-        />
-        <x-button id="clearBtn" class="p-3">
-            Clear
-        </x-button>
-    </form>
+    <x-search route="books.index" placeholder="Search by title or author" />
     
     <div class="mt-4">
         <a href="/">
@@ -29,7 +19,6 @@
         @endphp
         <x-table :columns="$columns" :data="$books" page="books" />
     </div>
-    <script src="{{ asset('js/search.js') }}"></script>
 </div>
 
 @endsection

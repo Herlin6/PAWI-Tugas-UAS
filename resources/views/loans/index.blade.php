@@ -3,18 +3,8 @@
 @section('content')
 
 <div class="container">
-    <form method="GET" action="{{ route('loans.index') }}" class="d-flex align-items-center gap-2">
-        <x-input-text
-            name="search"
-            placeholder="Search by member or book"
-            value="{{ request('search') }}"
-            class="p-3"
-        />
-        <x-button id="clearBtn" class="p-3">
-            Clear
-        </x-button>
-    </form>
-    
+    <x-search route="loans.index" placeholder="Search by member or book" />
+
     <div class="mt-4">
         <a href="/">
             <x-button>
