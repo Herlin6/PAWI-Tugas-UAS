@@ -85,7 +85,7 @@
               </a>
               <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
                 <!--begin::User Image-->
-                <li class="user-header text-bg-primary">
+                <li class="user-header main-bg-body main-color">
                   <img
                     src="{{ asset('assets/img/user2-160x160.jpg') }}"
                     class="rounded-circle shadow"
@@ -97,7 +97,7 @@
                   </p>
                 </li>
                 <!--end::User Image-->
-                <!--begin::Menu Body-->
+                {{-- <!--begin::Menu Body-->
                 <li class="user-body">
                   <!--begin::Row-->
                   <div class="row">
@@ -107,11 +107,19 @@
                   </div>
                   <!--end::Row-->
                 </li>
-                <!--end::Menu Body-->
+                <!--end::Menu Body--> --}}
                 <!--begin::Menu Footer-->
                 <li class="user-footer">
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
-                  <a href="#" class="btn btn-default btn-flat float-end">Sign out</a>
+                    <div class="d-flex justify-content-between w-100">
+                        <a href="#"><x-dark-button>Profile</x-dark-button></a>
+
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <x-dark-button type="submit">
+                                {{ __('Log Out') }}
+                            </x-dark-button>
+                        </form>
+                    </div>
                 </li>
                 <!--end::Menu Footer-->
               </ul>

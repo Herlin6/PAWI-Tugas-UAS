@@ -145,3 +145,12 @@ h2,
 h3 {
     font-family: var(--font-playfair);
 }
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+    box-shadow: 0 0 0px 1000px var(--gdebook-background-color) inset !important;
+    -webkit-text-fill-color: var(--gdebook-secondary-accent-color) !important;
+    border: 2px solid rgba(226, 186, 118, 0.2) !important;
+    font-family: var(--font-playfair) !important;
+}
