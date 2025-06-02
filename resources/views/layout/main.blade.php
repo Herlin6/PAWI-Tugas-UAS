@@ -76,7 +76,7 @@
             <!--begin::User Menu Dropdown-->
             <li class="nav-item dropdown user-menu">
               <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                <span class="d-none d-md-inline">Alexander Pierce</span>
+                <span class="d-none d-md-inline">{{ Auth::user()->name }}</span>
                 <img
                   src="{{ asset('assets/img/user2-160x160.jpg') }}"
                   class="user-image rounded-circle shadow"
@@ -92,7 +92,7 @@
                     alt="User Image"
                   />
                   <p>
-                    Alexander Pierce - Web Developer
+                    {{ Auth::user()->name }} - Web Developer
                     <small>Member since Nov. 2023</small>
                   </p>
                 </li>
@@ -151,7 +151,7 @@
               data-accordion="false"
             >
               <li class="nav-item">
-                <a class='nav-link' href='{{ url('/') }}'>
+                <a class='nav-link' href='{{ url('/dashboard') }}'>
                   <i class="bi bi-speedometer2"></i>
                   <p>Dashboard</p>
                 </a>
