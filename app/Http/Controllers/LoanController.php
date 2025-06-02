@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Loan;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class LoanController extends Controller
@@ -96,4 +97,15 @@ class LoanController extends Controller
     {
         //
     }
+    public function markAsReturned(Loan $loan)
+{
+    if (in_array($loan->loan_status, ['borrowed', 'overdue'])) {
+        $loan->update([
+            'loan_status' => 'returned',
+            'return_date' => Carbon::now(),
+        ]);
+    }
+
+    return redirect()->back()->with('success', 'Loan marked as returned.');
+}
 }

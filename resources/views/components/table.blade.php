@@ -55,9 +55,13 @@
                         @elseif ($key === 'returning')
                             <div class="text-center">
                                 @if (in_array($item['loan_status'], ['borrowed', 'overdue']))
-                                    <x-dark-button type="button" class="btn btn-sm">
-                                        <i class="bi bi-check2"></i>
-                                    </x-dark-button>
+                                    <form action="{{ route('loans.return', $item['id']) }}" method="POST">
+                                        @csrf
+                                        @method('PATCH')
+                                        <x-dark-button type="submit" class="btn btn-sm">
+                                            <i class="bi bi-check2"></i>
+                                        </x-dark-button>
+                                    </form>
                                 @else
                                     Done
                                 @endif

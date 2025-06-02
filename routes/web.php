@@ -24,4 +24,5 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 Route::resource('/books', BookController::class);
 Route::resource('/loans', LoanController::class);
 Route::resource('/members', MemberController::class);
+Route::patch('/loans/{loan}/return', [LoanController::class, 'markAsReturned'])->name('loans.return');
 require __DIR__.'/auth.php';
