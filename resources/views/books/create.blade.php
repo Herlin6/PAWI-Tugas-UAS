@@ -60,7 +60,6 @@
                         required="true"
                         placeholder="Enter ISBN"
                     />
-
                     <x-input-option
                         label="Genre"
                         name="genre"
@@ -76,14 +75,12 @@
                         required="true"
                         placeholder="Enter genre"
                     />
-
                     <x-input-text
                         inRowLabel="Publish Date"
                         name="publish_date"
                         type="date"
                         required="true"
                     />
-
                     <x-input-text-area
                         label="Synopsis"
                         name="synopsis"

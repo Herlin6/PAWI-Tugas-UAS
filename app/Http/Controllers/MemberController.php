@@ -52,13 +52,13 @@ class MemberController extends Controller
     {
         $validated = $request->validate([
         'member_number' => 'required|max:15',
-        'name' => 'required|max:255',
+        'name' => 'required|max:100',
         'email' => 'required|max:100',
         'date_of_birth' => 'required|date',
-        'gender' => 'required|max:50',
-        'address' => 'required|max:100',
-        'handphone' => 'required|max:100',
-        'employment' => 'required|max:50',
+        'gender' => 'required',
+        'address' => 'required|max:255',
+        'handphone' => 'required|max:15',
+        'employment' => 'required|max:100',
         'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
     ]);
 
