@@ -1,8 +1,8 @@
-@extends('layout.main') @section('title', 'Add Book') @section('content')
+@extends('layout.main') @section('title', 'Add Member') @section('content')
 <div class="container form-container">
     <form
         method="POST"
-        action="{{ route('books.store') }}"
+        action="{{ route('members.store') }}"
         enctype="multipart/form-data"
     >
         @csrf
@@ -31,66 +31,57 @@
                 </div>
                 <div class="col-lg-10">
                     <x-input-text
-                        inRowLabel="Book Number"
-                        name="book_number"
+                        inRowLabel="Member Number"
+                        name="member_number"
                         required="true"
                         placeholder="Enter number"
                     />
                     <x-input-text
-                        inRowLabel="Title"
-                        name="title"
+                        inRowLabel="Name"
+                        name="name"
                         required="true"
-                        placeholder="Enter title"
+                        placeholder="Enter name"
                     />
                     <x-input-text
-                        inRowLabel="Author"
-                        name="author"
+                        inRowLabel="Email"
+                        name="email"
                         required="true"
-                        placeholder="Enter author"
+                        placeholder="Enter email"
                     />
                     <x-input-text
-                        inRowLabel="Publisher"
-                        name="publisher"
-                        required="true"
-                        placeholder="Enter publisher"
-                    />
-                    <x-input-text
-                        inRowLabel="ISBN"
-                        name="isbn"
-                        required="true"
-                        placeholder="Enter ISBN"
-                    />
-
-                    <x-input-option
-                        label="Genre"
-                        name="genre"
-                        type="select"
-                        :options="[
-                                'Fiction' => 'Fiction',
-                                'Non-Fiction' => 'Non-Fiction',
-                                'Science' => 'Science',
-                                'Technology' => 'Technology',
-                                'History' => 'History',
-                                'Literature' => 'Literature',
-                            ]"
-                        required="true"
-                        placeholder="Enter genre"
-                    />
-
-                    <x-input-text
-                        inRowLabel="Publish Date"
-                        name="publish_date"
+                        inRowLabel="Date Of Birth"
+                        name="date_of_birth"
                         type="date"
                         required="true"
                     />
-
-                    <x-input-text-area
-                        label="Synopsis"
-                        name="synopsis"
-                        type="textarea"
-                        rows="3"
+                    <x-input-option
+                        label="Gender"
+                        name="gender"
+                        type="select"
+                        :options="[
+                                'F' => 'Female',
+                                'M' => 'Male',
+                            ]"
                         required="true"
-                        placeholder="Enter synopsis"
+                        placeholder="Enter gender"
+                    />
+                    <x-input-text
+                        inRowLabel="Address"
+                        name="address"
+                        required="true"
+                        placeholder="Enter address"
+                    />
+                    <x-input-text
+                        inRowLabel="Handphone"
+                        name="handphone"
+                        required="true"
+                        placeholder="Enter handphone"
+                    />
+                    <x-input-text
+                        inRowLabel="Employment"
+                        name="employment"
+                        required="true"
+                        placeholder="Enter employment"
                     />
                 </div>
 
@@ -100,7 +91,7 @@
                             <i class="bi bi-arrow-left"></i> Back
                         </x-dark-button>
                         <x-button type="submit">
-                            Add Book
+                            Add Member
                         </x-button>
                     </div>
                 </div>

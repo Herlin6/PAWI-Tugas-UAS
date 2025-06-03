@@ -42,7 +42,7 @@ class MemberController extends Controller
      */
     public function create()
     {
-        //
+        return view('members.create');
     }
 
     /**
@@ -50,7 +50,21 @@ class MemberController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+        'member_number' => 'required|max:15',
+        'name' => 'required|max:255',
+        'email' => 'required|max:100',
+        'date_of_birth' => 'required|date',
+        'gender' => 'required|max:50',
+        'address' => 'required|max:100',
+        'handphone' => 'required|max:100',
+        'employment' => 'required|max:50',
+        'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
+    ]);
+
+    Member::create($validated);
+
+    return redirect()->route('members.index')->with('success', 'Members successfully added');
     }
 
     /**
