@@ -52,6 +52,7 @@ class BookController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
+        'book_number' => 'required|max:10',
         'title' => 'required|max:255',
         'author' => 'required|max:100',
         'publisher' => 'required|max:100',
@@ -61,12 +62,10 @@ class BookController extends Controller
         'synopsis' => 'required',
         'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
     ]);
-
-    // Generate book number
-    $validated['book_number'] = 'BK-' . str_pad(random_int(1, 9999), 4, '0', STR_PAD_LEFT);
-    
-    // Set default availability
+   
     $validated['availability'] = true;
+    
+    Book::create($validated);
 
     return redirect()->route('books.index')->with('success', 'Books successfully added');
     }
