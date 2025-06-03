@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Book;
 use App\Models\Loan;
+use App\Models\Member;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -55,7 +57,9 @@ class LoanController extends Controller
      */
     public function create()
     {
-        //
+        $members = Member::all();
+        $books = Book::all();
+        return view('loans.create', compact('members', 'books'));
     }
 
     /**
@@ -63,8 +67,34 @@ class LoanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+         $validated = $request->validate([
+        'member_id' => 'required',
+        'book_id' => 'required',
+        'borrow_date' => 'required|date',
+        'due_date' => 'required|date'
+        ]);
+        
+        $book = Book::find($validated['book_id']);
+        if (!$book || !$book->availability) {
+        return redirect()->back()
+            ->with('error', 'Book not available for loan')
+            ->withInput();
     }
+        $validated['loan_status'] = 'borrowed';
+
+        $loan = Loan::create($validated);
+
+        $book->availability = false;
+        $book->save();
+
+        $member = Member::find($validated['member_id']);
+        if ($member) {
+            $member->borrowing = true;
+            $member->save();
+        }
+
+        return redirect()->route('loans.index')->with('success', 'Loan successfully added');
+}
 
     /**
      * Display the specified resource.
