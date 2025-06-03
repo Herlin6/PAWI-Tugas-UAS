@@ -6,7 +6,7 @@
     <x-search route="members.index" placeholder="Search by name or email" />
     
     <div class="mt-4">
-            <x-button href="/">
+            <x-button href="{{ route('members.create') }}">
                 Add Member
             </x-button>
     </div>
