@@ -6,11 +6,9 @@
     <x-search route="books.index" placeholder="Search by title or author" />
     
     <div class="mt-4">
-        <a href="{{ route('books.create') }}">
-            <x-button>
-                Add Book
-            </x-button>
-        </a>
+        <x-button href="{{ route('books.create') }}">
+            Add Book
+        </x-button>
     </div>
 
     <div class="mt-1">

@@ -6,11 +6,9 @@
     <x-search route="members.index" placeholder="Search by name or email" />
     
     <div class="mt-4">
-        <a href="/">
-            <x-button>
+            <x-button href="/">
                 Add Member
             </x-button>
-        </a>
     </div>
 
     <div class="mt-1">

@@ -8,8 +8,8 @@
         @csrf
         <div class="form-content">
             <div class="row">
-                <div class="col-md-2 text-center">
-                    <div class="mb-3 text-start">
+                <div class="col-lg-2 text-center">
+                    <div class="mb-3 text-center">
                         <label
                             for="photo"
                             class="text-center border-dark-gold p-3 font-playfair bg-body-secondary"
@@ -29,7 +29,7 @@
                         />
                     </div>
                 </div>
-                <div class="col-md-10">
+                <div class="col-lg-10">
                     <x-input-text
                         inRowLabel="Booknumber"
                         name="book_number"
@@ -96,14 +96,10 @@
 
                 <div class="form-buttons">
                     <div class="d-flex justify-content-between mt-4">
-                        <button
-                            type="button"
-                            class="btn main-color"
-                            onclick="window.history.back()"
-                        >
-                            Cancel
-                        </button>
-                        <x-button type="submit" class="btn btn-theme">
+                        <x-dark-button onclick="window.history.back()">
+                            <i class="bi bi-arrow-left"></i> Back
+                        </x-dark-button>
+                        <x-button type="submit">
                             Add Book
                         </x-button>
                     </div>

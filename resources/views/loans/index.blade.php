@@ -6,11 +6,9 @@
     <x-search route="loans.index" placeholder="Search by member or book" />
 
     <div class="mt-4">
-        <a href="/">
-            <x-button>
-                Add Loan
-            </x-button>
-        </a>
+        <x-button href="/">
+            Add Loan
+        </x-button>
     </div>
 
     <div class="mt-1">
