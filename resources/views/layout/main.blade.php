@@ -274,6 +274,36 @@
         }
       });
     </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- SweetAlert JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
+
+<script type="text/javascript">
+    $('.show_confirm').click(function(event) {
+        var form = $(this).closest("form");
+        var nama = $(this).data("nama");
+        event.preventDefault();
+        swal({
+            title: `Apakah Anda yakin ingin menghapus data ${nama} ini?`,
+            text: "If you delete this, it will be gone forever.",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((willDelete) => {
+            if (willDelete) {
+                form.submit();
+            }
+        });
+    });
+
+    @if (session('success'))
+        swal({
+            title: "Good Job!",
+            text: "{{ session('success') }}",
+            icon: "success",
+        });
+    @endif
+</script>
     <!--end::OverlayScrollbars Configure-->
     <!--end::Script-->
   </body>

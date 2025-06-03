@@ -16,20 +16,13 @@
             {{ $label }}
         </label>
     @endif
-    
     <input
         type="{{ $type ?? 'text' }}"
         name="{{ $name }}"
         id="{{ $name }}"
-        value="{{ $value }}"
-        placeholder="{{ $placeholder }}"
-        @if ($autocomplete) autocomplete="{{ $autocomplete }}" @endif
-        @if ($disabled) disabled @endif
-        @if ($required) required @endif
-        @if ($autofocus) autofocus @endif
-
-        {{ $attributes->merge([
-            'class' => 'form-control bg-body-secondary main-color font-playfair p-2 form-theme rounded border-dark-gold border-0'
-        ]) }}
+        value="{{ $value ?? '' }}"
+        placeholder="{{ $placeholder ?? '' }}"
+        autocomplete="off"
+        {{ $attributes->merge(['class' => 'form-control bg-body-secondary main-color font-playfair p-2 form-theme rounded border-dark-gold border-0']) }}
     />
 </div>
