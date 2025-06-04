@@ -62,6 +62,13 @@ class MemberController extends Controller
         'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
     ]);
 
+    if ($request->hasFile('photo')) {
+        $photo = $request->file('photo');
+        $photoName = time() . '_' . $photo->getClientOriginalName();
+        $photo->move(public_path('images'), $photoName);
+        $validated['photo'] = $photoName;
+    }
+
     Member::create($validated);
 
     return redirect()->route('members.index')->with('success', 'Members successfully added');
