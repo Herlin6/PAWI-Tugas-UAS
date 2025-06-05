@@ -31,7 +31,7 @@
                 </div>
                 <div class="col-lg-10">
                     <x-input-text
-                        inRowLabel="Member Number"
+                        inRowLabel="Number"
                         name="member_number"
                         required="true"
                         placeholder="Enter number"
@@ -45,6 +45,7 @@
                     <x-input-text
                         inRowLabel="Email"
                         name="email"
+                        type="email"
                         required="true"
                         placeholder="Enter email"
                     />

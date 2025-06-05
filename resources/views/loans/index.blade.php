@@ -6,7 +6,7 @@
     <x-search route="loans.index" placeholder="Search by member or book" />
 
     <div class="mt-4">
-        <x-button href="/">
+        <x-button href="{{ route('loans.create') }}">
             Add Loan
         </x-button>
     </div>
