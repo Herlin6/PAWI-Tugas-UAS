@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="container">
-    <x-search route="members.index" placeholder="Search by name or email" />
+    <x-search placeholder="Search by name or email" />
     
     <div class="mt-4">
             <x-button href="{{ route('members.create') }}">

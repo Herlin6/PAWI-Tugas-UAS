@@ -15,9 +15,9 @@
             <x-desc label="Return Date" content="{{ $loan->return_date ?? 'Not yet returned' }}" />
 
             <div class="d-flex justify-content-end mt-4">
-                <a href="{{ route('loans.index') }}" class="btn btn-secondary">
+                <x-dark-button class="btn btn-sm" onclick="window.history.back()">
                     <i class="bi bi-arrow-left"></i> Back
-                </a>
+                </x-dark-button>
             </div>
         </div>
     </div>

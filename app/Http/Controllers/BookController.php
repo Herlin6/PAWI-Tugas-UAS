@@ -101,4 +101,32 @@ class BookController extends Controller
     {
         //
     }
+
+    public function userIndex(Request $request)
+    {
+        $search = $request->input('search');
+
+        $books = collect();
+        $notFound = false;
+
+        if ($search) {
+            $books = Book::where('title', 'like', "%{$search}%")
+                ->orWhere('author', 'like', "%{$search}%")
+                ->get();
+
+            if ($books->isEmpty()) {
+                $notFound = true;
+                $books = [];
+            }
+        } else {
+            $books = Book::all();
+        }
+
+        return view('books.user')->with([
+            'books' => $books,
+            'notFound' => $notFound,
+            'search' => $search,
+        ]);
+    }
+
 }

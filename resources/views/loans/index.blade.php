@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="container">
-    <x-search route="loans.index" placeholder="Search by member or book" />
+    <x-search placeholder="Search by member or book" />
 
     <div class="mt-4">
         <x-button href="/">

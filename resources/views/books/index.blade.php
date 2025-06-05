@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="container">
-    <x-search route="books.index" placeholder="Search by title or author" />
+    <x-search placeholder="Search by title or author" />
     
     <div class="mt-4">
         <x-button href="{{ route('books.create') }}">

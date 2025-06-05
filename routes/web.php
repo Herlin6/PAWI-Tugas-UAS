@@ -21,6 +21,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::get('/books-user', [BookController::class, 'userIndex'])->name('books.user');
 Route::resource('/books', BookController::class);
 Route::resource('/loans', LoanController::class);
 Route::resource('/members', MemberController::class);

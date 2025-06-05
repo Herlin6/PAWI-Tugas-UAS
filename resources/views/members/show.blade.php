@@ -46,11 +46,9 @@
                     <x-desc label="Handphone" content="{{ $member->handphone }}" />
                     <x-desc label="Employment" content="{{ $member->employment }}" />
                     <div class="d-flex justify-content-end pe-2">
-                    <a class='nav-link' href='{{ url('members') }}'>
-                        <x-dark-button class="btn btn-sm">
-                            <i class="bi bi-arrow-left"></i> Back
-                        </x-dark-button>
-                    </a>
+                    <x-dark-button class="btn btn-sm" onclick="window.history.back()">
+                        <i class="bi bi-arrow-left"></i> Back
+                    </x-dark-button>
                 </div>
             </div>
         </div>

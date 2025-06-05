@@ -1,4 +1,4 @@
-<form method="GET" action="{{ route($route) }}" class="d-flex align-items-center gap-2">
+<form method="GET" class="d-flex align-items-center gap-2">
     <x-input-text
         name="search"
         placeholder="{{ $placeholder }}"
