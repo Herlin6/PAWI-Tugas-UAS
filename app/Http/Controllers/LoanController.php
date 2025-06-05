@@ -121,7 +121,10 @@ class LoanController extends Controller
      */
     public function edit(Loan $loan)
     {
-        //
+        $members = \App\Models\Member::pluck('name', 'id')->toArray();
+        $books = \App\Models\Book::pluck('title', 'id')->toArray();
+        $book = $loan->book;
+        return view('loans.edit', compact('loan', 'members', 'books', 'book'));
     }
 
     /**
@@ -129,7 +132,81 @@ class LoanController extends Controller
      */
     public function update(Request $request, Loan $loan)
     {
-        //
+        $validated = $request->validate([
+            'member_id' => 'required|exists:members,id',
+            'book_id' => 'required|exists:books,id',
+            'borrow_date' => 'required|date',
+            'due_date' => 'required|date|after_or_equal:borrow_date',
+            'return_date' => 'nullable|date|after_or_equal:borrow_date',
+            'loan_status' => 'required|in:borrowed,returned,overdue',
+        ]);
+
+        // Cek apakah member dan book yang dipilih berbeda dari yang ada di loan
+        $oldMember = $loan->member;
+        $oldBook = $loan->book;
+        $newMember = Member::find($validated['member_id']);
+        $newBook = Book::find($validated['book_id']);
+
+        // Validasi apakah book dan member yang dipilih tersedia
+        if ($loan->member_id != $validated['member_id']) {
+            // Set member lama tidak borrowing
+            if ($oldMember) {
+                $oldMember->borrowing = false;
+                $oldMember->save();
+            }
+            // Set member baru borrowing
+            if ($newMember) {
+                $newMember->borrowing = true;
+                $newMember->save();
+            }
+        }
+
+        // Validasi apakah book yang dipilih tersedia
+        if ($loan->book_id != $validated['book_id']) {
+            // Set book lama available
+            if ($oldBook) {
+                $oldBook->availability = true;
+                $oldBook->save();
+            }
+            // Set book baru not available
+            if ($newBook) {
+                $newBook->availability = false;
+                $newBook->save();
+            }
+        }
+
+        // Update status availability dan borrowing berdasarkan loan_status
+        if ($validated['loan_status'] === 'returned') {
+            if ($newBook) {
+                $newBook->availability = true;
+                $newBook->save();
+            }
+            if ($newMember) {
+                $newMember->borrowing = false;
+                $newMember->save();
+            }
+        } elseif ($validated['loan_status'] === 'borrowed' || $validated['loan_status'] === 'overdue') {
+            if ($newBook) {
+                $newBook->availability = false;
+                $newBook->save();
+            }
+            if ($newMember) {
+                $newMember->borrowing = true;
+                $newMember->save();
+            }
+        }
+
+        // Update data loan
+        $loan->update([
+            'member_id' => $validated['member_id'],
+            'book_id' => $validated['book_id'],
+            'borrow_date' => $validated['borrow_date'],
+            'due_date' => $validated['due_date'],
+            'return_date' => $validated['return_date'] ?? null,
+            'loan_status' => $validated['loan_status'],
+        ]);
+
+        return redirect()->route('loans.index')->with('success', 'Loan successfully updated');
     }
 
     /**
