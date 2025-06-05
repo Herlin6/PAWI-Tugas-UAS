@@ -14,7 +14,7 @@
             placeholder="{{ $placeholder ?? '' }}"
             class="form-control bg-body-secondary main-color font-playfair border-dark-gold" 
             @if(!empty($required) && $required !== 'false') required @endif
-        >{{ old($name) }}</textarea>
+        >{{ old($name, $attributes->get('value')) }}</textarea>
         @error($name)
             <div class="g-text-danger font-playfair">{{ $message }}</div>
         @enderror
