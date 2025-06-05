@@ -303,6 +303,15 @@
             icon: "success",
         });
     @endif
+
+    @if (session('error'))
+    swal({
+        title: "Oops!",
+        text: "{{ session('error') }}",
+        icon: "error",
+    });
+    @endif
+
 </script>
     <!--end::OverlayScrollbars Configure-->
     <!--end::Script-->

@@ -9,7 +9,15 @@
     'required' => false,
     'autocomplete' => null,
     'autofocus' => false,
+    'errorMessage' => null,
+    'class' => '', // Tambahkan ini agar bisa menerima class tambahan
 ])
+
+<style>
+    input[type="date"].custom-date::-webkit-calendar-picker-indicator {
+        filter: invert(69%) sepia(31%) saturate(362%) hue-rotate(2deg) brightness(94%) contrast(91%);
+    }
+</style>
 
 <div class="text-start w-100">
     @if (!empty($inRowLabel))
@@ -28,11 +36,16 @@
                     @if ($disabled) disabled @endif
                     @if ($required) required @endif
                     @if ($autofocus) autofocus @endif
-
-                    {{ $attributes->merge([
-                        'class' => 'form-control bg-body-secondary main-color font-playfair p-2 form-theme rounded border-dark-gold border-0'
-                    ]) }}
+                    @if ($type === 'date')
+                        class="form-control bg-body-secondary main-color font-playfair p-2 form-theme rounded border-dark-gold border-0 custom-date {{ $class }}"
+                    @else
+                        class="form-control bg-body-secondary main-color font-playfair p-2 form-theme rounded border-dark-gold border-0 {{ $class }}"
+                    @endif
+                    {{ $attributes }}
                 />
+                @if(!empty($errorMessage))
+                    <div class="g-text-danger font-playfair mt-1">{{ $errorMessage }}</div>
+                @endif
             </div>
         </div>
     @else
@@ -51,10 +64,15 @@
             @if ($disabled) disabled @endif
             @if ($required) required @endif
             @if ($autofocus) autofocus @endif
-
-            {{ $attributes->merge([
-                'class' => 'form-control bg-body-secondary main-color font-playfair p-2 form-theme rounded border-dark-gold border-0'
-            ]) }}
+            @if ($type === 'date')
+                class="form-control bg-body-secondary main-color font-playfair p-2 form-theme rounded border-dark-gold border-0 custom-date {{ $class }}"
+            @else
+                class="form-control bg-body-secondary main-color font-playfair p-2 form-theme rounded border-dark-gold border-0 {{ $class }}"
+            @endif
+            {{ $attributes }}
         />
+        @if(!empty($errorMessage))
+            <div class="g-text-danger font-playfair mt-1">{{ $errorMessage }}</div>
+        @endif
     @endif
 </div>

@@ -18,7 +18,8 @@ class Member extends Model
         'address',
         'handphone',
         'employment',
-        'photo'
+        'photo',
+        'borrowing'
     ];
 
     protected $casts = [

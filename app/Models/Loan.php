@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Loan extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'borrow_date',
         'due_date',
@@ -13,6 +16,11 @@ class Loan extends Model
         'return_date',
         'member_id',
         'book_id',
+    ];
+
+    protected $casts = [
+        'borrow_date' => 'date',
+        'due_date' => 'date',
     ];
 
     public function book()
