@@ -52,29 +52,29 @@ class BookController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-        'book_number' => 'required|max:10',
-        'title' => 'required|max:255',
-        'author' => 'required|max:100',
-        'publisher' => 'required|max:100',
-        'isbn' => 'required|max:17',
-        'genre' => 'required|max:50',
-        'publish_date' => 'required|date',
-        'synopsis' => 'required',
-        'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
-    ]);
+            'book_number' => 'required|max:10|unique:books,book_number',
+            'title' => 'required|max:255',
+            'author' => 'required|max:100',
+            'publisher' => 'required|max:100',
+            'isbn' => 'required|max:17',
+            'genre' => 'required|max:50',
+            'publish_date' => 'required|date',
+            'synopsis' => 'required',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
+        ]);
 
-    if ($request->hasFile('photo')) {
-        $photo = $request->file('photo');
-        $photoName = time() . '_' . $photo->getClientOriginalName();
-        $photo->move(public_path('images'), $photoName);
-        $validated['photo'] = $photoName;
-    }
-   
-    $validated['availability'] = true;
-    
-    Book::create($validated);
+        if ($request->hasFile('photo')) {
+            $photo = $request->file('photo');
+            $photoName = time() . '_' . $photo->getClientOriginalName();
+            $photo->move(public_path('images'), $photoName);
+            $validated['photo'] = $photoName;
+        }
 
-    return redirect()->route('books.index')->with('success', 'Books successfully added');
+        $validated['availability'] = true;
+        
+        Book::create($validated);
+
+        return redirect()->route('books.index')->with('success', 'Books successfully added');
     }
 
     /**

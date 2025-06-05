@@ -16,6 +16,8 @@
                         :options="$members->pluck('name', 'id')->toArray()"
                         required="true"
                         placeholder="Select Member"
+                        :selected="old('member_id')"
+                        :errorMessage="$errors->first('member_id')"
                     />
                     <x-input-option
                         label="Book Title"
@@ -24,24 +26,31 @@
                         :options="$books->pluck('title', 'id')->toArray()"
                         required="true"
                         placeholder="Select Book"
+                        :selected="old('book_id')"
+                        :errorMessage="$errors->first('book_id')"
                     />
                     <x-input-text
                         inRowLabel="Borrow Date"
                         name="borrow_date"
                         type="date"
                         required="true"
+                        :value="old('borrow_date')"
+                        :errorMessage="$errors->first('borrow_date')"
                     />
                     <x-input-text
-                        inRowLabel="Due Date"
-                        name="due_date"
-                        type="date"
+                        inRowLabel="Length of Loan (days)"
+                        name="length_of_loan"
+                        type="number"
+                        min="1"
                         required="true"
+                        :value="old('length_of_loan')"
+                        :errorMessage="$errors->first('length_of_loan')"
                     />
                 </div>
 
                 <div class="form-buttons">
                     <div class="d-flex justify-content-between mt-4">
-                        <x-dark-button onclick="window.history.back()">
+                        <x-dark-button onclick="window.location.href='{{ route('loans.index') }}'" type="button">
                             <i class="bi bi-arrow-left"></i> Back
                         </x-dark-button>
                         <x-button type="submit"> Add Loan </x-button>

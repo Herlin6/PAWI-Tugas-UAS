@@ -5,8 +5,7 @@
             <select 
                 id="{{ $name }}" 
                 name="{{ $name }}" 
-                class="form-control bg-body-secondary font-playfair border-dark-gold" 
-                style="color: #757575;" 
+                class="form-control bg-body-secondary font-playfair border-dark-gold main-color" 
                 {{ $required ? 'required' : '' }}
             >
                 <option value="" disabled selected hidden>{{ $placeholder ?? 'Enter genre' }}</option>
@@ -27,7 +26,7 @@
 
         function updateSelectColor() {
             if (select.value === "") {
-                select.style.color = '#757575'; 
+                select.style.color = '#e0dbc0'; 
                 select.classList.remove(mainColorClass);
             } else {
                 select.style.color = ''; 

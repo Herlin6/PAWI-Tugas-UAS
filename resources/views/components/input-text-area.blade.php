@@ -7,15 +7,16 @@
 <div class="row mb-3">
     <label for="{{ $name }}" class="col-lg-2 mr-4 font-playfair sub-title-color">{{ $label }}</label>
     <div class="col-lg-10">
-        @if ($type === 'textarea')
-            <textarea 
-    id="{{ $name }}" 
-    name="{{ $name }}" 
-    rows="{{ $rows ?? 3 }}" 
-    placeholder="{{ $placeholder ?? '' }}"
-    class="form-control bg-body-secondary main-color font-playfair border-dark-gold" 
-    {{ $required ? 'required' : '' }}
->{{ old($name) }}</textarea>
-        @endif
+        <textarea 
+            id="{{ $name }}" 
+            name="{{ $name }}" 
+            rows="{{ $rows ?? 3 }}" 
+            placeholder="{{ $placeholder ?? '' }}"
+            class="form-control bg-body-secondary main-color font-playfair border-dark-gold" 
+            @if(!empty($required) && $required !== 'false') required @endif
+        >{{ old($name) }}</textarea>
+        @error($name)
+            <div class="g-text-danger font-playfair">{{ $message }}</div>
+        @enderror
     </div>
 </div>
