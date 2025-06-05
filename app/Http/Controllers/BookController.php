@@ -106,7 +106,14 @@ class BookController extends Controller
      */
     public function destroy(Book $book)
     {
-        //
+        // Hapus file foto jika ada
+        if ($book->photo && file_exists(public_path('images/' . $book->photo))) {
+            unlink(public_path('images/' . $book->photo));
+        }
+
+        $book->delete();
+
+        return redirect()->route('books.index')->with('success', 'Book successfully deleted');
     }
 
     public function userIndex(Request $request)

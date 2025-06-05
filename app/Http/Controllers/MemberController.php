@@ -103,6 +103,13 @@ class MemberController extends Controller
      */
     public function destroy(Member $member)
     {
-        //
+        // Hapus file foto jika ada
+        if ($member->photo && file_exists(public_path('images/' . $member->photo))) {
+            unlink(public_path('images/' . $member->photo));
+        }
+
+        $member->delete();
+
+        return redirect()->route('members.index')->with('success', 'Member successfully deleted');
     }
 }

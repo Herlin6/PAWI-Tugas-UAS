@@ -28,20 +28,14 @@
             class="d-flex justify-content-between align-items-center me-3 mb-1"
         >
             <h2 class="mb-3 title-color">{{ $book->title }}</h2>
-            <div>
-                <button
-                    class="btn me-1"
-                    style="background-color: #05111d; color: #e2ba76"
-                >
-                    <i class="bi bi-pen"></i>
-                </button>
-                <button
-                    class="btn ms-1"
-                    style="background-color: #7b3b3b; color: #e2ba76"
-                >
-                    <i class="bi bi-trash"></i>
-                </button>
-            </div>
+            <x-action-button
+                :onEdit="'window.location.href=`' . route('books.edit', $book->id) . '`'"
+                :onDelete="'document.getElementById(\'delete-book-form\').submit()'"
+            />
+            <form id="delete-book-form" action="{{ route('books.destroy', $book->id) }}" method="POST" style="display:none;">
+                @csrf
+                @method('DELETE')
+            </form>
         </div>
         <x-desc label="Book Number" content="{{ $book->book_number }}" />
         <x-desc label="Author" content="{{ $book->author }}" />

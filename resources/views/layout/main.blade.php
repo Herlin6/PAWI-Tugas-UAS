@@ -284,7 +284,7 @@
         var nama = $(this).data("nama");
         event.preventDefault();
         swal({
-            title: `Apakah Anda yakin ingin menghapus data ${nama} ini?`,
+            title: `Are you sure you want to delete this ${name} data?`,
             text: "If you delete this, it will be gone forever.",
             icon: "warning",
             buttons: true,

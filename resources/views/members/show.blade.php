@@ -25,27 +25,27 @@
             <div class="w-100">
                 <div class="d-flex justify-content-between align-items-center me-3 mb-1">
                     <h2 class="mb-3 title-color">{{ $member->name }}</h2>
-                    <div>
-                        <button class="btn me-1" style="background-color: #05111D; color: #e2ba76">
-                            <i class="bi bi-pen"></i>
-                        </button>
-                        <button class="btn ms-1" style="background-color: #7B3B3B; color: #e2ba76">
-                            <i class="bi bi-trash"></i>
-                        </button>
-                    </div>
+                    <x-action-button
+                        :onEdit="'window.location.href=`' . route('members.edit', $member->id) . '`'"
+                        :onDelete="'document.getElementById(\'delete-member-form\').submit()'"
+                    />
+                    <form id="delete-member-form" action="{{ route('members.destroy', $member->id) }}" method="POST" style="display:none;">
+                        @csrf
+                        @method('DELETE')
+                    </form>
                 </div>
                 <x-desc label="Number" content="{{ $member->member_number }}" />
                 <x-desc label="Email" content="{{ $member->email }}" />
                 <x-desc label="Date of Birth" content="{{ $member->date_of_birth }}" />
-                    @if ($member->gender == "M")
-                        <x-desc label="Gender" content="Male" />
-                    @else
-                        <x-desc label="Gender" content="Female" />
-                    @endif
-                    <x-desc label="Address" content="{{ $member->address }}" />
-                    <x-desc label="Handphone" content="{{ $member->handphone }}" />
-                    <x-desc label="Employment" content="{{ $member->employment }}" />
-                    <div class="d-flex justify-content-end pe-2">
+                @if ($member->gender == "M")
+                    <x-desc label="Gender" content="Male" />
+                @else
+                    <x-desc label="Gender" content="Female" />
+                @endif
+                <x-desc label="Address" content="{{ $member->address }}" />
+                <x-desc label="Handphone" content="{{ $member->handphone }}" />
+                <x-desc label="Employment" content="{{ $member->employment }}" />
+                <div class="d-flex justify-content-end pe-2">
                     <x-dark-button class="btn btn-sm" onclick="window.history.back()">
                         <i class="bi bi-arrow-left"></i> Back
                     </x-dark-button>

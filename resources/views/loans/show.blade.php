@@ -14,7 +14,16 @@
             <x-desc label="Loan Status" content="{{ ucfirst($loan->loan_status) }}" />
             <x-desc label="Return Date" content="{{ $loan->return_date ?? 'Not yet returned' }}" />
 
-            <div class="d-flex justify-content-end mt-4">
+            <div class="d-flex justify-content-between mt-4">
+                <x-action-button
+                    :onEdit="'window.location.href=`' . route('books.edit', $book->id) . '`'"
+                    :onDelete="'document.getElementById(\'delete-book-form\').submit()'"
+                    dataName="Book"
+                />
+                <form id="delete-loan-form" action="{{ route('loans.destroy', $loan->id) }}" method="POST" style="display:none;">
+                    @csrf
+                    @method('DELETE')
+                </form>
                 <x-dark-button class="btn btn-sm" onclick="window.history.back()">
                     <i class="bi bi-arrow-left"></i> Back
                 </x-dark-button>

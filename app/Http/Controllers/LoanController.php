@@ -137,7 +137,21 @@ class LoanController extends Controller
      */
     public function destroy(Loan $loan)
     {
-        //
+        // Kembalikan status buku menjadi available jika loan sedang borrowed/overdue
+        if ($loan->book && in_array($loan->loan_status, ['borrowed', 'overdue'])) {
+            $loan->book->availability = true;
+            $loan->book->save();
+        }
+
+        // Kembalikan status member menjadi tidak borrowing jika loan sedang borrowed/overdue
+        if ($loan->member && in_array($loan->loan_status, ['borrowed', 'overdue'])) {
+            $loan->member->borrowing = false;
+            $loan->member->save();
+        }
+
+        $loan->delete();
+
+        return redirect()->route('loans.index')->with('success', 'Loan successfully deleted');
     }
 
     /**

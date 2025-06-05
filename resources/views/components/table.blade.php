@@ -27,12 +27,14 @@
                     <td class="{{ $tdClass }}">
                         @if ($key === 'action')
                             <div class="d-flex justify-content-center gap-2">
-                                <button class="btn btn-sm" style="background-color: #05111D; color: #e2ba76">
-                                    <i class="bi bi-pen"></i>
-                                </button>
-                                <button class="btn btn-sm" style="background-color: #7B3B3B; color: #e2ba76">
-                                    <i class="bi bi-trash"></i>
-                                </button>
+                                <x-action-button
+                                    :onEdit="'window.location.href=`' . route($page . '.edit', $item['id']) . '`'"
+                                    :onDelete="'document.getElementById(\'delete-form-'. $item['id'] .'\').submit()'"
+                                />
+                                <form id="delete-form-{{ $item['id'] }}" action="{{ route($page . '.destroy', $item['id']) }}" method="POST" style="display:none;">
+                                    @csrf
+                                    @method('DELETE')
+                                </form>
                             </div>
 
                         @elseif ($key === 'availability')
