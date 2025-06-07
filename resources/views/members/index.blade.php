@@ -6,9 +6,11 @@
     <x-search placeholder="Search by name or email" />
     
     <div class="mt-4">
+        @can('create', App\Models\Member::class)
             <x-button href="{{ route('members.create') }}">
                 Add Member
             </x-button>
+        @endcan
     </div>
 
     <div class="mt-1">

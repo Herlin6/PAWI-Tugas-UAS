@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
   <!--begin::Head-->
@@ -80,16 +79,16 @@
           <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav font-playfair fs-5">
               <li class="nav-item">
-                <a class="nav-link title-color" aria-current="page" href="#">Home</a>
+                <a class="nav-link title-color" aria-current="page" href="{{ route('dashboard') }}">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link title-color" href="#">Book</a>
+                <a class="nav-link title-color" href="{{ route('books.index') }}">Book</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link title-color" href="#">Loan</a>
+                <a class="nav-link title-color" href="{{ route('loans.index') }}">Loan</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link title-color" href="#">Profile</a>
+                <a class="nav-link title-color" href="{{ route('profile.edit') }}">Profile</a>
               </li>
             </ul>
           </div>
