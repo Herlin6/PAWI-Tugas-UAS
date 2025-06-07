@@ -25,5 +25,6 @@ Route::get('/books-user', [BookController::class, 'userIndex'])->name('books.use
 Route::resource('/books', BookController::class);
 Route::resource('/loans', LoanController::class);
 Route::resource('/members', MemberController::class);
+Route::resource('reviews', \App\Http\Controllers\ReviewController::class);
 Route::patch('/loans/{loan}/return', [LoanController::class, 'markAsReturned'])->name('loans.return');
 require __DIR__.'/auth.php';

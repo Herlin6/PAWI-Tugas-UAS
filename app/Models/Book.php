@@ -27,9 +27,9 @@ class Book extends Model
         'availability' => 'boolean'
     ];
 
-    public function review()
+    public function reviews()
     {
-        return $this->hasMany(Review::class, 'review_id', 'id');
+        return $this->hasMany(Review::class);
     }
 
     public function loan()
