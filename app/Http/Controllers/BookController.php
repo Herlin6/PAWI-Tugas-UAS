@@ -7,9 +7,6 @@ use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request)
     {
         $search = $request->input('search');
@@ -37,10 +34,6 @@ class BookController extends Controller
         ]);
     }
 
-
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create(Request $request)
     {
         if ($request->user()->cannot('create', Book::class)) {
@@ -49,9 +42,6 @@ class BookController extends Controller
         return view('books.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         if ($request->user()->cannot('create', Book::class)) {
@@ -84,19 +74,13 @@ class BookController extends Controller
         return redirect()->route('books.index')->with('success', 'Books successfully added');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show($id)
     {
         $book = Book::findOrFail($id);
-        $reviews = $book->reviews()->with('user')->get(); // pastikan relasi reviews dan user sudah ada
+        $reviews = $book->reviews()->with('user')->get();
         return view('books.show', compact('book', 'reviews'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Request $request, Book $book)
     {
         if ($request->user()->cannot('update', $book)) {
@@ -105,9 +89,6 @@ class BookController extends Controller
         return view('books.edit', compact('book'));
     }
 
-    /**
-     * Update the specified resource in storage.
-    */
     public function update(Request $request, Book $book)
     {
         if ($request->user()->cannot('update', $book)) {
@@ -157,10 +138,6 @@ class BookController extends Controller
         return redirect()->route('books.index')->with('success', 'Book successfully updated');
     }
 
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Request $request, Book $book)
     {
         if ($request->user()->cannot('delete', $book)) {

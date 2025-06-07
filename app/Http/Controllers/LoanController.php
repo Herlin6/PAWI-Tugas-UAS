@@ -10,9 +10,6 @@ use Illuminate\Http\Request;
 
 class LoanController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request)
     {
         $search = $request->input('search');
@@ -52,9 +49,6 @@ class LoanController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create(Request $request)
     {
         if ($request->user()->cannot('create', Loan::class)) {
@@ -65,9 +59,6 @@ class LoanController extends Controller
         return view('loans.create', compact('members', 'books'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         if ($request->user()->cannot('create', Loan::class)) {
@@ -116,9 +107,6 @@ class LoanController extends Controller
         return redirect()->route('loans.index')->with('success', 'Loan successfully added');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Request $request, Loan $loan)
     {
         if ($request->user()->cannot('view', $loan)) {
@@ -127,9 +115,6 @@ class LoanController extends Controller
         return view('loans.show', compact('loan'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Request $request, Loan $loan)
     {
         if ($request->user()->cannot('update', $loan)) {
@@ -141,9 +126,6 @@ class LoanController extends Controller
         return view('loans.edit', compact('loan', 'members', 'books', 'book'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Loan $loan)
     {
         if ($request->user()->cannot('update', $loan)) {
@@ -223,9 +205,6 @@ class LoanController extends Controller
         return redirect()->route('loans.index')->with('success', 'Loan successfully updated');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Request $request, Loan $loan)
     {
         if ($request->user()->cannot('delete', $loan)) {
@@ -249,9 +228,6 @@ class LoanController extends Controller
         return redirect()->route('loans.index')->with('success', 'Loan successfully deleted');
     }
 
-    /**
-     * Mark loan as returned.
-     */
     public function markAsReturned(Request $request, Loan $loan)
     {
         if ($request->user()->cannot('markAsReturned', $loan)) {
@@ -280,9 +256,6 @@ class LoanController extends Controller
         return redirect()->back()->with('success', 'Loan marked as returned.');
     }
 
-    /**
-     * Display a listing of the resource for users.
-     */
     public function userIndex()
     {
         return view('loans.user');

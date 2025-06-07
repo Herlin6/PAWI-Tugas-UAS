@@ -162,7 +162,6 @@ function previewPhoto(event) {
             previewImg.style.display = 'block';
         }
         reader.readAsDataURL(input.files[0]);
-        // Format file name: max 2 lines, ellipsis if too long
         let name = input.files[0].name;
         if (name.length > 40) {
             name = name.substring(0, 37) + '...';

@@ -7,18 +7,12 @@ use Illuminate\Http\Request;
 
 class ReviewController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $reviews = Review::all();
         return view('reviews.index', compact('reviews'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create(Request $request)
     {
         if ($request->user()->cannot('create', Review::class)) {
@@ -27,9 +21,6 @@ class ReviewController extends Controller
         return view('reviews.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         if ($request->user()->cannot('create', Review::class)) {
@@ -50,9 +41,6 @@ class ReviewController extends Controller
             ->with('success', 'Review created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Request $request, Review $review)
     {
         if ($request->user()->cannot('view', $review)) {
@@ -61,9 +49,6 @@ class ReviewController extends Controller
         return view('reviews.show', compact('review'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Request $request, Review $review)
     {
         if ($request->user()->cannot('update', $review)) {
@@ -72,9 +57,6 @@ class ReviewController extends Controller
         return view('reviews.edit', compact('review'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Review $review)
     {
         if ($request->user()->cannot('update', $review)) {
@@ -92,9 +74,6 @@ class ReviewController extends Controller
             ->with('success', 'Review updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Request $request, Review $review)
     {
         if ($request->user()->cannot('delete', $review)) {
