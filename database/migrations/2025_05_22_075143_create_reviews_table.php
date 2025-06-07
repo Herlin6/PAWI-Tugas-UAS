@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('comment', 255);
             $table->unsignedTinyInteger('rate');
-            $table->foreignId('member_id')->constrained('members')->onDelete('restrict')->onUpdate('restrict');
+            $table->foreignId('user_id')->constrained('users')->onDelete('restrict')->onUpdate('restrict');
             $table->foreignId('book_id')->constrained('books')->onDelete('restrict')->onUpdate('restrict');
             $table->timestamps();
         });

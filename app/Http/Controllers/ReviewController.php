@@ -13,7 +13,7 @@ class ReviewController extends Controller
     public function index()
     {
         $reviews = Review::all();
-        // dd($reviews); 
+        return view('reviews.index', compact('reviews'));
     }
 
     /**
@@ -21,7 +21,7 @@ class ReviewController extends Controller
      */
     public function create()
     {
-        //
+        return view('reviews.create');
     }
 
     /**
@@ -29,7 +29,18 @@ class ReviewController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'book_id' => 'required|exists:books,id',
+            'rate' => 'required|integer|min:1|max:5',
+            'comment' => 'nullable|string',
+        ]);
+
+        $validated['user_id'] = request()->user()->id;
+
+        Review::create($validated);
+
+        return redirect()->route('books.show', $validated['book_id'])
+            ->with('success', 'Review created successfully.');
     }
 
     /**
@@ -37,7 +48,7 @@ class ReviewController extends Controller
      */
     public function show(Review $review)
     {
-        //
+        return view('reviews.show', compact('review'));
     }
 
     /**
@@ -45,7 +56,7 @@ class ReviewController extends Controller
      */
     public function edit(Review $review)
     {
-        //
+        return view('reviews.edit', compact('review'));
     }
 
     /**
@@ -53,7 +64,15 @@ class ReviewController extends Controller
      */
     public function update(Request $request, Review $review)
     {
-        //
+        $validated = $request->validate([
+            'rate' => 'required|integer|min:1|max:5', // gunakan 'rate' sesuai field di database
+            'comment' => 'nullable|string',
+        ]);
+
+        $review->update($validated);
+
+        return redirect()->route('books.show', $review->book_id)
+            ->with('success', 'Review updated successfully.');
     }
 
     /**
@@ -61,6 +80,9 @@ class ReviewController extends Controller
      */
     public function destroy(Review $review)
     {
-        //
+        $bookId = $review->book_id;
+        $review->delete();
+        return redirect()->route('books.show', $bookId)
+            ->with('success', 'Review deleted successfully.');
     }
 }
