@@ -88,7 +88,7 @@
                 <a class="nav-link title-color" href="{{ route('loans.index') }}">Loan</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link title-color" href="{{ route('profile.edit') }}">Profile</a>
+                <a class="nav-link title-color" href="{{ route('profile.index') }}">Profile</a>
               </li>
             </ul>
           </div>
