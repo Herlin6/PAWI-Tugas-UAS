@@ -90,7 +90,7 @@ class BookController extends Controller
      */
     public function edit(Book $book)
     {
-        //
+        return view('books.edit', compact('book'));
     }
 
     /**
@@ -98,7 +98,35 @@ class BookController extends Controller
      */
     public function update(Request $request, Book $book)
     {
-        //
+        $validated = $request->validate([
+            'book_number' => 'required|max:10|unique:books,book_number,' . $book->id,
+            'title' => 'required|max:255',
+            'author' => 'required|max:100',
+            'publisher' => 'required|max:100',
+            'isbn' => 'required|max:17',
+            'genre' => 'required|max:50',
+            'publish_date' => 'required|date',
+            'synopsis' => 'required',
+            'availability' => 'required|in:1,0',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
+        ]);
+
+        
+        if ($request->hasFile('photo')) {
+            if ($book->photo && file_exists(public_path('images/' . $book->photo))) {
+                unlink(public_path('images/' . $book->photo));
+            }
+            $file = $request->file('photo');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('images'), $filename);
+            $validated['photo'] = $filename;
+        } else {
+            $validated['photo'] = $book->photo;
+        }
+
+        $book->update($validated);
+
+        return redirect()->route('books.index')->with('success', 'Book successfully updated');
     }
 
     /**
@@ -127,7 +155,6 @@ class BookController extends Controller
             $books = Book::where('title', 'like', "%{$search}%")
                 ->orWhere('author', 'like', "%{$search}%")
                 ->get();
-
             if ($books->isEmpty()) {
                 $notFound = true;
                 $books = [];
@@ -135,7 +162,7 @@ class BookController extends Controller
         } else {
             $books = Book::all();
         }
-
+        
         return view('books.user')->with([
             'books' => $books,
             'notFound' => $notFound,

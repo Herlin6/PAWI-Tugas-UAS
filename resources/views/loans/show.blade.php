@@ -16,8 +16,8 @@
 
             <div class="d-flex justify-content-between mt-4">
                 <x-action-button
-                    :onEdit="'window.location.href=`' . route('books.edit', $book->id) . '`'"
-                    :onDelete="'document.getElementById(\'delete-book-form\').submit()'"
+                    :onEdit="'window.location.href=`' . route('books.edit', $loan->book->id) . '`'"
+                    :onDelete="'document.getElementById(\'delete-loan-form\').submit()'"
                     dataName="Book"
                 />
                 <form id="delete-loan-form" action="{{ route('loans.destroy', $loan->id) }}" method="POST" style="display:none;">

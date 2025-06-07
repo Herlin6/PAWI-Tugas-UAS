@@ -1,3 +1,10 @@
+@php
+    $selectedValue = $attributes->get('value');
+    if ($selectedValue === null || $selectedValue === '') {
+        $selectedValue = old($name, '');
+    }
+@endphp
+
 <div class="row mb-3 align-items-center">
     <label for="{{ $name }}" class="col-lg-2 mr-4 font-playfair sub-title-color">{{ $label }}</label>
     <div class="col-lg-10">
@@ -8,9 +15,11 @@
                 class="form-control bg-body-secondary font-playfair border-dark-gold main-color" 
                 {{ $required ? 'required' : '' }}
             >
-                <option value="" disabled selected hidden>{{ $placeholder ?? 'Enter genre' }}</option>
+                <option value="" disabled {{ $selectedValue === null || $selectedValue === '' ? 'selected' : '' }} hidden>
+                    {{ $placeholder ?? 'Select ' . strtolower($label) }}
+                </option>
                 @foreach ($options as $value => $labelOption)
-                    <option value="{{ $value }}" {{ old($name) == $value ? 'selected' : '' }}>
+                    <option value="{{ $value }}" {{ (string)$selectedValue === (string)$value ? 'selected' : '' }}>
                         {{ $labelOption }}
                     </option>
                 @endforeach
