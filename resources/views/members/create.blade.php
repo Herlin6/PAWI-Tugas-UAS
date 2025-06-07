@@ -10,7 +10,7 @@
     >
         @csrf
         <div class="d-flex justify-content-between align-items-center flex-lg-row flex-column align-items-lg-start">
-            <div class="text-center p-4 pt-0">
+            <div class="text-center p-4 pt-0 align-items-center d-flex flex-column">
                 <label
                     for="photo"
                     class="text-center border-dark-gold p-3 font-playfair bg-body-secondary"
@@ -133,7 +133,7 @@
                     :errorMessage="$errors->first('employment')"
                 />
 
-                <div class="d-flex justify-content-end pe-2 mt-4">
+                <div class="d-flex justify-content-between pe-2 mt-4">
                     <x-dark-button onclick="window.location.href='{{ route('members.index') }}'" type="button" class="me-2">
                         <i class="bi bi-arrow-left"></i> Back
                     </x-dark-button>

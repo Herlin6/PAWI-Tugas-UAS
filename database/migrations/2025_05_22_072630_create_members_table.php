@@ -20,7 +20,7 @@ return new class extends Migration
             $table->enum('gender', ['M', 'F']);
             $table->string('address', 255);
             $table->string('handphone', 15);
-            $table->string('employment', 100)->nullable;
+            $table->string('employment', 100)->nullable();
             $table->boolean('borrowing')->default(false);
             $table->string('photo', 50)->nullable();
             $table->timestamps();
