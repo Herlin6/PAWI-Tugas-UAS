@@ -71,7 +71,11 @@ Route::get('/loans-user', [LoanController::class, 'userIndex'])->name('loans.use
 Route::resource('reviews', \App\Http\Controllers\ReviewController::class);
 Route::patch('/loans/{loan}/return', [LoanController::class, 'markAsReturned'])->name('loans.return');
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::get('/profile', function () {
+        return view('profile.index');
+    })->name('profile.index');
+
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
