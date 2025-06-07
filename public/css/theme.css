@@ -154,3 +154,13 @@ input:-webkit-autofill:focus {
     border: 2px solid rgba(226, 186, 118, 0.2) !important;
     font-family: var(--font-playfair) !important;
 }
+
+.scroll {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    max-height: 90px;
+    text-align: justify;
+}
+.scroll::-webkit-scrollbar {
+    display: none;
+}

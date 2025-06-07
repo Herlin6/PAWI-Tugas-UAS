@@ -3,9 +3,9 @@
 >
     <div class="text-center p-4 pt-0">
         @if ($book->photo && file_exists(public_path('images/' . $book->photo)))
-            <img src="{{ asset('images/' . $book->photo) }}" style="width: 250px" />
+            <img src="{{ asset('images/' . $book->photo) }}" style="width: 200px" />
         @else
-            <img src="{{ asset('images/book-default.png') }}" style="width: 250px" />
+            <img src="{{ asset('images/book-default.png') }}" style="width: 200px" />
         @endif
         <div>
             @if ($book->availability == 1)
@@ -42,10 +42,10 @@
         <x-desc label="Publisher" content="{{ $book->publisher }}" />
         <x-desc label="ISBN" content="{{ $book->isbn }}" />
         <x-desc label="Genre" content="{{ $book->genre }}" />
-        <x-desc label="Publish Date" content="{{ $book->publish_date }}" />
+        <x-desc label="Publish Date" content="{{ $book->publish_date->format('Y-m-d') }}" />
         <x-desc label="Synopsis" content="{{ $book->synopsis }}" />
         <div class="d-flex justify-content-end pe-2">
-            <x-dark-button class="btn btn-sm" onclick="window.history.back()">
+            <x-dark-button class="btn btn-sm" href="{{ route('books.index') }}">
                 <i class="bi bi-arrow-left"></i> Back
             </x-dark-button>
         </div>

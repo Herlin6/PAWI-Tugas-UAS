@@ -24,7 +24,7 @@
                     @csrf
                     @method('DELETE')
                 </form>
-                <x-dark-button class="btn btn-sm" onclick="window.history.back()">
+                <x-dark-button class="btn btn-sm" href="{{ route('loans.index') }}">
                     <i class="bi bi-arrow-left"></i> Back
                 </x-dark-button>
             </div>

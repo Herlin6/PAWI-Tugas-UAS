@@ -69,7 +69,7 @@
                     :value="old('loan_status', $loan->loan_status)"
                 />
                 <div class="form-buttons mt-4 d-flex justify-content-between">
-                    <x-dark-button onclick="window.history.back()">
+                    <x-dark-button href="{{ route('loans.index') }}">
                         <i class="bi bi-arrow-left"></i> Back
                     </x-dark-button>
                     <x-button type="submit">Update Loan</x-button>

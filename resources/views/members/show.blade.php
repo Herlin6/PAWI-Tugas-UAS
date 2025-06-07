@@ -6,9 +6,9 @@
         <div class="d-flex justify-content-between align-items-center flex-lg-row flex-column align-items-lg-start">
             <div class="text-center p-4 pt-0">
                 @if ($member->photo && file_exists(public_path('images/' . $member->photo)))
-                    <img src="{{ asset('images/' . $member->photo) }}" style="width: 250px">
+                    <img src="{{ asset('images/' . $member->photo) }}" style="width: 200px">
                 @else
-                    <img src="{{ asset('images/default.png') }}" style="width: 250px">
+                    <img src="{{ asset('images/default.png') }}" style="width: 200px">
                 @endif
                 <div>
                     @if ($member->borrowing == 1)
@@ -36,7 +36,7 @@
                 </div>
                 <x-desc label="Number" content="{{ $member->member_number }}" />
                 <x-desc label="Email" content="{{ $member->email }}" />
-                <x-desc label="Date of Birth" content="{{ $member->date_of_birth }}" />
+                <x-desc label="Date of Birth" content="{{ $member->date_of_birth->format('Y-m-d') }}" />
                 @if ($member->gender == "M")
                     <x-desc label="Gender" content="Male" />
                 @else
@@ -46,7 +46,7 @@
                 <x-desc label="Handphone" content="{{ $member->handphone }}" />
                 <x-desc label="Employment" content="{{ $member->employment }}" />
                 <div class="d-flex justify-content-end pe-2">
-                    <x-dark-button class="btn btn-sm" onclick="window.history.back()">
+                    <x-dark-button class="btn btn-sm" href="{{ route('members.index') }}">
                         <i class="bi bi-arrow-left"></i> Back
                     </x-dark-button>
                 </div>

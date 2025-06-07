@@ -95,7 +95,7 @@ class BookController extends Controller
 
     /**
      * Update the specified resource in storage.
-     */
+    */
     public function update(Request $request, Book $book)
     {
         $validated = $request->validate([
@@ -111,16 +111,28 @@ class BookController extends Controller
             'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ]);
 
-        
+        // Jika file baru diupload
         if ($request->hasFile('photo')) {
+            // Hapus file lama jika ada
             if ($book->photo && file_exists(public_path('images/' . $book->photo))) {
                 unlink(public_path('images/' . $book->photo));
             }
+
             $file = $request->file('photo');
             $filename = time() . '_' . $file->getClientOriginalName();
             $file->move(public_path('images'), $filename);
             $validated['photo'] = $filename;
+
+        } elseif ($request->input('remove_photo') == '1') {
+            // Jika user menekan tombol "Remove File"
+            if ($book->photo && file_exists(public_path('images/' . $book->photo))) {
+                unlink(public_path('images/' . $book->photo));
+            }
+
+            $validated['photo'] = null;
+
         } else {
+            // Tidak upload baru & tidak dihapus → tetap gunakan yang lama
             $validated['photo'] = $book->photo;
         }
 
@@ -128,6 +140,7 @@ class BookController extends Controller
 
         return redirect()->route('books.index')->with('success', 'Book successfully updated');
     }
+
 
     /**
      * Remove the specified resource from storage.

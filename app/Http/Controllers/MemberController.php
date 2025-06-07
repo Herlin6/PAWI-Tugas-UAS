@@ -100,16 +100,24 @@ class MemberController extends Controller
             'name' => 'required|max:100',
             'email' => 'required|max:100|email|unique:members,email,' . $member->id,
             'date_of_birth' => 'required|date',
-            'gender' => 'required',
+            'gender' => 'required|in:M,F',
             'address' => 'required|max:255',
             'handphone' => 'required|max:15',
             'employment' => 'required|max:100',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'remove_photo' => 'nullable|in:1'
         ]);
 
-        // Handle photo upload
+        $removePhoto = $request->input('remove_photo') == '1';
+
+        // Hapus foto jika user menghapus manual atau mengunggah baru
+        if ($removePhoto && $member->photo && file_exists(public_path('images/' . $member->photo))) {
+            unlink(public_path('images/' . $member->photo));
+            $validated['photo'] = null;
+        }
+
+        // Upload foto baru
         if ($request->hasFile('photo')) {
-            // Hapus foto lama jika ada
             if ($member->photo && file_exists(public_path('images/' . $member->photo))) {
                 unlink(public_path('images/' . $member->photo));
             }
@@ -118,6 +126,9 @@ class MemberController extends Controller
             $photoName = time() . '_' . $photo->getClientOriginalName();
             $photo->move(public_path('images'), $photoName);
             $validated['photo'] = $photoName;
+        } elseif (!$removePhoto) {
+            // Foto tidak diubah
+            $validated['photo'] = $member->photo;
         }
 
         $member->update($validated);

@@ -12,7 +12,7 @@
             name="{{ $name }}" 
             rows="{{ $rows ?? 3 }}" 
             placeholder="{{ $placeholder ?? '' }}"
-            class="form-control bg-body-secondary main-color font-playfair border-dark-gold" 
+            class="form-control bg-body-secondary main-color font-playfair border-dark-gold scroll" 
             @if(!empty($required) && $required !== 'false') required @endif
         >{{ old($name, $attributes->get('value')) }}</textarea>
         @error($name)
