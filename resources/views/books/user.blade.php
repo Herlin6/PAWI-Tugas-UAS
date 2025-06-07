@@ -24,14 +24,14 @@
                             src="{{ asset('images/' . $item->photo) }}"
                             alt="{{ $item->judul }}"
                             class="img-fluid mb-2 rounded"
-                            style="width: 150px; object-fit: cover"
+                            style="height: 200px; object-fit: cover"
                         />
                         @else
                         <img
                             src="{{ asset('images/book-default.png') }}"
                             alt="{{ $item->judul }}"
                             class="img-fluid mb-2 rounded"
-                            style="width: 150px; object-fit: cover"
+                            style="height: 200px; object-fit: cover"
                         />
                         @endif
                     </div>

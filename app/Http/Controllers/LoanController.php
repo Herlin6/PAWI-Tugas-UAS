@@ -279,4 +279,12 @@ class LoanController extends Controller
 
         return redirect()->back()->with('success', 'Loan marked as returned.');
     }
+
+    /**
+     * Display a listing of the resource for users.
+     */
+    public function userIndex()
+    {
+        return view('loans.user');
+    }
 }

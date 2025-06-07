@@ -166,4 +166,12 @@ class MemberController extends Controller
 
         return redirect()->route('members.index')->with('success', 'Member successfully deleted');
     }
+
+    /**
+     * Display a listing of the resource for users.
+     */
+    public function userIndex()
+    {
+        return view('members.user');
+    }
 }
