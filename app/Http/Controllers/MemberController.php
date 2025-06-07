@@ -40,8 +40,11 @@ class MemberController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
+        if ($request->user()->cannot('create', Member::class)) {
+            return response()->view('errors.403', [], 403);
+        }
         return view('members.create');
     }
 
@@ -77,16 +80,22 @@ class MemberController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Member $member)
+    public function show(Request $request, Member $member)
     {
+        if ($request->user()->cannot('view', $member)) {
+            return response()->view('errors.403', [], 403);
+        }
         return view('members.show', compact('member'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Member $member)
+    public function edit(Request $request, Member $member)
     {
+        if ($request->user()->cannot('update', $member)) {
+            return response()->view('errors.403', [], 403);
+        }
         return view('members.edit', compact('member'));
     }
 
@@ -95,6 +104,10 @@ class MemberController extends Controller
      */
     public function update(Request $request, Member $member)
     {
+        if ($request->user()->cannot('update', $member)) {
+            return response()->view('errors.403', [], 403);
+        }
+
         $validated = $request->validate([
             'member_number' => 'required|max:15|unique:members,member_number,' . $member->id,
             'name' => 'required|max:100',
@@ -121,7 +134,6 @@ class MemberController extends Controller
             if ($member->photo && file_exists(public_path('images/' . $member->photo))) {
                 unlink(public_path('images/' . $member->photo));
             }
-
             $photo = $request->file('photo');
             $photoName = time() . '_' . $photo->getClientOriginalName();
             $photo->move(public_path('images'), $photoName);
@@ -139,8 +151,12 @@ class MemberController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Member $member)
+    public function destroy(Request $request, Member $member)
     {
+        if ($request->user()->cannot('delete', $member)) {
+            return response()->view('errors.403', [], 403);
+        }
+
         // Hapus file foto jika ada
         if ($member->photo && file_exists(public_path('images/' . $member->photo))) {
             unlink(public_path('images/' . $member->photo));

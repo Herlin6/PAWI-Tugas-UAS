@@ -19,8 +19,11 @@ class ReviewController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
+        if ($request->user()->cannot('create', Review::class)) {
+            return response()->view('errors.403', [], 403);
+        }
         return view('reviews.create');
     }
 
@@ -29,13 +32,17 @@ class ReviewController extends Controller
      */
     public function store(Request $request)
     {
+        if ($request->user()->cannot('create', Review::class)) {
+            return response()->view('errors.403', [], 403);
+        }
+
         $validated = $request->validate([
             'book_id' => 'required|exists:books,id',
             'rate' => 'required|integer|min:1|max:5',
             'comment' => 'nullable|string',
         ]);
 
-        $validated['user_id'] = request()->user()->id;
+        $validated['user_id'] = $request->user()->id;
 
         Review::create($validated);
 
@@ -46,16 +53,22 @@ class ReviewController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Review $review)
+    public function show(Request $request, Review $review)
     {
+        if ($request->user()->cannot('view', $review)) {
+            return response()->view('errors.403', [], 403);
+        }
         return view('reviews.show', compact('review'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Review $review)
+    public function edit(Request $request, Review $review)
     {
+        if ($request->user()->cannot('update', $review)) {
+            return response()->view('errors.403', [], 403);
+        }
         return view('reviews.edit', compact('review'));
     }
 
@@ -64,8 +77,12 @@ class ReviewController extends Controller
      */
     public function update(Request $request, Review $review)
     {
+        if ($request->user()->cannot('update', $review)) {
+            return response()->view('errors.403', [], 403);
+        }
+
         $validated = $request->validate([
-            'rate' => 'required|integer|min:1|max:5', // gunakan 'rate' sesuai field di database
+            'rate' => 'required|integer|min:1|max:5',
             'comment' => 'nullable|string',
         ]);
 
@@ -78,8 +95,11 @@ class ReviewController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Review $review)
+    public function destroy(Request $request, Review $review)
     {
+        if ($request->user()->cannot('delete', $review)) {
+            return response()->view('errors.403', [], 403);
+        }
         $bookId = $review->book_id;
         $review->delete();
         return redirect()->route('books.show', $bookId)
