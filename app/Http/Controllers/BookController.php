@@ -41,8 +41,11 @@ class BookController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
+        if ($request->user()->cannot('create', Book::class)) {
+            return response()->view('errors.403', [], 403);
+        }
         return view('books.create');
     }
 
@@ -51,6 +54,10 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
+        if ($request->user()->cannot('create', Book::class)) {
+            return response()->view('errors.403', [], 403);
+        }
+
         $validated = $request->validate([
             'book_number' => 'required|max:10|unique:books,book_number',
             'title' => 'required|max:255',
@@ -90,8 +97,11 @@ class BookController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Book $book)
+    public function edit(Request $request, Book $book)
     {
+        if ($request->user()->cannot('update', $book)) {
+            return response()->view('errors.403', [], 403);
+        }
         return view('books.edit', compact('book'));
     }
 
@@ -100,6 +110,10 @@ class BookController extends Controller
     */
     public function update(Request $request, Book $book)
     {
+        if ($request->user()->cannot('update', $book)) {
+            return response()->view('errors.403', [], 403);
+        }
+
         $validated = $request->validate([
             'book_number' => 'required|max:10|unique:books,book_number,' . $book->id,
             'title' => 'required|max:255',
@@ -147,8 +161,12 @@ class BookController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Book $book)
+    public function destroy(Request $request, Book $book)
     {
+        if ($request->user()->cannot('delete', $book)) {
+            return response()->view('errors.403', [], 403);
+        }
+
         // Hapus file foto jika ada
         if ($book->photo && file_exists(public_path('images/' . $book->photo))) {
             unlink(public_path('images/' . $book->photo));

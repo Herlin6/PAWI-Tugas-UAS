@@ -65,8 +65,6 @@
                 <i class="bi bi-list"></i>
               </a>
             </li>
-            {{-- <li class="nav-item d-none d-md-block"><a href="#" class="nav-link">Home</a></li>
-            <li class="nav-item d-none d-md-block"><a href="#" class="nav-link">Contact</a></li> --}}
           </ul>
           <!--end::Start Navbar Links-->
           <!--begin::End Navbar Links-->
@@ -92,23 +90,10 @@
                     alt="User Image"
                   />
                   <p>
-                    {{ Auth::user()->name }} - Web Developer
+                    {{ Auth::user()->name }} - {{ ucfirst(Auth::user()->role) }}
                     <small>Member since Nov. 2023</small>
                   </p>
                 </li>
-                <!--end::User Image-->
-                {{-- <!--begin::Menu Body-->
-                <li class="user-body">
-                  <!--begin::Row-->
-                  <div class="row">
-                    <div class="col-4 text-center"><a href="#">Followers</a></div>
-                    <div class="col-4 text-center"><a href="#">Sales</a></div>
-                    <div class="col-4 text-center"><a href="#">Friends</a></div>
-                  </div>
-                  <!--end::Row-->
-                </li>
-                <!--end::Menu Body--> --}}
-                <!--begin::Menu Footer-->
                 <li class="user-footer">
                     <div class="d-flex justify-content-between w-100">
                         <a href="#"><x-dark-button>Profile</x-dark-button></a>

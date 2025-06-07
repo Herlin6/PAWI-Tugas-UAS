@@ -55,8 +55,11 @@ class LoanController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
+        if ($request->user()->cannot('create', Loan::class)) {
+            return response()->view('errors.403', [], 403);
+        }
         $members = Member::all();
         $books = Book::all();
         return view('loans.create', compact('members', 'books'));
@@ -67,6 +70,10 @@ class LoanController extends Controller
      */
     public function store(Request $request)
     {
+        if ($request->user()->cannot('create', Loan::class)) {
+            return response()->view('errors.403', [], 403);
+        }
+
         $validated = $request->validate([
             'member_id' => 'required|exists:members,id',
             'book_id' => 'required|exists:books,id',
@@ -91,6 +98,7 @@ class LoanController extends Controller
             'book_id' => $validated['book_id'],
             'borrow_date' => Carbon::parse($validated['borrow_date'])->toDateString(),
             'due_date' => $due_date->toDateString(),
+            'loan_status' => 'borrowed',
         ]);
 
         // Set book availability menjadi false (not available)
@@ -111,18 +119,24 @@ class LoanController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Loan $loan)
+    public function show(Request $request, Loan $loan)
     {
+        if ($request->user()->cannot('view', $loan)) {
+            return response()->view('errors.403', [], 403);
+        }
         return view('loans.show', compact('loan'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Loan $loan)
+    public function edit(Request $request, Loan $loan)
     {
-        $members = \App\Models\Member::pluck('name', 'id')->toArray();
-        $books = \App\Models\Book::pluck('title', 'id')->toArray();
+        if ($request->user()->cannot('update', $loan)) {
+            return response()->view('errors.403', [], 403);
+        }
+        $members = Member::pluck('name', 'id')->toArray();
+        $books = Book::pluck('title', 'id')->toArray();
         $book = $loan->book;
         return view('loans.edit', compact('loan', 'members', 'books', 'book'));
     }
@@ -132,6 +146,10 @@ class LoanController extends Controller
      */
     public function update(Request $request, Loan $loan)
     {
+        if ($request->user()->cannot('update', $loan)) {
+            return response()->view('errors.403', [], 403);
+        }
+
         $validated = $request->validate([
             'member_id' => 'required|exists:members,id',
             'book_id' => 'required|exists:books,id',
@@ -147,28 +165,24 @@ class LoanController extends Controller
         $newMember = Member::find($validated['member_id']);
         $newBook = Book::find($validated['book_id']);
 
-        // Validasi apakah book dan member yang dipilih tersedia
+        // Validasi apakah member yang dipilih berbeda
         if ($loan->member_id != $validated['member_id']) {
-            // Set member lama tidak borrowing
             if ($oldMember) {
                 $oldMember->borrowing = false;
                 $oldMember->save();
             }
-            // Set member baru borrowing
             if ($newMember) {
                 $newMember->borrowing = true;
                 $newMember->save();
             }
         }
 
-        // Validasi apakah book yang dipilih tersedia
+        // Validasi apakah book yang dipilih berbeda
         if ($loan->book_id != $validated['book_id']) {
-            // Set book lama available
             if ($oldBook) {
                 $oldBook->availability = true;
                 $oldBook->save();
             }
-            // Set book baru not available
             if ($newBook) {
                 $newBook->availability = false;
                 $newBook->save();
@@ -185,7 +199,7 @@ class LoanController extends Controller
                 $newMember->borrowing = false;
                 $newMember->save();
             }
-        } elseif ($validated['loan_status'] === 'borrowed' || $validated['loan_status'] === 'overdue') {
+        } elseif (in_array($validated['loan_status'], ['borrowed', 'overdue'])) {
             if ($newBook) {
                 $newBook->availability = false;
                 $newBook->save();
@@ -212,8 +226,12 @@ class LoanController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Loan $loan)
+    public function destroy(Request $request, Loan $loan)
     {
+        if ($request->user()->cannot('delete', $loan)) {
+            return response()->view('errors.403', [], 403);
+        }
+
         // Kembalikan status buku menjadi available jika loan sedang borrowed/overdue
         if ($loan->book && in_array($loan->loan_status, ['borrowed', 'overdue'])) {
             $loan->book->availability = true;
@@ -234,8 +252,12 @@ class LoanController extends Controller
     /**
      * Mark loan as returned.
      */
-    public function markAsReturned(Loan $loan)
+    public function markAsReturned(Request $request, Loan $loan)
     {
+        if ($request->user()->cannot('markAsReturned', $loan)) {
+            return response()->view('errors.403', [], 403);
+        }
+
         if (in_array($loan->loan_status, ['borrowed', 'overdue'])) {
             $loan->update([
                 'loan_status' => 'returned',
