@@ -1,8 +1,21 @@
+@php
+    use Illuminate\Support\Str;
+@endphp
 <div class="table-responsive">
     <table class="table table-theme mt-3">
         <tr class="text-center">
             @foreach($columns as $key => $label)
-                <th class="px-2 px-lg-5 text-nowrap title-color">{{ $label }}</th>
+                @if ($key === 'action')
+                    @php
+                        $modelClass = '\\App\\Models\\' . ucfirst(Str::singular($page));
+                        $model = (isset($data[0]) && class_exists($modelClass)) ? app($modelClass)->find($data[0]['id']) : null;
+                    @endphp
+                    @if($model && auth()->user()->can('update', $model))
+                        <th class="px-2 px-lg-5 text-nowrap title-color">{{ $label }}</th>
+                    @endif
+                @else
+                    <th class="px-2 px-lg-5 text-nowrap title-color">{{ $label }}</th>
+                @endif
             @endforeach
         </tr>
 
@@ -24,23 +37,31 @@
                         }
                     @endphp
 
-                    <td class="{{ $tdClass }}">
-                        @if ($key === 'action')
-                            <div class="d-flex justify-content-center gap-2">
-                                <x-action-button
-                                    :onEdit="'window.location.href=`' . route($page . '.edit', $item['id']) . '`'"
-                                    :onDelete="'document.getElementById(\'delete-form-'. $item['id'] .'\').submit()'"
-                                />
-                                <form id="delete-form-{{ $item['id'] }}" action="{{ route($page . '.destroy', $item['id']) }}" method="POST" style="display:none;">
-                                    @csrf
-                                    @method('DELETE')
-                                </form>
-                            </div>
-
-                        @elseif ($key === 'availability')
+                    @if ($key === 'action')
+                        @php
+                            $modelClass = '\\App\\Models\\' . ucfirst(Str::singular($page));
+                            $model = class_exists($modelClass) ? app($modelClass)->find($item['id']) : null;
+                        @endphp
+                        @can('update', $model)
+                            <td class="{{ $tdClass }}">
+                                <div class="d-flex justify-content-center gap-2">
+                                    <x-action-button
+                                        :onEdit="'window.location.href=`' . route($page . '.edit', $item['id']) . '`'"
+                                        :onDelete="'document.getElementById(\'delete-form-'. $item['id'] .'\').submit()'"
+                                    />
+                                    <form id="delete-form-{{ $item['id'] }}" action="{{ route($page . '.destroy', $item['id']) }}" method="POST" style="display:none;">
+                                        @csrf
+                                        @method('DELETE')
+                                    </form>
+                                </div>
+                            </td>
+                        @endcan
+                    @elseif ($key === 'availability')
+                        <td class="{{ $tdClass }}">
                             {{ $item[$key] == 1 ? 'Available' : 'Not Available' }}
-
-                        @elseif ($key === 'gender')
+                        </td>
+                    @elseif ($key === 'gender')
+                        <td class="{{ $tdClass }}">
                             @if ($item[$key] === 'M')
                                 <span style="color: #5C8DBC">
                                     <i class="bi bi-gender-male me-1"></i>Male
@@ -50,11 +71,13 @@
                                     <i class="bi bi-gender-female me-1"></i>Female
                                 </span>
                             @endif
-
-                        @elseif (in_array($key, ['name', 'title', 'book_title', 'member_name']))
-                                {{ $item[$key] }}
-
-                        @elseif ($key === 'returning')
+                        </td>
+                    @elseif (in_array($key, ['name', 'title', 'book_title', 'member_name']))
+                        <td class="{{ $tdClass }}">
+                            {{ $item[$key] }}
+                        </td>
+                    @elseif ($key === 'returning')
+                        <td class="{{ $tdClass }}">
                             <div class="text-center">
                                 @if (in_array($item['loan_status'], ['borrowed', 'overdue']))
                                     <form action="{{ route('loans.return', $item['id']) }}" method="POST">
@@ -68,11 +91,12 @@
                                     Done
                                 @endif
                             </div>
-
-                        @else
+                        </td>
+                    @else
+                        <td class="{{ $tdClass }}">
                             {{ $item[$key] ?? '-' }}
-                        @endif
-                    </td>
+                        </td>
+                    @endif
                 @endforeach
             </tr>
         @empty

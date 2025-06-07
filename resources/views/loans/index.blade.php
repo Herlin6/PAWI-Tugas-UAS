@@ -6,9 +6,11 @@
     <x-search placeholder="Search by member or book" />
 
     <div class="mt-4">
-        <x-button href="{{ route('loans.create') }}">
-            Add Loan
-        </x-button>
+        @can('create', App\Models\Loan::class)
+            <x-button href="{{ route('loans.create') }}">
+                Add Loan
+            </x-button>
+        @endcan
     </div>
 
     <div class="mt-1">
