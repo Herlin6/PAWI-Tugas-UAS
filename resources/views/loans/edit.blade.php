@@ -24,7 +24,10 @@
                     label="Member"
                     name="member_id"
                     type="select"
-                    :options="$members"
+                    :options="$members->mapWithKeys(function($member) {
+                        $label = $member->user->name . ' (' . $member->user->email . ')';
+                        return [$member->id => $label];
+                    })->toArray()"
                     required="true"
                     placeholder="Select member"
                     :value="old('member_id', $loan->member_id)"

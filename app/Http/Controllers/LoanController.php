@@ -12,42 +12,26 @@ class LoanController extends Controller
 {
     public function index(Request $request)
     {
-        $search = $request->input('search');
-        $notFound = false;
-        $query = Loan::with(['book', 'member']);
+        $loans = Loan::with(['book', 'member.user'])->get();
 
-        if ($search) {
-            $query->whereHas('member', function ($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%");
-            })->orWhereHas('book', function ($q) use ($search) {
-                $q->where('title', 'like', "%{$search}%");
-            });
-        }
-
-        $results = $query->get();
-
-        if ($search && $results->isEmpty()) {
-            $notFound = true;
-            $results = collect([]);
-        }
-
-        $loans = $results->map(function ($loan) {
+        $tableData = $loans->map(function($loan) {
             return [
                 'id' => $loan->id,
                 'book_title' => $loan->book->title ?? '-',
-                'member_name' => $loan->member->name ?? '-',
-                'borrow_date' => $loan->borrow_date ? Carbon::parse($loan->borrow_date)->toDateString() : '-',
-                'due_date' => $loan->due_date ? Carbon::parse($loan->due_date)->toDateString() : '-',
+                'member_name' => $loan->member->user->name ?? '-',
+                'borrow_date' => $loan->borrow_date ? \Carbon\Carbon::parse($loan->borrow_date)->format('Y-m-d') : '-',
+                'due_date' => $loan->due_date ? \Carbon\Carbon::parse($loan->due_date)->format('Y-m-d') : '-',
                 'loan_status' => $loan->loan_status,
+                'returning' => $loan->return_date ? \Carbon\Carbon::parse($loan->return_date)->format('Y-m-d') : 'Not yet returned',
+                'action' => '',
             ];
-        });
+        })->values()->all();
 
-        return view('loans.index')->with([
-            'loans' => $loans,
-            'notFound' => $notFound,
-            'search' => $search,
+        return view('loans.index', [
+            'tableData' => $tableData
         ]);
     }
+
 
     public function create(Request $request)
     {
@@ -192,7 +176,6 @@ class LoanController extends Controller
             }
         }
 
-        // Update data loan
         $loan->update([
             'member_id' => $validated['member_id'],
             'book_id' => $validated['book_id'],

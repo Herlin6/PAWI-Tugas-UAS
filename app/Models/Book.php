@@ -32,8 +32,8 @@ class Book extends Model
         return $this->hasMany(Review::class);
     }
 
-    public function loan()
+    public function loans()
     {
-        return $this->hasMany(Loan::class, 'loan_id', 'id');
+        return $this->hasMany(\App\Models\Loan::class);
     }
 }

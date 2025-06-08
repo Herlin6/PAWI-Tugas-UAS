@@ -24,7 +24,7 @@
             </div>
             <div class="w-100">
                 <div class="d-flex justify-content-between align-items-center me-3 mb-1">
-                    <h2 class="mb-3 title-color">{{ $member->name }}</h2>
+                    <h2 class="mb-3 title-color">{{ $member->user->name }}</h2>
                     <x-action-button
                         :onEdit="'window.location.href=`' . route('members.edit', $member->id) . '`'"
                         :onDelete="'document.getElementById(\'delete-member-form\').submit()'"
@@ -35,7 +35,7 @@
                     </form>
                 </div>
                 <x-desc label="Number" content="{{ $member->member_number }}" />
-                <x-desc label="Email" content="{{ $member->email }}" />
+                <x-desc label="Email" content="{{ $member->user->email }}" />
                 <x-desc label="Date of Birth" content="{{ $member->date_of_birth->format('Y-m-d') }}" />
                 @if ($member->gender == "M")
                     <x-desc label="Gender" content="Male" />

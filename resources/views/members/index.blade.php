@@ -16,8 +16,18 @@
     <div class="mt-1">
         @php
             $columns = include resource_path('contents/member-table.php');
+            $tableData = $members->map(function($member) {
+                return [
+                    'id' => $member->id,
+                    'name' => $member->user->name ?? '-',
+                    'email' => $member->user->email ?? '-',
+                    'gender' => $member->gender,
+                    'address' => $member->address,
+                    'action' => '',
+                ];
+            });
         @endphp
-        <x-table :columns="$columns" :data="$members" page="members" />
+        <x-table :columns="$columns" :data="$tableData" page="members" />
     </div>
     <script src="{{ asset('js/search.js') }}"></script>
 </div>

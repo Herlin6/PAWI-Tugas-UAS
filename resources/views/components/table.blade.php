@@ -40,9 +40,9 @@
                     @if ($key === 'action')
                         @php
                             $modelClass = '\\App\\Models\\' . ucfirst(Str::singular($page));
-                            $model = class_exists($modelClass) ? app($modelClass)->find($item['id']) : null;
+                            $model = class_exists($modelClass) ? $modelClass::find($item['id']) : null;
                         @endphp
-                        @can('update', $model)
+                        @if($model && auth()->user()->can('update', $model))
                             <td class="{{ $tdClass }}">
                                 <div class="d-flex justify-content-center gap-2">
                                     <x-action-button
@@ -55,7 +55,7 @@
                                     </form>
                                 </div>
                             </td>
-                        @endcan
+                        @endif
                     @elseif ($key === 'availability')
                         <td class="{{ $tdClass }}">
                             {{ $item[$key] == 1 ? 'Available' : 'Not Available' }}
@@ -74,7 +74,7 @@
                         </td>
                     @elseif (in_array($key, ['name', 'title', 'book_title', 'member_name']))
                         <td class="{{ $tdClass }}">
-                            {{ $item[$key] }}
+                            {{ data_get($item, $key, '-') }}
                         </td>
                     @elseif ($key === 'returning')
                         <td class="{{ $tdClass }}">

@@ -62,26 +62,17 @@
                     placeholder="Enter number"
                     :value="old('member_number')"
                     :errorMessage="$errors->first('member_number')"
-                />
-
-                <x-input-text
-                    inRowLabel="Name"
-                    name="name"
-                    required="true"
-                    placeholder="Enter name"
-                    :value="old('name')"
-                    :errorMessage="$errors->first('name')"
-                />
-
-                <x-input-text
-                    inRowLabel="Email"
-                    name="email"
-                    type="email"
-                    required="true"
-                    placeholder="Enter email"
-                    :value="old('email')"
-                    :errorMessage="$errors->first('email')"
-                />
+                    />
+                    <x-input-option
+                        label="User Email"
+                        name="user_id"
+                        type="select"
+                        :options="$users->pluck('email', 'id')->toArray()"
+                        required="true"
+                        placeholder="Choose user"
+                        :selected="old('user_id')"
+                        :errorMessage="$errors->first('user_id')"
+                    />
 
                 <x-input-text
                     inRowLabel="Date Of Birth"
@@ -132,6 +123,7 @@
                     :value="old('employment')"
                     :errorMessage="$errors->first('employment')"
                 />
+
 
                 <div class="d-flex justify-content-between pe-2 mt-4">
                     <x-dark-button onclick="window.location.href='{{ route('members.index') }}'" type="button" class="me-2">

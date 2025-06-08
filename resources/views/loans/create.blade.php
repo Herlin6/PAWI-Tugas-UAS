@@ -10,10 +10,13 @@
             <div class="row">
                 <div class="col-lg-10">
                     <x-input-option
-                        label="Member Name"
+                        label="Member"
                         name="member_id"
                         type="select"
-                        :options="$members->pluck('name', 'id')->toArray()"
+                        :options="$members->mapWithKeys(function($member) {
+                            $label = $member->user->name . ' (' . $member->user->email . ')';
+                            return [$member->id => $label];
+                        })->toArray()"
                         required="true"
                         placeholder="Select Member"
                         :selected="old('member_id')"

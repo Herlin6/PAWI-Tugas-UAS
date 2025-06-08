@@ -39,15 +39,15 @@ class MemberController extends Controller
         if ($request->user()->cannot('create', Member::class)) {
             return response()->view('errors.403', [], 403);
         }
-        return view('members.create');
+        $users = \App\Models\User::whereDoesntHave('member')->where('role', '!=', 'admin')->get();
+        return view('members.create', compact('users'));
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
+            'user_id' => 'required|exists:users,id',
             'member_number' => 'required|max:15|unique:members,member_number',
-            'name' => 'required|max:100',
-            'email' => 'required|max:100|email|unique:members,email',
             'date_of_birth' => 'required|date',
             'gender' => 'required',
             'address' => 'required|max:255',
@@ -63,9 +63,19 @@ class MemberController extends Controller
             $validated['photo'] = $photoName;
         }
 
-        Member::create($validated);
+        $member = Member::create($validated);
 
-        return redirect()->route('members.index')->with('success', 'Members successfully added');
+        // Ubah role user menjadi "member"
+        $user = \App\Models\User::find($request->user_id);
+        $user->role = 'member';
+
+        // Jika ingin mengubah nama user dari input form (misal ada input name di form)
+        if ($request->filled('name')) {
+            $user->name = $request->input('name');
+        }
+        $user->save();
+
+        return redirect()->route('members.index')->with('success', 'Member successfully added');
     }
 
     public function show(Request $request, Member $member)
@@ -86,14 +96,8 @@ class MemberController extends Controller
 
     public function update(Request $request, Member $member)
     {
-        if ($request->user()->cannot('update', $member)) {
-            return response()->view('errors.403', [], 403);
-        }
-
         $validated = $request->validate([
             'member_number' => 'required|max:15|unique:members,member_number,' . $member->id,
-            'name' => 'required|max:100',
-            'email' => 'required|max:100|email|unique:members,email,' . $member->id,
             'date_of_birth' => 'required|date',
             'gender' => 'required|in:M,F',
             'address' => 'required|max:255',
@@ -127,6 +131,12 @@ class MemberController extends Controller
 
         $member->update($validated);
 
+        // Update nama user jika ada input name di form
+        if ($request->filled('name')) {
+            $member->user->name = $request->input('name');
+            $member->user->save();
+        }
+
         return redirect()->route('members.index')->with('success', 'Member successfully updated');
     }
 
@@ -138,6 +148,11 @@ class MemberController extends Controller
 
         if ($member->photo && file_exists(public_path('images/' . $member->photo))) {
             unlink(public_path('images/' . $member->photo));
+        }
+
+        if ($member->user) {
+            $member->user->role = 'guest';
+            $member->user->save();
         }
 
         $member->delete();

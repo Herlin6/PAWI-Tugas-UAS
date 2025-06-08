@@ -7,12 +7,13 @@
         <div class="w-100">
             <h2 class="mb-3 title-color">{{ ucfirst($loan->loan_status) }}</h2>
 
-            <x-desc label="Member Name" content="{{ $loan->member->name }}" />
+            <x-desc label="Member Name" content="{{ $loan->member->user->name ?? '-' }}" />
+            <x-desc label="Member Email" content="{{ $loan->member->user->email ?? '-' }}" />
             <x-desc label="Book Title" content="{{ $loan->book->title }}" />
-            <x-desc label="Borrow Date" content="{{ $loan->borrow_date }}" />
-            <x-desc label="Due Date" content="{{ $loan->due_date }}" />
+            <x-desc label="Borrow Date" content="{{ $loan->borrow_date ? \Carbon\Carbon::parse($loan->borrow_date)->format('Y-m-d') : '-' }}" />
+            <x-desc label="Due Date" content="{{ $loan->due_date ? \Carbon\Carbon::parse($loan->due_date)->format('Y-m-d') : '-' }}" />
             <x-desc label="Loan Status" content="{{ ucfirst($loan->loan_status) }}" />
-            <x-desc label="Return Date" content="{{ $loan->return_date ?? 'Not yet returned' }}" />
+            <x-desc label="Return Date" content="{{ $loan->return_date ? \Carbon\Carbon::parse($loan->return_date)->format('Y-m-d') : 'Not yet returned' }}" />
 
             <div class="d-flex justify-content-between mt-4">
                 <x-action-button
