@@ -32,9 +32,9 @@ class Member extends Model
         return $this->hasMany(Review::class, 'review_id', 'id');
     }
 
-    public function loan()
+    public function loans()
     {
-        return $this->hasMany(Loan::class, 'loan_id', 'id');
+        return $this->hasMany(\App\Models\Loan::class);
     }
     
     public function user()

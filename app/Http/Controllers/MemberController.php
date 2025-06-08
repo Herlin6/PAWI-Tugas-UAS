@@ -146,18 +146,24 @@ class MemberController extends Controller
             return response()->view('errors.403', [], 403);
         }
 
-        if ($member->photo && file_exists(public_path('images/' . $member->photo))) {
-            unlink(public_path('images/' . $member->photo));
+        try {
+            if ($member->photo && file_exists(public_path('images/' . $member->photo))) {
+                unlink(public_path('images/' . $member->photo));
+            }
+
+            if ($member->user) {
+                $member->user->role = 'guest';
+                $member->user->save();
+            }
+
+            $member->delete();
+
+            return redirect()->route('members.index')->with('success', 'Member successfully deleted');
+        } catch (\Illuminate\Database\QueryException $e) {
+            // Tangkap error foreign key constraint
+            return redirect()->route('members.index')
+                ->with('error', 'Failed to delete! The member still has active loans.');
         }
-
-        if ($member->user) {
-            $member->user->role = 'guest';
-            $member->user->save();
-        }
-
-        $member->delete();
-
-        return redirect()->route('members.index')->with('success', 'Member successfully deleted');
     }
 
     public function userIndex()

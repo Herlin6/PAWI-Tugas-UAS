@@ -144,14 +144,20 @@ class BookController extends Controller
             return response()->view('errors.403', [], 403);
         }
 
-        // Hapus file foto jika ada
-        if ($book->photo && file_exists(public_path('images/' . $book->photo))) {
-            unlink(public_path('images/' . $book->photo));
+        try {
+            // Delete photo if exists
+            if ($book->photo && file_exists(public_path('images/' . $book->photo))) {
+                unlink(public_path('images/' . $book->photo));
+            }
+
+            $book->delete();
+
+            return redirect()->route('books.index')->with('success', 'Book successfully deleted');
+        } catch (\Illuminate\Database\QueryException $e) {
+            // Catch foreign key constraint error
+            return redirect()->route('books.index')
+                ->with('error', 'Failed to delete! The book is currently on loan.');
         }
-
-        $book->delete();
-
-        return redirect()->route('books.index')->with('success', 'Book successfully deleted');
     }
 
     public function userIndex(Request $request)
