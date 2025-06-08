@@ -38,7 +38,7 @@ class LoanController extends Controller
         if ($request->user()->cannot('create', Loan::class)) {
             return response()->view('errors.403', [], 403);
         }
-        $members = Member::all();
+        $members = Member::with('user')->get();
         $books = Book::all();
         return view('loans.create', compact('members', 'books'));
     }
@@ -104,7 +104,7 @@ class LoanController extends Controller
         if ($request->user()->cannot('update', $loan)) {
             return response()->view('errors.403', [], 403);
         }
-        $members = Member::pluck('name', 'id')->toArray();
+        $members = Member::with('user')->get();
         $books = Book::pluck('title', 'id')->toArray();
         $book = $loan->book;
         return view('loans.edit', compact('loan', 'members', 'books', 'book'));

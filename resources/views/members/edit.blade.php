@@ -53,8 +53,8 @@
 
             <div class="w-100">
                 <x-input-text inRowLabel="Number" name="member_number" required="true" placeholder="Enter member number" value="{{ old('member_number') ?? $member->member_number }}" />
-                <x-input-text inRowLabel="Name" name="name" required="true" placeholder="Enter name" value="{{ old('name') ?? $member->name }}" />
-                <x-input-text inRowLabel="Email" name="email" required="true" placeholder="Enter email" value="{{ old('email') ?? $member->email }}" />
+                <x-input-text inRowLabel="Name" name="name" required="true" placeholder="Enter name" value="{{ old('name') ?? ($member->user->name ?? '') }}" />
+                <x-input-text inRowLabel="Email" name="email" required="true" placeholder="Enter email" value="{{ old('email') ?? ($member->user->email ?? '') }}" />
                 @php 
                     use Carbon\Carbon; 
                     $dateofbirth = old('date_of_birth') ?: $member->date_of_birth; 

@@ -104,18 +104,20 @@ class MemberController extends Controller
             'handphone' => 'required|max:15',
             'employment' => 'required|max:100',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'remove_photo' => 'nullable|in:1'
+            'remove_photo' => 'nullable|in:0,1',
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $member->user_id,
         ]);
 
         $removePhoto = $request->input('remove_photo') == '1';
 
-        // Hapus foto jika user menghapus manual atau mengunggah baru
+        // Remove photo if requested or uploading new one
         if ($removePhoto && $member->photo && file_exists(public_path('images/' . $member->photo))) {
             unlink(public_path('images/' . $member->photo));
             $validated['photo'] = null;
         }
 
-        // Upload foto baru
+        // Upload new photo
         if ($request->hasFile('photo')) {
             if ($member->photo && file_exists(public_path('images/' . $member->photo))) {
                 unlink(public_path('images/' . $member->photo));
@@ -125,16 +127,19 @@ class MemberController extends Controller
             $photo->move(public_path('images'), $photoName);
             $validated['photo'] = $photoName;
         } elseif (!$removePhoto) {
-            // Foto tidak diubah
             $validated['photo'] = $member->photo;
         }
 
-        $member->update($validated);
+        // Hanya ambil field yang ada di tabel members
+        $memberFields = collect($validated)->except(['name', 'email'])->toArray();
+        $member->update($memberFields);
 
-        // Update nama user jika ada input name di form
-        if ($request->filled('name')) {
-            $member->user->name = $request->input('name');
-            $member->user->save();
+        // Update name and email in user table
+        $user = $member->user;
+        if ($user) {
+            $user->name = $request->input('name');
+            $user->email = $request->input('email');
+            $user->save();
         }
 
         return redirect()->route('members.index')->with('success', 'Member successfully updated');
