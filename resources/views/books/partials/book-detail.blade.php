@@ -1,3 +1,14 @@
+<div class="container py-2 ms-lg-2 d-flex justify-content-between align-items-center flex-lg-row flex-column">
+    <h1 class="mb-3 title-color">{{ $book->title }}</h1>
+    <x-action-button
+        :onEdit="'window.location.href=`' . route('books.edit', $book->id) . '`'"
+        :onDelete="'document.getElementById(\'delete-book-form\').submit()'"
+    />
+    <form id="delete-book-form" action="{{ route('books.destroy', $book->id) }}" method="POST" style="display:none;">
+        @csrf
+        @method('DELETE')
+    </form>
+</div>
 <div
     class="d-flex align-items-center flex-lg-row flex-column align-items-lg-start"
 >
@@ -24,19 +35,6 @@
         </div>
     </div>
     <div class="w-100">
-        <div
-            class="d-flex justify-content-between align-items-center me-3 mb-1"
-        >
-            <h2 class="mb-3 title-color">{{ $book->title }}</h2>
-            <x-action-button
-                :onEdit="'window.location.href=`' . route('books.edit', $book->id) . '`'"
-                :onDelete="'document.getElementById(\'delete-book-form\').submit()'"
-            />
-            <form id="delete-book-form" action="{{ route('books.destroy', $book->id) }}" method="POST" style="display:none;">
-                @csrf
-                @method('DELETE')
-            </form>
-        </div>
         <x-desc label="Book Number" content="{{ $book->book_number }}" />
         <x-desc label="Author" content="{{ $book->author }}" />
         <x-desc label="Publisher" content="{{ $book->publisher }}" />

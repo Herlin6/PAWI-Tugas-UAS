@@ -90,7 +90,6 @@
                   />
                   <p>
                     {{ Auth::user()->name }} - {{ ucfirst(Auth::user()->role) }}
-                    <small>Member since Nov. 2023</small>
                   </p>
                 </li>
                 <li class="user-footer">

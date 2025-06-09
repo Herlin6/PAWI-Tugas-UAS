@@ -1,8 +1,18 @@
-@extends('layout.main')
-@section('title', 'Member Details')
+@extends('layout.general')
 @section('content')
 
     <div class="container">
+        <div class="container py-2 ms-lg-2 d-flex justify-content-between align-items-center flex-lg-row flex-column">
+            <h1 class="mb-3 title-color">{{ $member->user->name }}</h1>
+            <x-action-button
+                :onEdit="'window.location.href=`' . route('members.edit', $member->id) . '`'"
+                :onDelete="'document.getElementById(\'delete-member-form\').submit()'"
+            />
+            <form id="delete-member-form" action="{{ route('members.destroy', $member->id) }}" method="POST" style="display:none;">
+                @csrf
+                @method('DELETE')
+            </form>
+        </div>
         <div class="d-flex justify-content-between align-items-center flex-lg-row flex-column align-items-lg-start">
             <div class="text-center p-4 pt-0">
                 @if ($member->photo && file_exists(public_path('images/' . $member->photo)))
@@ -23,17 +33,6 @@
                 </div>
             </div>
             <div class="w-100">
-                <div class="d-flex justify-content-between align-items-center me-3 mb-1">
-                    <h2 class="mb-3 title-color">{{ $member->user->name }}</h2>
-                    <x-action-button
-                        :onEdit="'window.location.href=`' . route('members.edit', $member->id) . '`'"
-                        :onDelete="'document.getElementById(\'delete-member-form\').submit()'"
-                    />
-                    <form id="delete-member-form" action="{{ route('members.destroy', $member->id) }}" method="POST" style="display:none;">
-                        @csrf
-                        @method('DELETE')
-                    </form>
-                </div>
                 <x-desc label="Number" content="{{ $member->member_number }}" />
                 <x-desc label="Email" content="{{ $member->user->email }}" />
                 <x-desc label="Date of Birth" content="{{ $member->date_of_birth->format('Y-m-d') }}" />
