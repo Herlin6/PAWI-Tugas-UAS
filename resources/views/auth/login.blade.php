@@ -10,6 +10,7 @@
                         src="assets/img/GDeBookLogo2.png"
                         alt="Logo GDeBook"
                         style="max-width: 140px"
+                        class="py-3"
                     />
                     <h4>LOGIN</h4>
                 </div>

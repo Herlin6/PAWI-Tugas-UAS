@@ -7,6 +7,7 @@
         src="{{ asset('assets/img/GDeBookLogo2.png') }}"
         alt="GDeBook Logo Register"
         width="200"
+        class="py-5"
     />
     <h3 class="sub-title-color mb-4">Create Your Account</h3>
 
