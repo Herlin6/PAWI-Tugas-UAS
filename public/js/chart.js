@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
         title: {
             text: "Top 5 Most Borrowed Books",
             align: "left",
-            style: { color: "#e0dbc0" },
+            style: { color: "#e0dbc0", fontFamily: "Playfair Display, serif" },
         },
         xAxis: {
             type: "category",

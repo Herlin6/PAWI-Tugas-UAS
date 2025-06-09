@@ -55,7 +55,7 @@
     <div class="app-wrapper">
       <!--begin::Header-->
       <nav class="navbar navbar-expand-lg fixed-top d-flex justify-content-end">
-        <div class="container-fluid">
+        <div class="container-fluid d-flex">
           <a class='brand-link' href='/dist/pages/'>
             <img
               src="{{ asset('assets/img/GDeBookLogo1.png') }}"
@@ -76,7 +76,7 @@
             <span class="navbar-toggler-icon"></span>
           </button>
 
-          <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+          <div class="collapse navbar-collapse justify-content-start ms-lg-5" id="navbarNav">
             <ul class="navbar-nav font-playfair fs-5">
               <li class="nav-item">
                 <a class="nav-link title-color" aria-current="page" href="{{ route('dashboard') }}">Home</a>
@@ -93,6 +93,42 @@
             </ul>
           </div>
         </div>
+        <ul class="navbar-nav ms-auto">
+            <li class="nav-item dropdown user-menu">
+              <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                <span class="d-none d-md-inline me-1">{{ Auth::user()->name }}</span>
+                <img
+                  src="{{ asset('assets/img/user2-160x160.jpg') }}"
+                  class="user-image rounded-circle shadow"
+                  alt="User Image"
+                />
+              </a>
+              <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
+                <li class="user-header main-bg-body main-color">
+                  <img
+                    src="{{ asset('assets/img/user2-160x160.jpg') }}"
+                    class="rounded-circle shadow"
+                    alt="User Image"
+                  />
+                  <p>
+                    {{ Auth::user()->name }} - {{ ucfirst(Auth::user()->role) }}
+                    <small>Member since Nov. 2023</small>
+                  </p>
+                </li>
+                <li class="user-footer">
+                    <div class="d-flex justify-content-between w-100">
+                        <a href="#"><x-dark-button>Profile</x-dark-button></a>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <x-dark-button type="submit">
+                                {{ __('Log Out') }}
+                            </x-dark-button>
+                        </form>
+                    </div>
+                </li>
+              </ul>
+            </li>
+          </ul>
       </nav>
 
       <!--end::Header-->

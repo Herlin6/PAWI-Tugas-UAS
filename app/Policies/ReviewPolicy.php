@@ -29,7 +29,7 @@ class ReviewPolicy
 
     public function delete(User $user, Review $review): bool
     {
-        return $user->role === 'admin';
+        return $user->role === 'admin' || $user->id === $review->user_id;
     }
 
     public function restore(User $user, Review $review): bool

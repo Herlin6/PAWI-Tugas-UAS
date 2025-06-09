@@ -4,9 +4,15 @@
         <i class="bi bi-star-fill title-color fs-4"></i>
         {{ number_format($reviews->avg('rate'), 1) ?? '-' }}
         <div class="mt-2">
-            <x-button data-bs-toggle="modal" data-bs-target="#addReviewModal">
-                <i class="bi bi-plus-circle"></i> Add Review
-            </x-button>
+            @php
+                $userReview = $book->reviews->where('user_id', auth()->id())->first();
+            @endphp
+
+            @if (auth()->user()->can('create', App\Models\Review::class) && !$userReview)
+                <x-button data-bs-toggle="modal" data-bs-target="#addReviewModal">
+                    <i class="bi bi-plus-circle"></i> Add Review
+                </x-button>
+            @endif
         </div>
     </h3>
     <div class="row mt-3">
@@ -29,26 +35,26 @@
                             @endfor
                         </div>
                     </div>
+                    @can('delete', $review)
                     <form action="{{ route('reviews.destroy', $review->id) }}" method="POST" class="text-start">
-                        @csrf
-                        @method('DELETE')
-                        <button
-                            type="button"
-                            class="btn ms-1"
-                            style="background-color: #7b3b3b; color: #e2ba76"
-                        >
-                            <i class="bi bi-trash"></i>
-                        </button>
+                      @csrf
+                      @method('DELETE')
+                      <button
+                          type="submit"
+                          class="btn ms-1"
+                          style="background-color: #7b3b3b; color: #e2ba76"
+                      >
+                          <i class="bi bi-trash"></i>
+                      </button>
                     </form>
+                    @endcan
                 </div>
                 <div class="overflow-auto scroll mt-2" style="max-height: 90px;">
                     {{ $review->comment }}
                 </div>
             </x-card>
         @empty
-            <div class="col-12">
-                <div class="alert alert-secondary">No reviews yet.</div>
-            </div>
+            <x-card>No reviews yet.</x-card>
         @endforelse
     </div>
 </div>

@@ -33,6 +33,15 @@ class ReviewController extends Controller
             'comment' => 'nullable|string',
         ]);
 
+        $existingReview = Review::where('book_id', $validated['book_id'])
+                                ->where('user_id', $request->user()->id)
+                                ->first();
+
+        if ($existingReview) {
+            return redirect()->route('books.show', $validated['book_id'])
+                ->with('error', 'You have already submitted a review for this book.');
+        }
+
         $validated['user_id'] = $request->user()->id;
 
         Review::create($validated);

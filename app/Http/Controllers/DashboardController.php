@@ -16,7 +16,6 @@ class DashboardController extends Controller
             ->limit(5)
             ->get();
 
-        // Format untuk chart.js: [["Book Title", jumlah_peminjaman], ...]
         $chartData = $topBooks->map(function($book) {
             return [$book->title, $book->loans_count];
         });
@@ -24,5 +23,20 @@ class DashboardController extends Controller
         return view('dashboard.index', [
             'chartData' => $chartData
         ]);
+    }
+    
+    public function userDashboard()
+    {
+        $topBooks = Book::select('title')
+            ->withCount('loans')
+            ->orderByDesc('loans_count')
+            ->limit(5)
+            ->get();
+
+        $chartData = $topBooks->map(function($book) {
+            return [$book->title, $book->loans_count];
+        });
+
+        return view('dashboard.user', ['chartData' => $chartData]);
     }
 }

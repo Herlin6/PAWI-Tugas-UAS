@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LoanController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReviewController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -18,11 +19,13 @@ Route::get('/dashboard', function () {
     if (!Auth::check()) {
         return redirect()->route('login');
     }
+
     $user = Auth::user();
+
     if ($user->role === 'admin') {
-        return app(DashboardController::class)->index();
+        return app(DashboardController::class)->index(); // admin
     } else {
-        return view('dashboard.user');
+        return app(DashboardController::class)->userDashboard(); // user
     }
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -80,5 +83,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 Route::put('/loans/{loan}', [LoanController::class, 'update'])->name('loans.update');
+
+Route::delete('/reviews/{review}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
 
 require __DIR__.'/auth.php';
