@@ -56,7 +56,7 @@ Route::get('/loans', function (Request $request) {
     if ($user && $user->role === 'admin') {
         return app(LoanController::class)->index($request);
     } else {
-        return app(LoanController::class)->userIndex();
+        return app(LoanController::class)->userIndex($request);
     }
 })->middleware(['auth', 'verified'])->name('loans.index');
 

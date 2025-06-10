@@ -7,6 +7,7 @@ use App\Models\Loan;
 use App\Models\Member;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoanController extends Controller
 {
@@ -239,8 +240,30 @@ class LoanController extends Controller
         return redirect()->back()->with('success', 'Loan marked as returned.');
     }
 
-    public function userIndex()
+    public function userIndex(Request $request)
     {
-        return view('loans.user');
+        if ($request->user()->cannot('viewAny', Loan::class)) {
+            return response()->view('errors.403', [], 403);
+        }
+
+        $user = Auth::user();
+
+        // Cari ID member yang sesuai dengan user login
+        $memberId = Member::where('user_id', $user->id)->value('id');
+
+        if (!$memberId) {
+            return back()->with('error', 'Data member tidak ditemukan.');
+        }
+
+        $loans = Loan::with('book')
+            ->where('member_id', $memberId)
+            ->orderByDesc('created_at')
+            ->get();
+
+        return view('loans.user', compact('loans'));
     }
+
+
+
+
 }
