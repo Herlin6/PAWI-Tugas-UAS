@@ -2,7 +2,11 @@
     <h3>
         Reviews &nbsp;&nbsp;
         <i class="bi bi-star-fill title-color fs-4"></i>
-        {{ number_format($reviews->avg('rate'), 1) ?? '-' }}
+        @if ($reviews->count() > 0 && $reviews->avg('rate') !== null)
+            {{ number_format($reviews->avg('rate'), 1) }}
+        @else
+            No rating yet.
+        @endif
         <div class="mt-2">
             @php
                 $userReview = $book->reviews->where('user_id', auth()->id())->first();

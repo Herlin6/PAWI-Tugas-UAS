@@ -18,28 +18,42 @@
             >
                 <x-book-card class="p-2" style="width: 240px">
                     <div class="w-full text-center">
-                        @if ($item->photo &&
-                        file_exists(public_path('images/' . $item->photo)))
-                        <img
-                            src="{{ asset('images/' . $item->photo) }}"
-                            alt="{{ $item->judul }}"
-                            class="img-fluid mb-2 rounded"
-                            style="height: 200px; object-fit: cover"
-                        />
+                        @if ($item->photo && file_exists(public_path('images/' . $item->photo)))
+                            <img
+                                src="{{ asset('images/' . $item->photo) }}"
+                                alt="{{ $item->judul }}"
+                                class="img-fluid mb-2 rounded"
+                                style="height: 230px; object-fit: cover"
+                            />
                         @else
-                        <img
-                            src="{{ asset('images/book-default.png') }}"
-                            alt="{{ $item->judul }}"
-                            class="img-fluid mb-2 rounded"
-                            style="height: 200px; object-fit: cover"
-                        />
+                            <img
+                                src="{{ asset('images/book-default.png') }}"
+                                alt="{{ $item->judul }}"
+                                class="img-fluid mb-2 rounded"
+                                style="height: 230px; object-fit: cover"
+                            />
                         @endif
                     </div>
-                    <h6 class="fw-bold mt-2" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ $item->title }}</h6>
 
-                    {{-- <div class=">
-                        <i class="bi bi-star-fill"></i> {{ $book->rating }}
-                    </div> --}}
+                    <h6 class="fw-bold mt-2" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                        {{ $item->title }}
+                    </h6>
+
+                    {{-- Rating --}}
+                    <div class="main-color">
+                        <i class="bi bi-star-fill text-warning"></i>
+                        {{ $item->reviews->count() > 0 ? number_format($item->reviews->avg('rate'), 1) : 'No rating yet.' }}
+                    </div>
+
+                    {{-- Availability --}}
+                    @php
+                        $isAvailable = $item->availability == 1;
+                        $availabilityText = $isAvailable ? 'Available' : 'Not Available';
+                        $availabilityClass = $isAvailable ? 'g-text-success' : 'g-text-danger';
+                    @endphp
+                    <div class="{{ $availabilityClass }}">
+                        {{ $availabilityText }}
+                    </div>
                 </x-book-card>
             </a>
             @endforeach

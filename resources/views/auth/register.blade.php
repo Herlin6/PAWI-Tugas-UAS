@@ -69,7 +69,7 @@
         <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
 
         <div class="d-flex justify-content-between">
-            <a href="{{ url('/login') }}" class="btn main-bg-body text-white">
+            <a onclick="window.history.back()" class="btn main-bg-body text-white">
                 Cancel
             </a>
             <x-button type="submit">
