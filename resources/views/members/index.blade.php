@@ -5,7 +5,7 @@
 <div class="container">
     <x-search placeholder="Search by name or email" />
     
-    <div class="mt-4">
+    <div class="mt-4" data-aos="zoom-in" data-aos-duration="700">
         @can('create', App\Models\Member::class)
             <x-button href="{{ route('members.create') }}">
                 Add Member

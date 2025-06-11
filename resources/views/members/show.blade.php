@@ -1,7 +1,7 @@
 @extends('layout.general')
 @section('content')
 
-    <div class="container">
+    <div class="container" style="overflow-x: hidden;">
         <div class="container py-2 ms-lg-2 d-flex justify-content-between align-items-center flex-lg-row flex-column">
             <h1 class="mb-3 title-color">{{ $member->user->name }}</h1>
             <x-action-button
@@ -14,7 +14,7 @@
             </form>
         </div>
         <div class="d-flex justify-content-between align-items-center flex-lg-row flex-column align-items-lg-start">
-            <div class="text-center p-4 pt-0">
+            <div class="text-center p-4 pt-0" data-aos="fade-right" data-aos-duration="500">
                 @if ($member->photo && file_exists(public_path('images/' . $member->photo)))
                     <img src="{{ asset('images/' . $member->photo) }}" style="width: 200px">
                 @else
@@ -33,17 +33,31 @@
                 </div>
             </div>
             <div class="w-100">
-                <x-desc label="Number" content="{{ $member->member_number }}" />
-                <x-desc label="Email" content="{{ $member->user->email }}" />
-                <x-desc label="Date of Birth" content="{{ $member->date_of_birth->format('Y-m-d') }}" />
-                @if ($member->gender == "M")
-                    <x-desc label="Gender" content="Male" />
-                @else
-                    <x-desc label="Gender" content="Female" />
-                @endif
-                <x-desc label="Address" content="{{ $member->address }}" />
-                <x-desc label="Handphone" content="{{ $member->handphone }}" />
-                <x-desc label="Employment" content="{{ $member->employment }}" />
+                <div data-aos="fade-left" data-aos-duration="400">
+                    <x-desc label="Number" content="{{ $member->member_number }}" />
+                </div>
+                <div data-aos="fade-left" data-aos-duration="4500">
+                    <x-desc label="Email" content="{{ $member->user->email }}" />
+                </div>
+                <div data-aos="fade-left" data-aos-duration="600">
+                    <x-desc label="Date of Birth" content="{{ $member->date_of_birth->format('Y-m-d') }}" />
+                </div>
+                <div data-aos="fade-left" data-aos-duration="700">
+                    @if ($member->gender == "M")
+                        <x-desc label="Gender" content="Male" />
+                    @else
+                        <x-desc label="Gender" content="Female" />
+                    @endif
+                </div>
+                <div data-aos="fade-left" data-aos-duration="800">
+                    <x-desc label="Address" content="{{ $member->address }}" />
+                </div>
+                <div data-aos="fade-left" data-aos-duration="900">
+                    <x-desc label="Handphone" content="{{ $member->handphone }}" />
+                </div>
+                <div data-aos="fade-left" data-aos-duration="1000">
+                    <x-desc label="Employment" content="{{ $member->employment }}" />
+                </div>
                 <div class="d-flex justify-content-end pe-2">
                     <x-dark-button class="btn btn-sm" href="{{ route('members.index') }}">
                         <i class="bi bi-arrow-left"></i> Back

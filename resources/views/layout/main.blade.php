@@ -47,6 +47,7 @@
     <!--begin::GDeBook Theme Override-->
     <link rel="stylesheet" href="{{ asset('css/theme.css') }}">
     <!--end::GDeBook Theme Override-->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   </head>
   <!--end::Head-->
   <!--begin::Body-->
@@ -72,21 +73,32 @@
             <!--end::Fullscreen Toggle--> --}}
             <!--begin::User Menu Dropdown-->
             <li class="nav-item dropdown user-menu">
-              <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                <span class="d-none d-md-inline me-1">{{ Auth::user()->name }}</span>
-                <img
-                  src="{{ asset('assets/img/user2-160x160.jpg') }}"
-                  class="user-image rounded-circle shadow"
-                  alt="User Image"
-                />
+              @php
+                  $user = Auth::user();
+                  $photoPath = $user->photo && file_exists(public_path('images/' . $user->photo))
+                      ? asset('images/' . $user->photo)
+                      : asset('images/default.png');
+              @endphp
+
+              <a href="#" class="nav-link dropdown-toggle d-flex align-items-center gap-2" data-bs-toggle="dropdown">
+                <span class="d-none d-md-inline">{{ $user->name }}</span>
+                <div class="rounded-circle overflow-hidden" style="width: 30px; height: 30px">
+                  <img
+                      src="{{ $photoPath }}"
+                      alt="User Avatar"
+                      class="img-fluid"
+                      style="object-fit: cover; height: 100%; width: 100%"
+                  />
+                </div>
               </a>
               <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
                 <!--begin::User Image-->
                 <li class="user-header main-bg-body main-color">
                   <img
-                    src="{{ asset('assets/img/user2-160x160.jpg') }}"
+                    src="{{ $photoPath }}"
                     class="rounded-circle shadow"
                     alt="User Image"
+                    style="object-fit: cover; aspect-ratio: 1/1;"
                   />
                   <p>
                     {{ Auth::user()->name }} - {{ ucfirst(Auth::user()->role) }}
@@ -258,40 +270,52 @@
     <!-- SweetAlert JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
 
-<script type="text/javascript">
-    $('.show_confirm').click(function(event) {
-        var form = $(this).closest("form");
-        var nama = $(this).data("nama");
-        event.preventDefault();
-        swal({
-            title: `Are you sure you want to delete this ${name} data?`,
-            text: "If you delete this, it will be gone forever.",
-            icon: "warning",
-            buttons: true,
-            dangerMode: true,
-        }).then((willDelete) => {
-            if (willDelete) {
-                form.submit();
-            }
+  <script type="text/javascript">
+      $('.show_confirm').click(function(event) {
+          var form = $(this).closest("form");
+          var nama = $(this).data("nama");
+          event.preventDefault();
+          swal({
+              title: `Are you sure you want to delete this ${name} data?`,
+              text: "If you delete this, it will be gone forever.",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+          }).then((willDelete) => {
+              if (willDelete) {
+                  form.submit();
+              }
+          });
+      });
+
+      @if (session('success'))
+          swal({
+              title: "Good Job!",
+              text: "{{ session('success') }}",
+              icon: "success",
+          });
+      @endif
+
+      @if (session('error'))
+      swal({
+          title: "Oops!",
+          text: "{{ session('error') }}",
+          icon: "error",
+      });
+      @endif
+
+  </script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    window.addEventListener('load', function () {
+        AOS.init({
+            once: false,
+            mirror: true,
+            offset: 0,
         });
+
+        setTimeout(() => AOS.refresh(), 100);
     });
-
-    @if (session('success'))
-        swal({
-            title: "Good Job!",
-            text: "{{ session('success') }}",
-            icon: "success",
-        });
-    @endif
-
-    @if (session('error'))
-    swal({
-        title: "Oops!",
-        text: "{{ session('error') }}",
-        icon: "error",
-    });
-    @endif
-
 </script>
     <!--end::OverlayScrollbars Configure-->
     <!--end::Script-->

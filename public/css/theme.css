@@ -115,6 +115,7 @@
 
 body {
     font-family: var(--font-open-sans);
+    overflow-x: hidden;
 }
 .font-playfair {
     font-family: var(--font-playfair);
@@ -163,4 +164,27 @@ input:-webkit-autofill:focus {
 }
 .scroll::-webkit-scrollbar {
     display: none;
+}
+
+@media (min-width: 992px) {
+    .table-responsive {
+        overflow-x: hidden;
+    }
+}
+.clickable-row {
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.clickable-row:hover {
+    transform: scale(1.015);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+.table td:first-child,
+.table th:first-child {
+    padding-left: 1rem;
+}
+
+.table td:last-child,
+.table th:last-child {
+    padding-right: 1rem;
 }

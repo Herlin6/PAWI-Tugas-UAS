@@ -5,7 +5,7 @@
 <div class="container">
     <x-search placeholder="Search by member or book" />
 
-    <div class="mt-4">
+    <div class="mt-4" data-aos="zoom-in" data-aos-duration="700"data-aos="zoom-in" data-aos-duration="700">
         @can('create', App\Models\Loan::class)
             <x-button href="{{ route('loans.create') }}">
                 Add Loan

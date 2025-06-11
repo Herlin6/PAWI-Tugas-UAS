@@ -34,6 +34,7 @@
     />
     <link rel="stylesheet" href="{{ asset('css/adminlte.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/theme.css') }}">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   </head>
   <body class="bg-body-tertiary">
     <div class="app-wrapper">
@@ -49,20 +50,31 @@
           </a>
           <ul class="navbar-nav ms-auto">
             <li class="nav-item dropdown user-menu">
-              <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                <span class="d-none d-md-inline me-1">{{ Auth::user()->name }}</span>
-                <img
-                  src="{{ asset('assets/img/user2-160x160.jpg') }}"
-                  class="user-image rounded-circle shadow"
-                  alt="User Image"
-                />
+              @php
+                  $user = Auth::user();
+                  $photoPath = $user->photo && file_exists(public_path('images/' . $user->photo))
+                      ? asset('images/' . $user->photo)
+                      : asset('images/default.png');
+              @endphp
+
+              <a href="#" class="nav-link dropdown-toggle d-flex align-items-center gap-2" data-bs-toggle="dropdown">
+                <span class="d-none d-md-inline">{{ $user->name }}</span>
+                <div class="rounded-circle overflow-hidden" style="width: 30px; height: 30px">
+                  <img
+                      src="{{ $photoPath }}"
+                      alt="User Avatar"
+                      class="img-fluid"
+                      style="object-fit: cover; height: 100%; width: 100%"
+                  />
+                </div>
               </a>
               <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
                 <li class="user-header main-bg-body main-color">
                   <img
-                    src="{{ asset('assets/img/user2-160x160.jpg') }}"
+                    src="{{ $photoPath }}"
                     class="rounded-circle shadow"
                     alt="User Image"
+                    style="object-fit: cover; aspect-ratio: 1/1;"
                   />
                   <p>
                     {{ Auth::user()->name }} - {{ ucfirst(Auth::user()->role) }}
@@ -171,5 +183,17 @@
       @endif
 
   </script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    window.addEventListener('load', function () {
+        AOS.init({
+            once: false,
+            mirror: true,
+            offset: 0,
+        });
+
+        setTimeout(() => AOS.refresh(), 100);
+    });
+</script>
   </body>
 </html>

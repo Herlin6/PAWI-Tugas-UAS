@@ -15,7 +15,7 @@
         collection. Easily search, browse, and check availability, all in one
         place.
     </p>
-    <div class="mt-5">
+    <div class="mt-5" style="overflow-x: auto;">
         <div>
             {{-- <h3 class="sub-title-color">Top 5 Most Borrowed Books</h3> --}}
             <div>

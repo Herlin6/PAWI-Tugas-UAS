@@ -47,6 +47,7 @@
         <!--begin::GDeBook Theme Override-->
         <link rel="stylesheet" href="{{ asset('css/theme.css') }}" />
         <!--end::GDeBook Theme Override-->
+        <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
         <style>
             .app-main .app-content-header {
                 padding: 0 !important;
@@ -132,6 +133,18 @@
                         },
                     });
                 }
+            });
+        </script>
+        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+        <script>
+            window.addEventListener('load', function () {
+                AOS.init({
+                    once: false,
+                    mirror: true,
+                    offset: 0,
+                });
+
+                setTimeout(() => AOS.refresh(), 100);
             });
         </script>
         <!--end::OverlayScrollbars Configure-->

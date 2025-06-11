@@ -5,7 +5,7 @@
 
     <table class="table table-theme mt-3">
         <thead class="text-center">
-            <tr>
+            <tr data-aos="fade-left" data-aos-duration="500">
                 <th>Book</th>
                 <th>Title</th>
                 <th>Borrow Date</th>
@@ -22,7 +22,7 @@
                         default => 'g-text-danger',
                     };
                 @endphp
-                <tr class="align-middle clickable-row" data-href="{{ route('loans.show', $loan->id) }}">
+                <tr class="align-middle clickable-row" data-href="{{ route('loans.show', $loan->id) }}" data-aos="fade-left" data-aos-duration="500">
                     <td>
                         @if ($loan->book->photo && file_exists(public_path('images/' . $loan->book->photo)))
                             <img src="{{ asset('images/' . $loan->book->photo) }}" alt="Cover" style="height: 65px; object-fit: cover;" class="rounded">

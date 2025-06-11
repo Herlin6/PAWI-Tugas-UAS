@@ -27,9 +27,9 @@ class Member extends Model
         'date_of_birth' => 'date'
     ];
 
-    public function review()
+    public function reviews()
     {
-        return $this->hasMany(Review::class, 'review_id', 'id');
+        return $this->hasMany(Review::class, 'user_id', 'id');
     }
 
     public function loans()

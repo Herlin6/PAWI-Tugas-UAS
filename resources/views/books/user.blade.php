@@ -1,5 +1,14 @@
 @extends('layout.user')
 @section('content')
+<style>
+    .book-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .book-card:hover {
+        transform: scale(1.03);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+</style>
 
 <div class="container">
     <x-search placeholder="Search by title or author" />
@@ -14,9 +23,18 @@
             @foreach($books as $item)
             <a
                 href="{{ route('books.show', $item->id) }}"
-                class="text-decoration-none"
+                class="text-decoration-none book-card"
             >
-                <x-book-card class="p-2" style="width: 240px">
+            @php
+                $durations = [500, 600, 700, 800, 900];
+                $duration = $durations[$loop->index % count($durations)];
+            @endphp
+                <x-book-card
+                    class="p-2"
+                    style="width: 240px"
+                    data-aos="fade-up"
+                    data-aos-duration="{{ $duration }}"
+                >
                     <div class="w-full text-center">
                         @if ($item->photo && file_exists(public_path('images/' . $item->photo)))
                             <img

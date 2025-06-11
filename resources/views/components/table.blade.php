@@ -20,6 +20,10 @@
         </tr>
 
         @forelse($data as $item)
+            @php
+                // $aosDuration = 500 + ($loop->index * 5);
+                $aosDuration = 500;
+            @endphp
             <tr class="align-middle clickable-row" data-href="{{ route($page . '.show', $item['id']) }}">
                 @foreach($columns as $key => $label)
                     @php
@@ -43,7 +47,7 @@
                             $model = class_exists($modelClass) ? $modelClass::find($item['id']) : null;
                         @endphp
                         @if($model && auth()->user()->can('update', $model))
-                            <td class="{{ $tdClass }}">
+                            <td class="{{ $tdClass }}" data-aos="fade-left" data-aos-duration="{{ $aosDuration }}">
                                 <div class="d-flex justify-content-center gap-2">
                                     <x-action-button
                                         :onEdit="'window.location.href=`' . route($page . '.edit', $item['id']) . '`'"
@@ -57,11 +61,11 @@
                             </td>
                         @endif
                     @elseif ($key === 'availability')
-                        <td class="{{ $tdClass }}">
+                        <td class="{{ $tdClass }}" data-aos="fade-left" data-aos-duration="{{ $aosDuration }}">
                             {{ $item[$key] == 1 ? 'Available' : 'Not Available' }}
                         </td>
                     @elseif ($key === 'gender')
-                        <td class="{{ $tdClass }}">
+                        <td class="{{ $tdClass }}" data-aos="fade-left" data-aos-duration="{{ $aosDuration }}">
                             @if ($item[$key] === 'M')
                                 <span style="color: #5C8DBC">
                                     <i class="bi bi-gender-male me-1"></i>Male
@@ -73,11 +77,11 @@
                             @endif
                         </td>
                     @elseif (in_array($key, ['name', 'title', 'book_title', 'member_name']))
-                        <td class="{{ $tdClass }}">
+                        <td class="{{ $tdClass }}" data-aos="fade-left" data-aos-duration="{{ $aosDuration }}">
                             {{ data_get($item, $key, '-') }}
                         </td>
                     @elseif ($key === 'returning')
-                        <td class="{{ $tdClass }}">
+                        <td class="{{ $tdClass }}" data-aos="fade-left" data-aos-duration="{{ $aosDuration }}">
                             <div class="text-center">
                                 @if (in_array($item['loan_status'], ['borrowed', 'overdue']))
                                     <form action="{{ route('loans.return', $item['id']) }}" method="POST">
@@ -93,7 +97,7 @@
                             </div>
                         </td>
                     @else
-                        <td class="{{ $tdClass }}">
+                        <td class="{{ $tdClass }}" data-aos="fade-left" data-aos-duration="{{ $aosDuration }}">
                             {{ $item[$key] ?? '-' }}
                         </td>
                     @endif
@@ -108,6 +112,7 @@
         @endforelse
     </table>
 </div>
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const rows = document.querySelectorAll('.clickable-row');
