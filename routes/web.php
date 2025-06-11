@@ -50,6 +50,11 @@ Route::get('/members', function (Request $request) {
     }
 })->middleware(['auth', 'verified'])->name('members.index');
 
+Route::get('/my-profile', function (Request $request) {
+    return app(MemberController::class)->userIndex($request);
+})->middleware(['auth', 'verified'])->name('members.profile');
+Route::put('/my-profile/update', [MemberController::class, 'userUpdate'])->name('members.userUpdate')->middleware(['auth', 'verified']);
+
 // Loans index: admin ke index, selain admin ke loans.user
 Route::get('/loans', function (Request $request) {
     $user = Auth::user();
@@ -64,11 +69,6 @@ Route::get('/loans', function (Request $request) {
 Route::resource('/books', BookController::class)->except(['index']);
 Route::resource('/members', MemberController::class)->except(['index']);
 Route::resource('/loans', LoanController::class)->except(['index']);
-
-// Books user page (opsional, jika ingin akses langsung)
-Route::get('/books-user', [BookController::class, 'userIndex'])->name('books.user');
-Route::get('/members-user', [MemberController::class, 'userIndex'])->name('members.user');
-Route::get('/loans-user', [LoanController::class, 'userIndex'])->name('loans.user');
 
 // Reviews & profile
 Route::resource('reviews', \App\Http\Controllers\ReviewController::class);

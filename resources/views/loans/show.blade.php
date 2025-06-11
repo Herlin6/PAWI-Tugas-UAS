@@ -6,15 +6,16 @@
         <div class="w-100">
             <div class="d-flex justify-content-between align-items-center flex-row">
                 <h1 class="mb-3 title-color">{{ ucfirst($loan->loan_status) }}</h1>
-                <x-action-button
-                :onEdit="'window.location.href=`' . route('books.edit', $loan->book->id) . '`'"
-                :onDelete="'document.getElementById(\'delete-loan-form\').submit()'"
-                dataName="Book"
-                />
-                <form id="delete-loan-form" action="{{ route('loans.destroy', $loan->id) }}" method="POST" style="display:none;">
-                    @csrf
-                    @method('DELETE')
-                </form>
+                @if (Auth::user()->role === 'admin')
+                    <x-action-button
+                        :onEdit="'window.location.href=`' . route('books.edit', $book->id) . '`'"
+                        :onDelete="'document.getElementById(\'delete-book-form\').submit()'"
+                    />
+                    <form id="delete-book-form" action="{{ route('books.destroy', $book->id) }}" method="POST" style="display:none;">
+                        @csrf
+                        @method('DELETE')
+                    </form>
+                @endif
             </div>
             <div data-aos="fade-left" data-aos-duration="400">
                 <x-desc label="Member Name" content="{{ $loan->member->user->name ?? '-' }}" />

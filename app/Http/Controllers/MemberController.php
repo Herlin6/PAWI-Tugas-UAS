@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Member;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MemberController extends Controller
 {
@@ -142,7 +143,12 @@ class MemberController extends Controller
             $user->save();
         }
 
-        return redirect()->route('members.index')->with('success', 'Member successfully updated');
+        if (Auth::user()->role === 'admin') {
+            return redirect()->route('members.index')->with('success', 'Member successfully updated');
+        } else {
+            return redirect()->route('members.profile')->with('success', 'Profile successfully updated');
+        }
+
     }
 
     public function destroy(Request $request, Member $member)
@@ -173,6 +179,8 @@ class MemberController extends Controller
 
     public function userIndex()
     {
-        return view('members.user');
+        $member = Auth::user()->member;
+        return view('members.user', compact('member'));
     }
+
 }

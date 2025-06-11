@@ -1,13 +1,15 @@
 <div class="container py-2 ms-lg-2 d-flex justify-content-between align-items-center flex-lg-row flex-column">
     <h1 class="mb-3 title-color">{{ $book->title }}</h1>
-    <x-action-button
-        :onEdit="'window.location.href=`' . route('books.edit', $book->id) . '`'"
-        :onDelete="'document.getElementById(\'delete-book-form\').submit()'"
-    />
-    <form id="delete-book-form" action="{{ route('books.destroy', $book->id) }}" method="POST" style="display:none;">
-        @csrf
-        @method('DELETE')
-    </form>
+    @if (Auth::user()->role === 'admin')
+        <x-action-button
+            :onEdit="'window.location.href=`' . route('books.edit', $book->id) . '`'"
+            :onDelete="'document.getElementById(\'delete-book-form\').submit()'"
+        />
+        <form id="delete-book-form" action="{{ route('books.destroy', $book->id) }}" method="POST" style="display:none;">
+            @csrf
+            @method('DELETE')
+        </form>
+    @endif
 </div>
 <div
     class="d-flex align-items-center flex-lg-row flex-column align-items-lg-start"

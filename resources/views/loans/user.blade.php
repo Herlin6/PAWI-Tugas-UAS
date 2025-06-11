@@ -3,8 +3,9 @@
 <div class="container">
     <h1 class="text-center mb-5 title-color">Loan History</h1>
 
-    <table class="table table-theme mt-3">
-        <thead class="text-center">
+    <div class="table-responsive">
+        <table class="table table-theme mt-3">
+            <thead class="text-center">
             <tr data-aos="fade-left" data-aos-duration="500">
                 <th>Book</th>
                 <th>Title</th>
@@ -15,13 +16,13 @@
         </thead>
         <tbody>
             @forelse ($loans as $loan)
-                @php
+            @php
                     $statusClass = match($loan->loan_status) {
                         'returned' => 'g-text-success',
                         'borrowed' => 'g-text-warning',
                         default => 'g-text-danger',
                     };
-                @endphp
+                    @endphp
                 <tr class="align-middle clickable-row" data-href="{{ route('loans.show', $loan->id) }}" data-aos="fade-left" data-aos-duration="500">
                     <td>
                         @if ($loan->book->photo && file_exists(public_path('images/' . $loan->book->photo)))
@@ -37,13 +38,14 @@
                         {{ ucfirst($loan->loan_status) }}
                     </td>
                 </tr>
-            @empty
+                @empty
                 <tr>
                     <td colspan="5" class="text-center">No loan history available.</td>
                 </tr>
-            @endforelse
-        </tbody>
-    </table>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
 </div>
 @endsection
 <script>
@@ -57,5 +59,16 @@
                 }
             });
         });
+    });
+</script>
+<script>
+    window.addEventListener('load', function () {
+        AOS.init({
+            once: false,
+            mirror: true,
+            offset: 0,
+        });
+
+        setTimeout(() => AOS.refresh(), 100);
     });
 </script>

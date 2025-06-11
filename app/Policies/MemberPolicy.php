@@ -15,7 +15,7 @@ class MemberPolicy
 
     public function view(User $user, Member $member): bool
     {
-        return in_array($user->role, ['admin', 'member']);
+        return $user->role === 'admin' || $user->id === $member->user_id;
     }
 
     public function create(User $user): bool
@@ -25,7 +25,7 @@ class MemberPolicy
 
     public function update(User $user, Member $member): bool
     {
-        return $user->role === 'admin';
+        return $user->role === 'admin' || $user->id === $member->user_id;
     }
 
     public function delete(User $user, Member $member): bool

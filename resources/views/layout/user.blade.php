@@ -89,7 +89,7 @@
                 <a class="nav-link title-color" href="{{ route('loans.index') }}">Loan</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link title-color" href="{{ route('profile.index') }}">Profile</a>
+                <a class="nav-link title-color" href="{{ route('members.profile') }}">Profile</a>
               </li>
             </ul>
           </div>
@@ -104,14 +104,16 @@
             @endphp
 
             <a href="#" class="nav-link dropdown-toggle d-flex align-items-center gap-2" data-bs-toggle="dropdown">
-              <span class="d-none d-md-inline">{{ $user->name }}</span>
-              <div class="rounded-circle overflow-hidden" style="width: 30px; height: 30px">
-                <img
-                    src="{{ $photoPath }}"
-                    alt="User Avatar"
-                    class="img-fluid"
-                    style="object-fit: cover; height: 100%; width: 100%"
-                />
+              <div class="d-none d-lg-flex gap-2 align-items-center">
+                <span class="d-none d-md-inline">{{ $user->name }}</span>
+                <div class="rounded-circle overflow-hidden" style="width: 30px; height: 30px;">
+                  <img
+                  src="{{ $photoPath }}"
+                  alt="User Avatar"
+                  class="img-fluid"
+                  style="object-fit: cover; height: 100%; width: 100%;"
+                  />
+                </div>
               </div>
             </a>
             <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
@@ -127,8 +129,7 @@
                 </p>
               </li>
               <li class="user-footer">
-                  <div class="d-flex justify-content-between w-100">
-                      <a href="#"><x-dark-button>Profile</x-dark-button></a>
+                  <div class="d-flex justify-content-center w-100">
                       <form method="POST" action="{{ route('logout') }}">
                           @csrf
                           <x-dark-button type="submit">
@@ -256,17 +257,6 @@
       @endif
   </script>
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-  <script>
-    window.addEventListener('load', function () {
-        AOS.init({
-            once: false,
-            mirror: true,
-            offset: 0,
-        });
-
-        setTimeout(() => AOS.refresh(), 100);
-    });
-  </script>
     <!--end::OverlayScrollbars Configure-->
     <!--end::Script-->
   </body>

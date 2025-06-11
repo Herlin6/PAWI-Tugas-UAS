@@ -79,5 +79,15 @@
         @endif
     </div>
 </div>
+<script>
+    window.addEventListener('load', function () {
+        AOS.init({
+            once: false,
+            mirror: true,
+            offset: 0,
+        });
 
+        setTimeout(() => AOS.refresh(), 100);
+    });
+</script>
 @endsection

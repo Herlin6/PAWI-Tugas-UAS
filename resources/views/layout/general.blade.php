@@ -81,9 +81,7 @@
                   </p>
                 </li>
                 <li class="user-footer">
-                    <div class="d-flex justify-content-between w-100">
-                        <a href="#"><x-dark-button>Profile</x-dark-button></a>
-
+                    <div class="d-flex justify-content-center w-100">
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <x-dark-button type="submit">
