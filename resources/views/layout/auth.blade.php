@@ -76,7 +76,7 @@
                 <!--begin::App Content-->
                 <div class="app-content">
                     <!--begin::Container-->
-                    <div class="container-fluid p-0 m-0">
+                    <div class="container-fluid p-0 m-0" style="overflow-x: hidden">
                         <!--begin::Row-->
                         @yield('content')
                         <!--end::Row-->
@@ -139,8 +139,8 @@
         <script>
             window.addEventListener('load', function () {
                 AOS.init({
-                    once: false,
-                    mirror: true,
+                    once: true,
+                    mirror: false,
                     offset: 0,
                 });
 

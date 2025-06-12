@@ -11,8 +11,9 @@
                         alt="Logo GDeBook"
                         style="max-width: 140px"
                         class="py-3"
+                        data-aos="zoom-in" data-aos-duration="400"
                     />
-                    <h4>LOGIN</h4>
+                    <h4 data-aos="zoom-in" data-aos-duration="500">LOGIN</h4>
                 </div>
                 <x-auth-session-status class="mb-4" :status="session('status')" />
                 <form method="POST" action="{{ route('login') }}">

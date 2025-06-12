@@ -13,7 +13,7 @@
         @endcan
     </div>
 
-    <div class="mt-1">
+    <div class="mt-1" data-aos="fade-up" data-aos-duration="700">
         @php
             $columns = include resource_path('contents/member-table.php');
             $tableData = $members->map(function($member) {

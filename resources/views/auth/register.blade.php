@@ -8,8 +8,9 @@
         alt="GDeBook Logo Register"
         width="200"
         class="py-5"
+        data-aos="zoom-in" data-aos-duration="400"
     />
-    <h3 class="sub-title-color mb-4">Create Your Account</h3>
+    <h3 class="sub-title-color mb-4" data-aos="zoom-in" data-aos-duration="500">Create Your Account</h3>
 
     <form
         method="POST"
