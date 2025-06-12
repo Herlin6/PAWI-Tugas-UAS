@@ -179,6 +179,9 @@ class MemberController extends Controller
 
     public function userIndex()
     {
+        if (Auth::user()->role !== 'member') {
+            abort(403, 'Unauthorized');
+        }
         $member = Auth::user()->member;
         return view('members.user', compact('member'));
     }

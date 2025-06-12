@@ -14,7 +14,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Dashboard
 Route::get('/dashboard', function () {
     if (!Auth::check()) {
         return redirect()->route('login');
@@ -23,13 +22,12 @@ Route::get('/dashboard', function () {
     $user = Auth::user();
 
     if ($user->role === 'admin') {
-        return app(DashboardController::class)->index(); // admin
+        return app(DashboardController::class)->index();
     } else {
-        return app(DashboardController::class)->userDashboard(); // user
+        return app(DashboardController::class)->userDashboard();
     }
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-// Books index: admin ke index, selain admin ke books.user
 Route::get('/books', function (Request $request) {
     $user = Auth::user();
     if ($user && $user->role === 'admin') {
@@ -39,13 +37,11 @@ Route::get('/books', function (Request $request) {
     }
 })->middleware(['auth', 'verified'])->name('books.index');
 
-// Members index: hanya admin yang bisa akses
 Route::get('/members', function (Request $request) {
     $user = Auth::user();
     if ($user && $user->role === 'admin') {
         return app(MemberController::class)->index($request);
     } else {
-        // Tampilkan halaman 403 jika bukan admin
         abort(403, 'Unauthorized');
     }
 })->middleware(['auth', 'verified'])->name('members.index');
@@ -55,7 +51,6 @@ Route::get('/my-profile', function (Request $request) {
 })->middleware(['auth', 'verified'])->name('members.profile');
 Route::put('/my-profile/update', [MemberController::class, 'userUpdate'])->name('members.userUpdate')->middleware(['auth', 'verified']);
 
-// Loans index: admin ke index, selain admin ke loans.user
 Route::get('/loans', function (Request $request) {
     $user = Auth::user();
     if ($user && $user->role === 'admin') {
@@ -65,12 +60,10 @@ Route::get('/loans', function (Request $request) {
     }
 })->middleware(['auth', 'verified'])->name('loans.index');
 
-// Resource routes (tanpa index)
 Route::resource('/books', BookController::class)->except(['index']);
 Route::resource('/members', MemberController::class)->except(['index']);
 Route::resource('/loans', LoanController::class)->except(['index']);
 
-// Reviews & profile
 Route::resource('reviews', \App\Http\Controllers\ReviewController::class);
 Route::patch('/loans/{loan}/return', [LoanController::class, 'markAsReturned'])->name('loans.return');
 Route::middleware('auth')->group(function () {

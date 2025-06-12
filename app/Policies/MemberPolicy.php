@@ -10,12 +10,12 @@ class MemberPolicy
 {
     public function viewAny(User $user): bool
     {
-        return $user->role === 'admin';
+        return $user->role === 'admin' || $user->role === 'member';
     }
 
-    public function view(User $user, Member $member): bool
+    public function view(User $user): bool
     {
-        return $user->role === 'admin' || $user->id === $member->user_id;
+        return $user->role === 'admin';
     }
 
     public function create(User $user): bool

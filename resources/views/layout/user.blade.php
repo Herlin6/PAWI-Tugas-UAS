@@ -85,12 +85,16 @@
               <li class="nav-item">
                 <a class="nav-link title-color" href="{{ route('books.index') }}">Book</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link title-color" href="{{ route('loans.index') }}">Loan</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link title-color" href="{{ route('members.profile') }}">Profile</a>
-              </li>
+              @can('viewAny', App\Models\Loan::class)
+                <li class="nav-item">
+                  <a class="nav-link title-color" href="{{ route('loans.index') }}">Loan</a>
+                </li>
+              @endcan
+              @can('viewAny', App\Models\Member::class)
+                <li class="nav-item">
+                  <a class="nav-link title-color" href="{{ route('members.profile') }}">Profile</a>
+                </li>
+              @endcan
             </ul>
           </div>
         </div>
@@ -98,8 +102,9 @@
           <li class="nav-item dropdown user-menu">
             @php
                 $user = Auth::user();
-                $photoPath = $user->photo && file_exists(public_path('images/' . $user->photo))
-                    ? asset('images/' . $user->photo)
+                $memberPhoto = optional($user->member)->photo;
+                $photoPath = $memberPhoto && file_exists(public_path('images/' . $memberPhoto))
+                    ? asset('images/' . $memberPhoto)
                     : asset('images/default.png');
             @endphp
 

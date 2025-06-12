@@ -96,6 +96,10 @@
                                 @endif
                             </div>
                         </td>
+                    @elseif ($key === 'address')
+                        <td class="{{ $tdClass }}" data-aos="fade-left" data-aos-duration="{{ $aosDuration }}" style="max-width: 250px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                            {{ $item[$key] ?? '-' }}
+                        </td>
                     @else
                         <td class="{{ $tdClass }}" data-aos="fade-left" data-aos-duration="{{ $aosDuration }}">
                             {{ $item[$key] ?? '-' }}

@@ -10,12 +10,12 @@ class LoanPolicy
 {
     public function viewAny(User $user): bool
     {
-        return in_array($user->role, ['admin', 'member']);
+        return $user->role === 'admin' || $user->role === 'member';
     }
 
-    public function view(User $user, Loan $loan): bool
+    public function view(User $user): bool
     {
-        return in_array($user->role, ['admin', 'member']);
+        return $user->role === 'admin';
     }
 
     public function create(User $user): bool
