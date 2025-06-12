@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('handphone', 15);
             $table->string('employment', 100)->nullable();
             $table->boolean('borrowing')->default(false);
-            $table->string('photo', 50)->nullable();
+            $table->string('photo', 100)->nullable();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
