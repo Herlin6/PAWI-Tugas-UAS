@@ -59,7 +59,6 @@
                         inRowLabel="Return Date"
                         name="return_date"
                         type="date"
-                        required="true"
                         value="{{ old('return_date', $loan->return_date ? \Carbon\Carbon::parse($loan->return_date)->format('Y-m-d') : '') }}"
                     />
                 </div>

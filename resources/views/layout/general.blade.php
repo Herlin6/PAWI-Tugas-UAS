@@ -52,8 +52,8 @@
             <li class="nav-item dropdown user-menu">
               @php
                   $user = Auth::user();
-                  $photoPath = $user->photo && file_exists(public_path('images/' . $user->photo))
-                      ? asset('images/' . $user->photo)
+                  $photoPath = $user->photo && file_exists(public_path($user->photo))
+                      ? asset($user->photo)
                       : asset('images/default.png');
               @endphp
 

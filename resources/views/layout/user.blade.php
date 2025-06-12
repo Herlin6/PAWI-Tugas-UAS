@@ -95,6 +95,14 @@
                   <a class="nav-link title-color" href="{{ route('members.profile') }}">Profile</a>
                 </li>
               @endcan
+              <li class="nav-item">
+                <form method="POST" action="{{ route('logout') }}" id="logout-form">
+                    @csrf
+                </form>
+                <a class="nav-link title-color" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    Log Out
+                </a>
+              </li>
             </ul>
           </div>
         </div>
@@ -103,8 +111,8 @@
             @php
                 $user = Auth::user();
                 $memberPhoto = optional($user->member)->photo;
-                $photoPath = $memberPhoto && file_exists(public_path('images/' . $memberPhoto))
-                    ? asset('images/' . $memberPhoto)
+                $photoPath = $memberPhoto && file_exists(public_path($memberPhoto))
+                    ? asset($memberPhoto)
                     : asset('images/default.png');
             @endphp
 

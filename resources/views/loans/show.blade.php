@@ -8,10 +8,10 @@
                 <h1 class="mb-3 title-color">{{ ucfirst($loan->loan_status) }}</h1>
                 @if (Auth::user()->role === 'admin')
                     <x-action-button
-                        :onEdit="'window.location.href=`' . route('books.edit', $book->id) . '`'"
-                        :onDelete="'document.getElementById(\'delete-book-form\').submit()'"
+                        :onEdit="'window.location.href=`' . route('loans.edit', $loan->id) . '`'"
+                        :onDelete="'document.getElementById(\'delete-loan-form\').submit()'"
                     />
-                    <form id="delete-book-form" action="{{ route('books.destroy', $book->id) }}" method="POST" style="display:none;">
+                    <form id="delete-loan-form" action="{{ route('loans.destroy', $loan->id) }}" method="POST" style="display:none;">
                         @csrf
                         @method('DELETE')
                     </form>

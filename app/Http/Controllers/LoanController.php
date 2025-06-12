@@ -23,6 +23,7 @@ class LoanController extends Controller
                 'borrow_date' => $loan->borrow_date ? \Carbon\Carbon::parse($loan->borrow_date)->format('Y-m-d') : '-',
                 'due_date' => $loan->due_date ? \Carbon\Carbon::parse($loan->due_date)->format('Y-m-d') : '-',
                 'loan_status' => $loan->loan_status,
+                'return_date' => $loan->return_date,
                 'returning' => $loan->return_date ? \Carbon\Carbon::parse($loan->return_date)->format('Y-m-d') : 'Not yet returned',
                 'action' => '',
             ];
@@ -128,13 +129,23 @@ class LoanController extends Controller
             'loan_status' => 'required|in:borrowed,returned,overdue',
         ]);
 
-        // Cek apakah member dan book yang dipilih berbeda dari yang ada di loan
+        $dueDate = Carbon::parse($validated['due_date']);
+        $returnDate = !empty($validated['return_date']) ? Carbon::parse($validated['return_date']) : null;
+        $today = Carbon::today();
+
+        if ($returnDate) {
+            $validated['loan_status'] = $returnDate->gt($dueDate) ? 'overdue' : 'returned';
+        } elseif ($today->gt($dueDate)) {
+            $validated['loan_status'] = 'overdue';
+        } else {
+            $validated['loan_status'] = 'borrowed';
+        }
+
         $oldMember = $loan->member;
         $oldBook = $loan->book;
         $newMember = Member::find($validated['member_id']);
         $newBook = Book::find($validated['book_id']);
 
-        // Validasi apakah member yang dipilih berbeda
         if ($loan->member_id != $validated['member_id']) {
             if ($oldMember) {
                 $oldMember->borrowing = false;
@@ -146,7 +157,6 @@ class LoanController extends Controller
             }
         }
 
-        // Validasi apakah book yang dipilih berbeda
         if ($loan->book_id != $validated['book_id']) {
             if ($oldBook) {
                 $oldBook->availability = true;
@@ -158,7 +168,6 @@ class LoanController extends Controller
             }
         }
 
-        // Update status availability dan borrowing berdasarkan loan_status
         if ($validated['loan_status'] === 'returned') {
             if ($newBook) {
                 $newBook->availability = true;
@@ -191,6 +200,8 @@ class LoanController extends Controller
         return redirect()->route('loans.index')->with('success', 'Loan successfully updated');
     }
 
+
+
     public function destroy(Request $request, Loan $loan)
     {
         if ($request->user()->cannot('delete', $loan)) {
@@ -221,9 +232,12 @@ class LoanController extends Controller
         }
 
         if (in_array($loan->loan_status, ['borrowed', 'overdue'])) {
+            $returnDate = Carbon::now()->toDateString();
+            $loanStatus = Carbon::parse($returnDate)->gt(Carbon::parse($loan->due_date)) ? 'overdue' : 'returned';
+
             $loan->update([
-                'loan_status' => 'returned',
-                'return_date' => Carbon::now()->toDateString(),
+                'loan_status' => $loanStatus,
+                'return_date' => $returnDate,
             ]);
 
             // Set book available

@@ -83,7 +83,7 @@
                     @elseif ($key === 'returning')
                         <td class="{{ $tdClass }}" data-aos="fade-left" data-aos-duration="{{ $aosDuration }}">
                             <div class="text-center">
-                                @if (in_array($item['loan_status'], ['borrowed', 'overdue']))
+                                @if (in_array($item['loan_status'], ['borrowed', 'overdue']) && empty($item['return_date']))
                                     <form action="{{ route('loans.return', $item['id']) }}" method="POST">
                                         @csrf
                                         @method('PATCH')

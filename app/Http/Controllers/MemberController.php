@@ -58,9 +58,9 @@ class MemberController extends Controller
             'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ]);
 
-        if ($request->hasFile('foto')) {
+        if ($request->hasFile('photo')) {
             try {
-                $file = $request->file('foto');
+                $file = $request->file('photo');
                 $response = Http::asMultipart()->post(
                     'https://api.cloudinary.com/v1_1/' . env('CLOUDINARY_CLOUD_NAME') . '/image/upload',
                     [
@@ -78,12 +78,12 @@ class MemberController extends Controller
 
                 $result = $response->json();
                 if (isset($result['secure_url'])) {
-                    $input['foto'] = $result['secure_url'];
+                    $input['photo'] = $result['secure_url'];
                 } else {
-                    return back()->withErrors(['foto' => 'Cloudinary upload error: ' . ($result['error']['message'] ?? 'Unknown error')]);
+                    return back()->withErrors(['photo' => 'Cloudinary upload error: ' . ($result['error']['message'] ?? 'Unknown error')]);
                 }
             } catch (\Exception $e) {
-                return back()->withErrors(['foto' => 'Cloudinary error: ' . $e->getMessage()]);
+                return back()->withErrors(['photo' => 'Cloudinary error: ' . $e->getMessage()]);
             }
         }
 
@@ -122,6 +122,8 @@ class MemberController extends Controller
     {
         $validated = $request->validate([
             'member_number' => 'required|max:15|unique:members,member_number,' . $member->id,
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $member->user_id,
             'date_of_birth' => 'required|date',
             'gender' => 'required|in:M,F',
             'address' => 'required|max:255',
@@ -129,22 +131,22 @@ class MemberController extends Controller
             'employment' => 'required|max:100',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'remove_photo' => 'nullable|in:0,1',
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $member->user_id,
         ]);
 
         $removePhoto = $request->input('remove_photo') == '1';
+        $photoUrl = $member->photo;
 
-        // Remove photo if requested or uploading new one
-        if ($removePhoto && $member->photo && file_exists(public_path('images/' . $member->photo))) {
-            unlink(public_path('images/' . $member->photo));
-            $validated['photo'] = null;
+        // Hapus foto lama jika diminta
+        if ($removePhoto && $member->photo && file_exists(public_path($member->photo))) {
+            unlink(public_path($member->photo));
+            $photoUrl = null;
         }
 
-        // Upload new photo
-        if ($request->hasFile('foto')) {
+        // Upload foto baru jika ada
+        if ($request->hasFile('photo')) {
             try {
-                $file = $request->file('foto');
+                $file = $request->file('photo');
+
                 $response = Http::asMultipart()->post(
                     'https://api.cloudinary.com/v1_1/' . env('CLOUDINARY_CLOUD_NAME') . '/image/upload',
                     [
@@ -161,36 +163,35 @@ class MemberController extends Controller
                 );
 
                 $result = $response->json();
+
                 if (isset($result['secure_url'])) {
-                    $input['foto'] = $result['secure_url'];
+                    $photoUrl = $result['secure_url'];
                 } else {
-                    return back()->withErrors(['foto' => 'Cloudinary upload error: ' . ($result['error']['message'] ?? 'Unknown error')]);
+                    return back()->withErrors(['photo' => 'Cloudinary upload error: ' . ($result['error']['message'] ?? 'Unknown error')]);
                 }
             } catch (\Exception $e) {
-                return back()->withErrors(['foto' => 'Cloudinary error: ' . $e->getMessage()]);
+                return back()->withErrors(['photo' => 'Cloudinary error: ' . $e->getMessage()]);
             }
-        } elseif (!$removePhoto) {
-            $validated['photo'] = $member->photo;
         }
 
-        // Hanya ambil field yang ada di tabel members
-        $memberFields = collect($validated)->except(['name', 'email'])->toArray();
-        $member->update($memberFields);
+        // Update data member
+        $member->update([
+            'member_number' => $validated['member_number'],
+            'date_of_birth' => $validated['date_of_birth'],
+            'gender' => $validated['gender'],
+            'address' => $validated['address'],
+            'handphone' => $validated['handphone'],
+            'employment' => $validated['employment'],
+            'photo' => $photoUrl,
+        ]);
 
-        // Update name and email in user table
-        $user = $member->user;
-        if ($user) {
-            $user->name = $request->input('name');
-            $user->email = $request->input('email');
-            $user->save();
-        }
+        // Update data user terkait
+        $member->user->update([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+        ]);
 
-        if (Auth::user()->role === 'admin') {
-            return redirect()->route('members.index')->with('success', 'Member successfully updated');
-        } else {
-            return redirect()->route('members.profile')->with('success', 'Profile successfully updated');
-        }
-
+        return redirect()->route('members.index')->with('success', 'Data member berhasil diperbarui.');
     }
 
     public function destroy(Request $request, Member $member)
@@ -200,8 +201,8 @@ class MemberController extends Controller
         }
 
         try {
-            if ($member->photo && file_exists(public_path('images/' . $member->photo))) {
-                unlink(public_path('images/' . $member->photo));
+            if ($member->photo && file_exists(public_path($member->photo))) {
+                unlink(public_path($member->photo));
             }
 
             if ($member->user) {

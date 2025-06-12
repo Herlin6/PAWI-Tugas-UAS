@@ -17,8 +17,8 @@
                     >
                         <img
                             id="preview-img"
-                            src="{{ $member->photo && file_exists(public_path('images/' . $member->photo)) 
-                                ? asset('images/' . $member->photo) 
+                            src="{{ $member->photo && file_exists(public_path($member->photo)) 
+                                ? asset($member->photo) 
                                 : asset('images/default.png') }}"
                             alt="Preview"
                             style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;"

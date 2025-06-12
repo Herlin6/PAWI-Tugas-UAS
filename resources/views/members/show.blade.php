@@ -15,8 +15,8 @@
         </div>
         <div class="d-flex justify-content-between align-items-center flex-lg-row flex-column align-items-lg-start">
             <div class="text-center p-4 pt-0" data-aos="fade-right" data-aos-duration="500">
-                @if ($member->photo && file_exists(public_path('images/' . $member->photo)))
-                    <img src="{{ asset('images/' . $member->photo) }}" style="width: 200px">
+                @if ($member->photo && file_exists(public_path($member->photo)))
+                    <img src="{{ $member->photo }}" style="width: 200px">
                 @else
                     <img src="{{ asset('images/default.png') }}" style="width: 200px">
                 @endif
