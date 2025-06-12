@@ -40,7 +40,7 @@
     <div class="app-wrapper">
       <nav class="app-header navbar navbar-expand bg-body">
         <div class="container-fluid">
-          <a class='brand-link' href='/dist/pages/'>
+          <a class='brand-link' href='/dashboard'>
             <img
               src="{{ asset('assets/img/GDeBookLogo1.png') }}"
               alt="AdminLTE Logo"

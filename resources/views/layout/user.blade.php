@@ -57,7 +57,7 @@
       <!--begin::Header-->
       <nav class="navbar navbar-expand-lg fixed-top d-flex justify-content-end">
         <div class="container-fluid d-flex">
-          <a class='brand-link' href='/dist/pages/'>
+          <a class='brand-link' href='/dashboard'>
             <img
               src="{{ asset('assets/img/GDeBookLogo1.png') }}"
               alt="AdminLTE Logo"

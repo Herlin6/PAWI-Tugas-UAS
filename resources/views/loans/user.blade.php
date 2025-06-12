@@ -1,10 +1,20 @@
 @extends('layout.user')
 @section('content')
+<style>
+    .clickable-row {
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.clickable-row:hover {
+    transform: scale(1.015);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+</style>
 <div class="container">
     <h1 class="text-center mb-5 title-color">Loan History</h1>
 
     <div class="table-responsive">
-        <table class="table table-theme mt-3">
+        <table class="table table-theme table-hover mt-3">
             <thead class="text-center">
             <tr data-aos="fade-left" data-aos-duration="500">
                 <th>Book</th>
@@ -24,7 +34,7 @@
                     };
                     @endphp
                 <tr class="align-middle clickable-row" data-href="{{ route('loans.show', $loan->id) }}" data-aos="fade-left" data-aos-duration="500">
-                    <td>
+                    <td class="text-center">
                         @if ($loan->book->photo && file_exists(public_path('images/' . $loan->book->photo)))
                             <img src="{{ asset('images/' . $loan->book->photo) }}" alt="Cover" style="height: 65px; object-fit: cover;" class="rounded">
                         @else

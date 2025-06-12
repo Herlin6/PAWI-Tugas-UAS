@@ -129,7 +129,7 @@
         <!--begin::Sidebar Brand-->
         <div class="sidebar-brand">
           <!--begin::Brand Link-->
-          <a class='brand-link' href='/dist/pages/'>
+          <a class='brand-link' href='/dashboard'>
             <!--begin::Brand Image-->
             <img
               src="{{ asset('assets/img/GDeBookLogo1.png') }}"
