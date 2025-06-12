@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Member;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 
 class MemberController extends Controller
 {
@@ -57,11 +58,33 @@ class MemberController extends Controller
             'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ]);
 
-        if ($request->hasFile('photo')) {
-            $photo = $request->file('photo');
-            $photoName = time() . '_' . $photo->getClientOriginalName();
-            $photo->move(public_path('images'), $photoName);
-            $validated['photo'] = $photoName;
+        if ($request->hasFile('foto')) {
+            try {
+                $file = $request->file('foto');
+                $response = Http::asMultipart()->post(
+                    'https://api.cloudinary.com/v1_1/' . env('CLOUDINARY_CLOUD_NAME') . '/image/upload',
+                    [
+                        [
+                            'name'     => 'file',
+                            'contents' => fopen($file->getRealPath(), 'r'),
+                            'filename' => $file->getClientOriginalName(),
+                        ],
+                        [
+                            'name'     => 'upload_preset',
+                            'contents' => env('CLOUDINARY_UPLOAD_PRESET'),
+                        ],
+                    ]
+                );
+
+                $result = $response->json();
+                if (isset($result['secure_url'])) {
+                    $input['foto'] = $result['secure_url'];
+                } else {
+                    return back()->withErrors(['foto' => 'Cloudinary upload error: ' . ($result['error']['message'] ?? 'Unknown error')]);
+                }
+            } catch (\Exception $e) {
+                return back()->withErrors(['foto' => 'Cloudinary error: ' . $e->getMessage()]);
+            }
         }
 
         $member = Member::create($validated);
@@ -119,14 +142,33 @@ class MemberController extends Controller
         }
 
         // Upload new photo
-        if ($request->hasFile('photo')) {
-            if ($member->photo && file_exists(public_path('images/' . $member->photo))) {
-                unlink(public_path('images/' . $member->photo));
+        if ($request->hasFile('foto')) {
+            try {
+                $file = $request->file('foto');
+                $response = Http::asMultipart()->post(
+                    'https://api.cloudinary.com/v1_1/' . env('CLOUDINARY_CLOUD_NAME') . '/image/upload',
+                    [
+                        [
+                            'name'     => 'file',
+                            'contents' => fopen($file->getRealPath(), 'r'),
+                            'filename' => $file->getClientOriginalName(),
+                        ],
+                        [
+                            'name'     => 'upload_preset',
+                            'contents' => env('CLOUDINARY_UPLOAD_PRESET'),
+                        ],
+                    ]
+                );
+
+                $result = $response->json();
+                if (isset($result['secure_url'])) {
+                    $input['foto'] = $result['secure_url'];
+                } else {
+                    return back()->withErrors(['foto' => 'Cloudinary upload error: ' . ($result['error']['message'] ?? 'Unknown error')]);
+                }
+            } catch (\Exception $e) {
+                return back()->withErrors(['foto' => 'Cloudinary error: ' . $e->getMessage()]);
             }
-            $photo = $request->file('photo');
-            $photoName = time() . '_' . $photo->getClientOriginalName();
-            $photo->move(public_path('images'), $photoName);
-            $validated['photo'] = $photoName;
         } elseif (!$removePhoto) {
             $validated['photo'] = $member->photo;
         }

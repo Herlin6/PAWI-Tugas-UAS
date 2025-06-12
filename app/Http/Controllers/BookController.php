@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class BookController extends Controller
 {
@@ -61,11 +62,33 @@ class BookController extends Controller
             'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ]);
 
-        if ($request->hasFile('photo')) {
-            $photo = $request->file('photo');
-            $photoName = time() . '_' . $photo->getClientOriginalName();
-            $photo->move(public_path('images'), $photoName);
-            $validated['photo'] = $photoName;
+        if ($request->hasFile('foto')) {
+            try {
+                $file = $request->file('foto');
+                $response = Http::asMultipart()->post(
+                    'https://api.cloudinary.com/v1_1/' . env('CLOUDINARY_CLOUD_NAME') . '/image/upload',
+                    [
+                        [
+                            'name'     => 'file',
+                            'contents' => fopen($file->getRealPath(), 'r'),
+                            'filename' => $file->getClientOriginalName(),
+                        ],
+                        [
+                            'name'     => 'upload_preset',
+                            'contents' => env('CLOUDINARY_UPLOAD_PRESET'),
+                        ],
+                    ]
+                );
+
+                $result = $response->json();
+                if (isset($result['secure_url'])) {
+                    $input['foto'] = $result['secure_url'];
+                } else {
+                    return back()->withErrors(['foto' => 'Cloudinary upload error: ' . ($result['error']['message'] ?? 'Unknown error')]);
+                }
+            } catch (\Exception $e) {
+                return back()->withErrors(['foto' => 'Cloudinary error: ' . $e->getMessage()]);
+            }
         }
 
         $validated['availability'] = true;
@@ -110,28 +133,38 @@ class BookController extends Controller
         ]);
 
         // Jika file baru diupload
-        if ($request->hasFile('photo')) {
-            // Hapus file lama jika ada
-            if ($book->photo && file_exists(public_path('images/' . $book->photo))) {
-                unlink(public_path('images/' . $book->photo));
+        if ($request->hasFile('foto')) {
+            try {
+                $file = $request->file('foto');
+                $response = Http::asMultipart()->post(
+                    'https://api.cloudinary.com/v1_1/' . env('CLOUDINARY_CLOUD_NAME') . '/image/upload',
+                    [
+                        [
+                            'name'     => 'file',
+                            'contents' => fopen($file->getRealPath(), 'r'),
+                            'filename' => $file->getClientOriginalName(),
+                        ],
+                        [
+                            'name'     => 'upload_preset',
+                            'contents' => env('CLOUDINARY_UPLOAD_PRESET'),
+                        ],
+                    ]
+                );
+
+                $result = $response->json();
+                if (isset($result['secure_url'])) {
+                    $input['foto'] = $result['secure_url'];
+                } else {
+                    return back()->withErrors(['foto' => 'Cloudinary upload error: ' . ($result['error']['message'] ?? 'Unknown error')]);
+                }
+            } catch (\Exception $e) {
+                return back()->withErrors(['foto' => 'Cloudinary error: ' . $e->getMessage()]);
             }
-
-            $file = $request->file('photo');
-            $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('images'), $filename);
-            $validated['photo'] = $filename;
-
         } elseif ($request->input('remove_photo') == '1') {
             // Jika user menekan tombol "Remove File"
             if ($book->photo && file_exists(public_path('images/' . $book->photo))) {
                 unlink(public_path('images/' . $book->photo));
             }
-
-            $validated['photo'] = null;
-
-        } else {
-            // Tidak upload baru & tidak dihapus → tetap gunakan yang lama
-            $validated['photo'] = $book->photo;
         }
 
         $book->update($validated);
