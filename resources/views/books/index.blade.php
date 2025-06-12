@@ -18,6 +18,9 @@
             $columns = include resource_path('contents/book-table.php');
         @endphp
         <x-table :columns="$columns" :data="$books" page="books" />
+        <div class="mt-4 d-flex justify-content-center">
+            {{ $books->links('pagination::custom-pagination') }}
+        </div>
     </div>
 </div>
 

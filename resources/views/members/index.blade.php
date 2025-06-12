@@ -28,6 +28,9 @@
             });
         @endphp
         <x-table :columns="$columns" :data="$tableData" page="members" />
+        <div class="mt-4 d-flex justify-content-center">
+            {{ $members->links('pagination::custom-pagination') }}
+        </div>
     </div>
     <script src="{{ asset('js/search.js') }}"></script>
 </div>

@@ -17,14 +17,15 @@ class BookController extends Controller
         if ($search) {
             $books = Book::where('title', 'like', "%{$search}%")
                 ->orWhere('author', 'like', "%{$search}%")
-                ->get();
+                ->paginate(20)
+                ->appends(['search' => $search]);
 
             if ($books->isEmpty()) {
                 $notFound = true;
                 $books = [];
             }
         } else {
-            $books = Book::all();
+            $books = Book::paginate(20);
         }
 
         return view('books.index')->with([

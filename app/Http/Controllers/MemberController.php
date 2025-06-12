@@ -11,21 +11,21 @@ class MemberController extends Controller
     public function index(Request $request)
     {
         $search = $request->input('search');
-
-        $members = collect();
         $notFound = false;
 
-        if ($search) {
-            $members = Member::where('name', 'like', "%{$search}%")
-                ->orWhere('email', 'like', "%{$search}%")
-                ->get();
+        $query = Member::with('user');
 
-            if ($members->isEmpty()) {
-                $notFound = true;
-                $members = [];
-            }
-        } else {
-            $members = Member::all();
+        if ($search) {
+            $query->whereHas('user', function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                ->orWhere('email', 'like', "%{$search}%");
+            });
+        }
+
+        $members = $query->paginate(20);
+
+        if ($search && $members->isEmpty()) {
+            $notFound = true;
         }
 
         return view('members.index')->with([

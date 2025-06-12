@@ -13,9 +13,9 @@ class LoanController extends Controller
 {
     public function index(Request $request)
     {
-        $loans = Loan::with(['book', 'member.user'])->get();
+        $loans = Loan::with(['book', 'member.user'])->paginate(20);
 
-        $tableData = $loans->map(function($loan) {
+        $tableData = $loans->getCollection()->map(function ($loan) {
             return [
                 'id' => $loan->id,
                 'book_title' => $loan->book->title ?? '-',
@@ -26,12 +26,14 @@ class LoanController extends Controller
                 'returning' => $loan->return_date ? \Carbon\Carbon::parse($loan->return_date)->format('Y-m-d') : 'Not yet returned',
                 'action' => '',
             ];
-        })->values()->all();
+        });
 
         return view('loans.index', [
-            'tableData' => $tableData
+            'tableData' => $tableData,
+            'loans' => $loans
         ]);
     }
+
 
 
     public function create(Request $request)

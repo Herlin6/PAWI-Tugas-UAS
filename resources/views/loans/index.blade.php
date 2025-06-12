@@ -18,6 +18,9 @@
             $columns = include resource_path('contents/loan-table.php');
         @endphp
         <x-table :columns="$columns" :data="$tableData" page="loans" />
+        <div class="d-flex justify-content-center">
+            {{ $loans->links('pagination::custom-pagination') }}
+        </div>
     </div>
     <script src="{{ asset('js/search.js') }}"></script>
 </div>
