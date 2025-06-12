@@ -62,9 +62,9 @@ class BookController extends Controller
             'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ]);
 
-        if ($request->hasFile('foto')) {
+        if ($request->hasFile('photo')) {
             try {
-                $file = $request->file('foto');
+                $file = $request->file('photo');
                 $response = Http::asMultipart()->post(
                     'https://api.cloudinary.com/v1_1/' . env('CLOUDINARY_CLOUD_NAME') . '/image/upload',
                     [
@@ -82,17 +82,17 @@ class BookController extends Controller
 
                 $result = $response->json();
                 if (isset($result['secure_url'])) {
-                    $input['foto'] = $result['secure_url'];
+                    $validated['photo'] = $result['secure_url'];
                 } else {
-                    return back()->withErrors(['foto' => 'Cloudinary upload error: ' . ($result['error']['message'] ?? 'Unknown error')]);
+                    return back()->withErrors(['photo' => 'Cloudinary upload error: ' . ($result['error']['message'] ?? 'Unknown error')]);
                 }
             } catch (\Exception $e) {
-                return back()->withErrors(['foto' => 'Cloudinary error: ' . $e->getMessage()]);
+                return back()->withErrors(['photo' => 'Cloudinary error: ' . $e->getMessage()]);
             }
         }
 
         $validated['availability'] = true;
-        
+
         Book::create($validated);
 
         return redirect()->route('books.index')->with('success', 'Books successfully added');
@@ -129,13 +129,17 @@ class BookController extends Controller
             'publish_date' => 'required|date',
             'synopsis' => 'required',
             'availability' => 'required|in:1,0',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'remove_photo' => 'nullable|in:1',
         ]);
 
-        // Jika file baru diupload
-        if ($request->hasFile('foto')) {
+        if ($request->input('remove_photo') == '1') {
+            $validated['photo'] = null;
+        }
+
+        if ($request->hasFile('photo')) {
             try {
-                $file = $request->file('foto');
+                $file = $request->file('photo');
                 $response = Http::asMultipart()->post(
                     'https://api.cloudinary.com/v1_1/' . env('CLOUDINARY_CLOUD_NAME') . '/image/upload',
                     [
@@ -153,18 +157,15 @@ class BookController extends Controller
 
                 $result = $response->json();
                 if (isset($result['secure_url'])) {
-                    $input['foto'] = $result['secure_url'];
+                    $validated['photo'] = $result['secure_url'];
                 } else {
-                    return back()->withErrors(['foto' => 'Cloudinary upload error: ' . ($result['error']['message'] ?? 'Unknown error')]);
+                    return back()->withErrors(['photo' => 'Cloudinary upload error: ' . ($result['error']['message'] ?? 'Unknown error')]);
                 }
             } catch (\Exception $e) {
-                return back()->withErrors(['foto' => 'Cloudinary error: ' . $e->getMessage()]);
+                return back()->withErrors(['photo' => 'Cloudinary error: ' . $e->getMessage()]);
             }
-        } elseif ($request->input('remove_photo') == '1') {
-            // Jika user menekan tombol "Remove File"
-            if ($book->photo && file_exists(public_path('images/' . $book->photo))) {
-                unlink(public_path('images/' . $book->photo));
-            }
+        } elseif (!isset($validated['photo'])) {
+            $validated['photo'] = $book->photo;
         }
 
         $book->update($validated);

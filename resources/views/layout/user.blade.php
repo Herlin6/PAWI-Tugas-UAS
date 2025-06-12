@@ -111,9 +111,7 @@
             @php
                 $user = Auth::user();
                 $memberPhoto = optional($user->member)->photo;
-                $photoPath = $memberPhoto && file_exists(public_path($memberPhoto))
-                    ? asset($memberPhoto)
-                    : asset('images/default.png');
+                $photoPath = $memberPhoto ? $memberPhoto : asset('images/default.png');
             @endphp
 
             <a href="#" class="nav-link dropdown-toggle d-flex align-items-center gap-2" data-bs-toggle="dropdown">

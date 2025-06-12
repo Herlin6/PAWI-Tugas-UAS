@@ -75,9 +75,7 @@
             <li class="nav-item dropdown user-menu">
               @php
                   $user = Auth::user();
-                  $photoPath = $user->photo && file_exists(public_path($user->photo))
-                      ? asset($user->photo)
-                      : asset('images/default.png');
+                  $photoPath = $user->photo ? $user->photo : asset('images/default.png');
               @endphp
 
               <a href="#" class="nav-link dropdown-toggle d-flex align-items-center gap-2" data-bs-toggle="dropdown">

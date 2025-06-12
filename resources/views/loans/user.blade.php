@@ -35,8 +35,8 @@
                     @endphp
                 <tr class="align-middle clickable-row" data-href="{{ route('loans.show', $loan->id) }}" data-aos="fade-left" data-aos-duration="500">
                     <td class="text-center">
-                        @if ($loan->book->photo && file_exists(public_path($loan->book->photo)))
-                            <img src="{{ asset($loan->book->photo) }}" alt="Cover" style="height: 65px; object-fit: cover;" class="rounded">
+                        @if ($loan->book->photo)
+                            <img src="{{ $loan->book->photo }}" alt="Cover" style="height: 65px; object-fit: cover;" class="rounded">
                         @else
                             <img src="{{ asset('images/book-default.png') }}" alt="No Cover" style="height: 65px; object-fit: cover;" class="rounded">
                         @endif

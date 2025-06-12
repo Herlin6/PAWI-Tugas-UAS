@@ -36,9 +36,9 @@
                     data-aos-duration="{{ $duration }}"
                 >
                     <div class="w-full text-center">
-                        @if ($item->photo && file_exists(public_path($item->photo)))
+                        @if ($item->photo)
                             <img
-                                src="{{ asset($item->photo) }}"
+                                src="{{ $item->photo }}"
                                 alt="{{ $item->judul }}"
                                 class="img-fluid mb-2 rounded"
                                 style="height: 230px; object-fit: cover"

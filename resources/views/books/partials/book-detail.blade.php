@@ -15,8 +15,8 @@
     class="d-flex align-items-center flex-lg-row flex-column align-items-lg-start"
 >
     <div class="text-center p-4 pt-0" data-aos="fade-right" data-aos-duration="500">
-        @if ($book->photo && file_exists(public_path($book->photo)))
-            <img src="{{ asset($book->photo) }}" style="width: 200px" />
+        @if ($book->photo)
+            <img src="{{ $book->photo }}" style="width: 200px" />
         @else
             <img src="{{ asset('images/book-default.png') }}" style="width: 200px" />
         @endif
