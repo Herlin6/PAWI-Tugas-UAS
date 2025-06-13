@@ -15,19 +15,13 @@
                 >
                     <img
                         id="preview-img"
-                        src="{{ $book->photo
-                                ? $book->photo
-                                : asset('images/book-default.png') }}"
+                        src="{{ $book->photo ? $book->photo : asset('images/book-default.png') }}"
                         alt="Preview"
                         style="width:100%; height:120px; object-fit:cover; border-radius:4px;"
                     />
 
                     <div id="photo-preview" class="mt-2 text-center">
-                        @if ($book->photo)
-                            <div class="main-color" id="photo-instruction">Click to upload photo</div>
-                        @else
-                            <div class="main-color" id="photo-instruction">Click to upload photo</div>
-                        @endif
+                        <div class="main-color" id="photo-instruction">Click to upload photo</div>
                     </div>
                 </label>
 

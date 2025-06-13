@@ -13,7 +13,7 @@
                 {!! __('results') !!}
             </p>
         </div>
-        <ul class="pagination custom-pagination">
+        <ul class="pagination custom-pagination justify-content-center">
             {{-- Tombol Sebelumnya --}}
             @if ($paginator->onFirstPage())
                 <li class="page-item disabled">

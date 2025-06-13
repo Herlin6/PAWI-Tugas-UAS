@@ -2,13 +2,13 @@
 @section('content')
 <style>
     .clickable-row {
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
 
-.clickable-row:hover {
-    transform: scale(1.015);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
+    .clickable-row:hover {
+        transform: scale(1.015);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
 </style>
 <div class="container">
     <h1 class="text-center mb-5 title-color">Loan History</h1>
@@ -57,7 +57,7 @@
         </table>
     </div>
 </div>
-@endsection
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const rows = document.querySelectorAll('.clickable-row');
@@ -82,3 +82,5 @@
         setTimeout(() => AOS.refresh(), 100);
     });
 </script>
+
+@endsection
