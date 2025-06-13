@@ -25,15 +25,15 @@
                 <div class="d-flex justify-content-between align-items-start">
                     <div class="d-flex gap-3">
                         <div class="rounded-circle overflow-hidden" style="width: 40px; height: 40px">
-                            <img
-                            src="{{ $review->user->photo ?? asset('images/default.png') }}"
+                          <img
+                            src="{{ $review->user->member->photo ?? asset('images/default.png') }}"
                             alt="User Avatar"
                             class="img-fluid"
                             style="width: 40px"
-                        />
+                          />
                         </div>
                         <div class="text-start">
-                            <h5 class="mb-0">{{ $review->user->name ?? 'Anonymous' }}</h5>
+                            <h5 class="mb-0">{{ $review->user->member->name ?? 'Anonymous' }}</h5>
                             @for($i = 1; $i <= 5; $i++)
                             <i class="bi bi-star-fill fs-7 {{ $i <= $review->rate ? 'title-color' : 'text-secondary' }}"></i>
                             @endfor
