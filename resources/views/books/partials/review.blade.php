@@ -33,7 +33,7 @@
                           />
                         </div>
                         <div class="text-start">
-                            <h5 class="mb-0">{{ $review->user->member->name ?? 'Anonymous' }}</h5>
+                            <h5 class="mb-0">{{ $review->user->name ?? 'Anonymous' }}</h5>
                             @for($i = 1; $i <= 5; $i++)
                             <i class="bi bi-star-fill fs-7 {{ $i <= $review->rate ? 'title-color' : 'text-secondary' }}"></i>
                             @endfor
