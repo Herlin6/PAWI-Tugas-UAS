@@ -51,10 +51,18 @@
           <ul class="navbar-nav ms-auto">
             <li class="nav-item dropdown user-menu">
               @php
-                  $user = Auth::user();
-                  $photoPath = $user->member->photo ? $user->member->photo : asset('images/default.png');
-              @endphp
+                $user = Auth::user();
 
+                if ($user->role === 'member') {
+                    $photoPath = $user->member && $user->member->photo
+                        ? $user->member->photo
+                        : asset('images/default.png');
+                } else {
+                    $photoPath = $user->photo
+                        ? $user->photo
+                        : asset('images/default.png');
+                }
+            @endphp
               <a href="#" class="nav-link dropdown-toggle d-flex align-items-center gap-2" data-bs-toggle="dropdown">
                 <span class="d-none d-md-inline">{{ $user->name }}</span>
                 <div class="rounded-circle overflow-hidden" style="width: 30px; height: 30px">
