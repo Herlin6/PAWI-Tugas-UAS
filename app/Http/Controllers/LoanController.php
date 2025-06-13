@@ -13,7 +13,9 @@ class LoanController extends Controller
 {
     public function index(Request $request)
     {
-        $loans = Loan::with(['book', 'member.user'])->paginate(20);
+        $loans = Loan::with(['book', 'member.user'])
+            ->orderByDesc('created_at')
+            ->paginate(20);
 
         $tableData = $loans->getCollection()->map(function ($loan) {
             return [

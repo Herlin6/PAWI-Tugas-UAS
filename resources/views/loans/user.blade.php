@@ -18,7 +18,7 @@
             <thead class="text-center">
             <tr data-aos="fade-left" data-aos-duration="500">
                 <th>Book</th>
-                <th>Title</th>
+                <th style="max-width: 150px;">Title</th>
                 <th>Borrow Date</th>
                 <th>Due Date</th>
                 <th>Status</th>
@@ -41,7 +41,7 @@
                             <img src="{{ asset('images/book-default.png') }}" alt="No Cover" style="height: 65px; object-fit: cover;" class="rounded">
                         @endif
                     </td>
-                    <td>{{ $loan->book->title }}</td>
+                    <td style="max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ $loan->book->title }}</td>
                     <td class="text-center">{{ \Carbon\Carbon::parse($loan->borrow_date)->format('d M Y') }}</td>
                     <td class="text-center">{{ \Carbon\Carbon::parse($loan->due_date)->format('d M Y') }}</td>
                     <td class="text-center {{ $statusClass }}">

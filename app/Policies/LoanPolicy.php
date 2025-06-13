@@ -13,9 +13,9 @@ class LoanPolicy
         return $user->role === 'admin' || $user->role === 'member';
     }
 
-    public function view(User $user): bool
+    public function view(User $user, Loan $loan): bool
     {
-        return $user->role === 'admin';
+        return $user->role === 'admin' || $loan->member->user_id === $user->id;
     }
 
     public function create(User $user): bool
