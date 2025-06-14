@@ -130,7 +130,7 @@ class BookController extends Controller
             'synopsis' => 'required',
             'availability' => 'required|in:1,0',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'remove_photo' => 'nullable|in:1',
+            'remove_photo' => 'nullable|in:0,1',
         ]);
 
         if ($request->input('remove_photo') == '1') {
