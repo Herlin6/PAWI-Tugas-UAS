@@ -23,7 +23,6 @@ class BookController extends Controller
 
             if ($books->isEmpty()) {
                 $notFound = true;
-                $books = [];
             }
         } else {
             $books = Book::paginate(20);
