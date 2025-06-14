@@ -13,9 +13,19 @@ class LoanController extends Controller
 {
     public function index(Request $request)
     {
-        $loans = Loan::with(['book', 'member.user'])
-            ->orderByDesc('created_at')
-            ->paginate(20);
+        $search = $request->input('search');
+
+        $query = Loan::with(['book', 'member.user'])->orderByDesc('created_at');
+
+        if ($search) {
+            $query->whereHas('book', function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%");
+            })->orWhereHas('member.user', function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%");
+            });
+        }
+
+        $loans = $query->paginate(20)->appends(['search' => $search]);
 
         $tableData = $loans->getCollection()->map(function ($loan) {
             return [
@@ -33,7 +43,8 @@ class LoanController extends Controller
 
         return view('loans.index', [
             'tableData' => $tableData,
-            'loans' => $loans
+            'loans' => $loans,
+            'search' => $search,
         ]);
     }
 
