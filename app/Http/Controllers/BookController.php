@@ -132,10 +132,6 @@ class BookController extends Controller
             'remove_photo' => 'nullable|in:0,1',
         ]);
 
-        if ($request->input('remove_photo') == '1') {
-            $validated['photo'] = null;
-        }
-
         if ($request->hasFile('photo')) {
             try {
                 $file = $request->file('photo');
@@ -165,6 +161,13 @@ class BookController extends Controller
             }
         } elseif (!isset($validated['photo'])) {
             $validated['photo'] = $book->photo;
+        }
+
+        if ($request->input('remove_photo') == '1') {
+            if ($book->photo && file_exists(public_path($book->photo))) {
+                unlink(public_path($book->photo));
+            }
+            $validated['photo'] = null;
         }
 
         $book->update($validated);

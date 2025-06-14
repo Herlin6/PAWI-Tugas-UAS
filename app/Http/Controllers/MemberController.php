@@ -135,11 +135,6 @@ class MemberController extends Controller
 
         $removePhoto = $request->input('remove_photo') == '1';
 
-        if ($removePhoto && $member->photo && file_exists(public_path($member->photo))) {
-            unlink(public_path($member->photo));
-            $validated['photo'] = null;
-        }
-
         if ($request->hasFile('photo')) {
             try {
                 $file = $request->file('photo');
@@ -171,11 +166,16 @@ class MemberController extends Controller
             $validated['photo'] = $member->photo;
         }
 
-        // Hanya ambil field yang ada di tabel members
+        if ($request->input('remove_photo') == '1') {
+            if ($member->photo && file_exists(public_path($member->photo))) {
+                unlink(public_path($member->photo));
+            }
+            $validated['photo'] = null;
+        }
+
         $memberFields = collect($validated)->except(['name', 'email'])->toArray();
         $member->update($memberFields);
 
-        // Update name and email in user table
         $user = $member->user;
         if ($user) {
             $user->name = $request->input('name');
